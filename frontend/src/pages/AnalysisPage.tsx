@@ -1,10 +1,7 @@
 import React from "react";
 
 const AnalysisPage = () => {
-    return (
-        <>
-        </>
-    )
-}
+  return <></>;
+};
 
 export default AnalysisPage;
