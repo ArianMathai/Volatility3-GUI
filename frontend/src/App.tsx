@@ -1,9 +1,11 @@
 import React from 'react';
+import "./App.css"
+import LandingPage from "./pages/LandingPage";
 
 const App: React.FC = () => {
     return (
         <div>
-            <h1>Hello, Electron with Vite and React!</h1>
+            <LandingPage/>
         </div>
     );
 };
