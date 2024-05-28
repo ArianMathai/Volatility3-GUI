@@ -7,6 +7,10 @@ module.exports = {
       themeYellow: {
         default: "#DFAB49",
         light: "#FFD179",
+      },
+      themeGray: {
+        default: "#DBD5C3",
+        light: "#FFFFFF"
       }
     },
     extend: {},
