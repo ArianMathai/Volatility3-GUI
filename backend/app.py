@@ -14,6 +14,7 @@ def get_data():
 def pslist():
     data = request.get_json()
     filepath = data.get('filepath')
+    operatingSystem = data.get('os')
     print(f"Received filepath: {filepath}")
 
     if not filepath or not os.path.isfile(filepath):
@@ -23,7 +24,7 @@ def pslist():
     try:
         print(f"Running Volatility command on {filepath}")
         result = subprocess.run(
-            ['python3', '../volatility3/vol.py', '-f', filepath, 'windows.pslist'],
+            ['python3', '../volatility3/vol.py', '-f', filepath, f"{operatingSystem}.pslist"],
             capture_output=True, text=True, check=True
         )
         print(f"Command output: {result.stdout}")
