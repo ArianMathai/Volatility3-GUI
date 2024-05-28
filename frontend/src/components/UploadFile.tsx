@@ -2,10 +2,21 @@ import React, { useState } from "react";
 
 const UploadFile: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
+    const [projectName, setProjectName] = useState("");
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0] || null;
         setFile(selectedFile);
+    };
+
+    const handleProjectNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const userInput = e.target.value;
+        const validProjectName = /^[a-zA-Z0-9_]*$/;
+        if (validProjectName.test(userInput)) {
+            setProjectName(userInput);
+        } else {
+            setProjectName("")
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,15 +41,17 @@ const UploadFile: React.FC = () => {
 
             const data = await response.json();
             console.log(data);
-            // handle success
         } catch (error) {
             console.error("Error uploading file:", error);
-            // handle error
         }
     };
 
+    const isFormValid = file && projectName;
+    const isProjectNameValid = projectName !== "";
+    const colorOfBtnClass = isFormValid && isProjectNameValid ? 'bg-themeYellow-default' : 'bg-themeGray-dark';
+
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col w-1/5 m-auto gap-3">
+        <form onSubmit={handleSubmit} className="flex flex-col m-auto w-1/6 gap-3">
             <label className="text-themeText-light" htmlFor="file_input">
                 Supported formats: dmp, vmem, txt
             </label>
@@ -51,7 +64,15 @@ const UploadFile: React.FC = () => {
                 onChange={handleFileChange}
                 required
             />
-            <button type="submit" className="bg-themeGray-dark uppercase rounded p-3">
+            <input
+                type="text"
+                name="projectname"
+                id="projectname"
+                className="rounded p-3"
+                onChange={handleProjectNameChange}
+                placeholder="Name your project..."
+            />
+            <button type="submit" className={`${colorOfBtnClass} uppercase rounded p-3`}>
                 Next
             </button>
         </form>

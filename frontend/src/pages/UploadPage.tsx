@@ -3,7 +3,7 @@ import UploadFile from "../components/UploadFile";
 
 const UploadPage = () => {
   return (
-    <div className="container m-auto mt-10 border">
+    <div className="m-auto mt-10">
       <UploadFile />
     </div>
   );
