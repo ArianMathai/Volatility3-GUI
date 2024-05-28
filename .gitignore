@@ -204,3 +204,4 @@ ts-gen
 patches/mtime-cache.json
 
 spec/fixtures/logo.png
+/tests/20210430-Win10Home-20H2-64bit-memdump.mem
