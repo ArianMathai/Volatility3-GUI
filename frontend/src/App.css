@@ -5,10 +5,9 @@ body {
 
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("/public/fonts/JetBrainsMono-Regular.ttf") format('mono');
+  src: url("../public/fonts/JetBrainsMono-Regular.ttf") format("mono");
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
