@@ -1,0 +1,2 @@
+Flask==2.0.1
+volatility3==1.0.0
