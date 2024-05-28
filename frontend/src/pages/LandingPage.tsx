@@ -1,8 +1,6 @@
 import React from "react";
 import Logo from "../components/shared/Logo";
 import NewProjectBtn from "../components/NewProjectBtn";
-import InfoBox from "../components/InfoBox";
-import InfoVolatility3 from "../components/InfoVolatility3";
 
 const LandingPage = () => {
   return (
@@ -12,8 +10,7 @@ const LandingPage = () => {
           <Logo />
         </div>
         <div className="flex space-x-28">
-          <InfoBox />
-          <InfoVolatility3 />
+
         </div>
         <div className="pt-5 pb-5">
           <NewProjectBtn />
