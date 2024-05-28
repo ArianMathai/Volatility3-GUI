@@ -13,19 +13,22 @@ def get_data():
 # Send request body on format:
 # {
 #     "filepath": "memDumpFilePath",
-#     "os": "windows"
+#     "os": "linux"
+#     "plugin": "pslist"
 # }
 
 # Send request body on format:
 # {
 #     "filepath": "memDumpFilePath",
-#     "os": "windows"
+#     "os": "windows",
+#     "plugin": "info"
 # }
-@app.route('/api/pslist', methods=['POST'])
-def pslist():
+@app.route('/api/runplugin', methods=['POST'])
+def runPLugin():
     data = request.get_json()
     filepath = data.get('filepath')
     operatingSystem = data.get('os')
+    plugin = data.get('plugin')
     print(f"Received filepath: {filepath}")
 
     if not filepath or not os.path.isfile(filepath):
@@ -35,7 +38,7 @@ def pslist():
     try:
         print(f"Running Volatility command on {filepath}")
         result = subprocess.run(
-            ['python', '../volatility3/vol.py', '-f', filepath, f"{operatingSystem}.pslist"],
+            ['python3', '../volatility3/vol.py', '-f', filepath, f"{operatingSystem}.{plugin}"],
             capture_output=True, text=True, check=True
         )
         output = result.stdout.strip()
