@@ -1,9 +1,10 @@
 import React from "react";
+import Logo from "../components/shared/Logo";
 
 const LandingPage = () => {
   return (
     <>
-      <img src="../public/img/v3logo.png" />
+      <Logo/>
     </>
   );
 };
