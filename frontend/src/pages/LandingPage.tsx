@@ -1,11 +1,20 @@
 import React from "react";
 import Logo from "../components/shared/Logo";
+import NewProjectBtn from "../components/NewProjectBtn";
 
 const LandingPage = () => {
   return (
-    <>
-      <Logo/>
-    </>
+    <div>
+        <div>
+            <Logo/>
+        </div>
+        <div>
+
+        </div>
+        <div>
+            <NewProjectBtn/>
+        </div>
+    </div>
   );
 };
 
