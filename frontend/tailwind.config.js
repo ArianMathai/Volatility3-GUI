@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-const {plugins} = require("./postcss.config");
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -10,8 +9,7 @@ module.exports = {
       },
       themeGray: {
         default: "#DBD5C3",
-        light: "#FFFFFF"
-      }
+        light: "#FFFFFF",
       },
       themeBlue: {
         default: "#053046",
