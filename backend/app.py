@@ -42,13 +42,48 @@ def runPLugin():
             capture_output=True, text=True, check=True
         )
         output = result.stdout.strip()
-        json_data = create_processes_object(output)
+        data = create_processes_object(output)
+        json_data = jsonify(data)
 
         return json_data
     except subprocess.CalledProcessError as e:
         print(f"Command failed with error: {str(e)}")
         print(f"Command output: {e.output}")
         return jsonify({'error': str(e), 'output': e.output}), 500
+
+
+# {
+#       "filepath": "yourFilePath"
+# }
+@app.route('/api/detectos', methods=['POST'])
+def auto_detect_os():
+    data = request.get_json()
+    filepath = data.get('filepath')
+    file_operating_system = ["linux", "windows", "mac"]
+
+    if not filepath or not os.path.isfile(filepath):
+        print(f"Invalid file path: {filepath}")
+        return jsonify({'error': 'Invalid file path'}), 400
+
+    for file_os in file_operating_system:
+        try:
+            result = subprocess.run(
+                ['python3', '../volatility3/vol.py', '-f', filepath, f"{file_os}.info"],
+                capture_output=True, text=True, check=True
+            )
+            output = result.stdout.strip()
+            if output:
+                data = create_processes_object(output)
+                print(f"Detected OS with plugin {file_os}")
+                print(output)
+                return jsonify({"os": file_os}, data), 200
+
+        except subprocess.CalledProcessError as e:
+            print(f"Error running plugin {file_os}: {e}")
+            continue
+
+    print("Could not detect OS.")
+    return jsonify({'error': 'Could not detect OS'}), 500
 
 
 if __name__ == '__main__':
