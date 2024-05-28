@@ -10,6 +10,7 @@ module.exports = {
       themeGray: {
         default: "#DBD5C3",
         light: "#FFFFFF",
+        dark: "#969696",
       },
       themeBlue: {
         default: "#053046",
