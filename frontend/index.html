@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Electron with Python</title>
+</head>
+<body>
+<h1>Electron with Python Backend</h1>
+<button id="fetchData">Fetch Data from Python</button>
+<p id="responseData"></p>
+
+<script>
+    const axios = require('axios');
+
+    document.getElementById('fetchData').addEventListener('click', () => {
+        axios.get('http://localhost:5000/data')
+            .then(response => {
+                document.getElementById('responseData').innerText = response.data.message;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+</script>
+</body>
+</html>
