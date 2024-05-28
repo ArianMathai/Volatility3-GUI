@@ -19,6 +19,6 @@ def create_processes_object(output):
     data = {"processes": formatted_processes}
 
     # Convert the data to JSON format
-    json_data = json.dumps(data)
+    # json_data = json.dumps(data)
 
-    return json_data
+    return data
