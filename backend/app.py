@@ -16,6 +16,11 @@ def get_data():
 #     "os": "windows"
 # }
 
+# Send request body on format:
+# {
+#     "filepath": "memDumpFilePath",
+#     "os": "windows"
+# }
 @app.route('/api/pslist', methods=['POST'])
 def pslist():
     data = request.get_json()
