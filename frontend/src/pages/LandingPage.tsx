@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "../components/shared/Logo";
-import NewProjectBtn from "../components/NewProjectBtn";
+import NewProjectBtn from "../components/home/NewProjectBtn";
 
 const LandingPage = () => {
   return (

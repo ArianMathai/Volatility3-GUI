@@ -51,7 +51,8 @@ const UploadFile: React.FC = () => {
     const colorOfBtnClass = isFormValid && isProjectNameValid ? 'bg-themeYellow-default' : 'bg-themeGray-dark';
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col m-auto w-1/6 gap-3">
+        <form onSubmit={handleSubmit} className="m-auto">
+            <div className="max-w-lg mx-auto flex flex-col gap-3">
             <label className="text-themeText-light" htmlFor="file_input">
                 Supported formats: dmp, vmem, txt
             </label>
@@ -75,6 +76,7 @@ const UploadFile: React.FC = () => {
             <button type="submit" className={`${colorOfBtnClass} uppercase rounded p-3`}>
                 Next
             </button>
+            </div>
         </form>
     );
 };

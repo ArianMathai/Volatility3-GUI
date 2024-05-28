@@ -1,5 +1,5 @@
 import React from "react";
-import UploadFile from "../components/UploadFile";
+import UploadFile from "../components/upload/UploadFile";
 
 const UploadPage = () => {
   return (
