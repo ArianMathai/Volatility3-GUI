@@ -72,7 +72,7 @@ To pull a branch created by another team member:
 To install all the necessary dependencies for testing, go to the root directory terminal and use:
 ```bash
 pip install -e .
-pip install -r ./requirements.txt
+pip install -r ./requirements_dev.txt
 ```
 
 You can then test using:
