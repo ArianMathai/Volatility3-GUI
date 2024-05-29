@@ -79,4 +79,4 @@ You can then test using:
 ```bash
 pytest --maxfail=1 --disable-warnings -v
 ```
-or simply run the tests through the ide
+or simply run the tests through the IDE
