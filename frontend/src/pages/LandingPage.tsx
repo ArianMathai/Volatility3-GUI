@@ -1,6 +1,8 @@
 import React from "react";
 import Logo from "../components/shared/Logo";
 import NewProjectBtn from "../components/home/NewProjectBtn";
+import InfoVolatility3 from "../components/home/InfoVolatility3";
+import InfoBox from "../components/home/InfoBox";
 
 const LandingPage = () => {
   return (
@@ -9,8 +11,11 @@ const LandingPage = () => {
         <div className="p-5">
           <Logo />
         </div>
-        <div className="flex space-x-28"></div>
-        <div className="pt-5 pb-5">
+        <div className="flex space-x-28">
+          <InfoBox />
+          <InfoVolatility3 />
+        </div>
+        <div className="p-10">
           <NewProjectBtn />
         </div>
       </article>
