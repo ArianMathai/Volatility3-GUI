@@ -1,0 +1,8 @@
+appId: com.example.electronvite
+productName: ElectronVite
+directories:
+  output: dist_electron
+files:
+  - dist/
+  - main.ts
+  - preload.ts
