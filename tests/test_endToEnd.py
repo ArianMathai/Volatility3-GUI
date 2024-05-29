@@ -1,3 +1,5 @@
+import subprocess
+
 import pytest
 import requests
 import os
@@ -6,6 +8,7 @@ import os
 # Fixture to start the server in a separate process
 @pytest.fixture(scope="module", autouse=True)
 def run_server():
+    subprocess.Popen(['python', '../backend/app.py'])
     # Provide the server URL to the tests
     yield "http://localhost:8000"
 
