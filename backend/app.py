@@ -89,4 +89,3 @@ def auto_detect_os():
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000, debug=True) # Possibly remove host
     print(f"Server started yayy")
-
