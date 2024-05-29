@@ -7,6 +7,10 @@ Everything related to front end. Communicates with backend.
 
 Everything related to backend. Communicates with volatility3. 
 
+### Tests
+
+Everything related to testing. Communicates with backend and frontend. 
+
 ### Volatility3
 
 The volatility engine. See its own README file on how to get started and 
