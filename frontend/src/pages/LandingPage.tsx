@@ -7,18 +7,22 @@ import InfoBox from "../components/home/InfoBox";
 const LandingPage = () => {
   return (
     <main className="flex justify-center">
-      <article>
-        <div className="p-5">
+      <div className="">
+        <div className="m-5">
           <Logo />
         </div>
-        <div className="flex space-x-28">
-          <InfoBox />
-          <InfoVolatility3 />
+        <div className="flex justify-center gap-20">
+          <div className="w-1/3">
+            <InfoBox/>
+          </div>
+          <div className="w-1/3">
+            <InfoVolatility3/>
+          </div>
         </div>
-        <div className="p-10">
-          <NewProjectBtn />
+        <div className="mt-10 mb-10">
+          <NewProjectBtn/>
         </div>
-      </article>
+      </div>
     </main>
   );
 };

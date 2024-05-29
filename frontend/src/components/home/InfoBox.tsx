@@ -2,18 +2,17 @@ import React from "react";
 
 const InfoBox = () => {
     return (
-        <div className="bg-themeBlue-dark rounded-2xl shadow-2xl ">
-            <ul className="p-10">
-                <h3 className="p-3 text-xl text-themeText-light">To get started: </h3>
-
-                <li className="text-themeText-light font-bold p-1">
+        <article className="bg-themeBlue-dark text-themeText-light rounded-2xl shadow-2xl p-5 ps-10 pe-10 h-full ">
+            <h3 className="text-xl font-bold">To get started: </h3>
+            <ul className="p-1">
+                <li className="font-bold">
                     1. Create new project
                 </li>
-                <li className="text-themeText-light p-1">2. Select image file</li>
-                <li className="text-themeText-light p-1">3. Choose plugins</li>
-                <li className="text-themeText-light p-1">4. Run and analyze result</li>
+                <li>2. Select image file</li>
+                <li>3. Choose plugins</li>
+                <li>4. Run and analyze result</li>
             </ul>
-        </div>
+        </article>
     );
 };
 
