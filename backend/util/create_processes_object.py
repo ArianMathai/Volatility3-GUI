@@ -1,6 +1,7 @@
 import json
 
-from util.parse_process_output import parse_process_output
+from backend.util.parse_process_output import parse_process_output
+
 
 
 def create_processes_object(output):

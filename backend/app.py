@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, request
 import os
 import subprocess
-from util.create_processes_object import create_processes_object
+from backend.util.create_processes_object import create_processes_object
+
 
 app = Flask(__name__)
 
@@ -31,14 +32,17 @@ def runPLugin():
     plugin = data.get('plugin')
     print(f"Received filepath: {filepath}")
 
+    backend_dir = os.path.dirname(os.path.abspath(__file__))
+    volatility_script = 'vol.py'  # Remove the leading './'
+    volatility_script = os.path.join(backend_dir,"../volatility3/", volatility_script)
+
     if not filepath or not os.path.isfile(filepath):
         print(f"Invalid file path: {filepath}")
         return jsonify({'error': 'Invalid file path'}), 400
-
     try:
         print(f"Running Volatility command on {filepath}")
         result = subprocess.run(
-            ['python3', '../volatility3/vol.py', '-f', filepath, f"{operatingSystem}.{plugin}"],
+            ['python', volatility_script, '-f', filepath, f"{operatingSystem}.{plugin}"],
             capture_output=True, text=True, check=True
         )
         output = result.stdout.strip()
@@ -87,5 +91,5 @@ def auto_detect_os():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8000, debug=True) # Possibly remove host
+    app.run(port=8000, debug=True) # Possibly remove host
     print(f"Server started yayy")
