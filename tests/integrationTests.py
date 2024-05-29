@@ -26,9 +26,10 @@ def test_pslist_with_valid_input(client):
     # Assuming you have a valid test file path and operating system type
     data = {
         'filepath': './20210430-Win10Home-20H2-64bit-memdump.mem',
-        'os': 'windows'
+        'os': 'windows',
+        'plugin': 'pslist'
     }
-    response = client.post('/api/pslist', json=data)
+    response = client.post('/api/runplugin', json=data)
     assert response.status_code == 200
     json_data = json.loads(response.data)
     assert 'processes' in json_data  # Assuming your create_processes_object function returns a 'processes' key
@@ -39,7 +40,7 @@ def test_pslist_with_invalid_file_path(client):
         'filepath': '/invalid/file/path',
         'os': 'windows'
     }
-    response = client.post('/api/pslist', json=data)
+    response = client.post('/api/runplugin', json=data)
     assert response.status_code == 400
     error_data = json.loads(response.data)
     assert 'error' in error_data
