@@ -38,7 +38,8 @@ def test_pslist_with_invalid_file_path(client):
     """Test the POST /api/pslist endpoint with invalid file path."""
     data = {
         'filepath': '/invalid/file/path',
-        'os': 'windows'
+        'os': 'windows',
+        'plugin': 'pslist'
     }
     response = client.post('/api/runplugin', json=data)
     assert response.status_code == 400
