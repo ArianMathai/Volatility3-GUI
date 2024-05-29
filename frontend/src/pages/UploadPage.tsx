@@ -1,8 +1,8 @@
 import React from "react";
 import UploadFile from "../components/upload/UploadFile";
 import Logo from "../components/shared/Logo";
-import InfoBox from "../components/home/InfoBox";
-import InfoVolatility3 from "../components/home/InfoVolatility3";
+import InfoBox from "../components/shared/InfoBox";
+import InfoVolatility3 from "../components/shared/InfoVolatility3";
 
 const UploadPage = () => {
 

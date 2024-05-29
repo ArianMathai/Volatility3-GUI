@@ -1,8 +1,8 @@
 import React from "react";
 import Logo from "../components/shared/Logo";
 import NewProjectBtn from "../components/home/NewProjectBtn";
-import InfoVolatility3 from "../components/home/InfoVolatility3";
-import InfoBox from "../components/home/InfoBox";
+import InfoVolatility3 from "../components/shared/InfoVolatility3";
+import InfoBox from "../components/shared/InfoBox";
 
 const LandingPage = () => {
   return (
