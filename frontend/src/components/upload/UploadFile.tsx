@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 const UploadFile: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -31,21 +32,18 @@ const UploadFile: React.FC = () => {
         formData.append("file", file);
 
         try {
-            const response = await fetch("your-backend-endpoint", {
-                method: "POST",
-                body: formData,
+            const response = await axios.post("http://localhost:8080", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
 
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-
-            const data = await response.json();
-            console.log(data);
+            console.log(response.data);
         } catch (error) {
             console.error("Error uploading file:", error);
         }
     };
+
 
     const isFormValid = file && projectName;
     const isProjectNameValid = projectName !== "";
