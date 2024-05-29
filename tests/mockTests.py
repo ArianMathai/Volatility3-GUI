@@ -25,22 +25,20 @@ def test_runplugin_with_mocked_subprocess(client, monkeypatch):
 
     # Make a request to the endpoint
     data = {
-        'filepath': './20210430-Win10Home-20H2-64bit-memdump.mem',
-        'os': 'windows',
-        'plugin': 'pslist'
+        "filepath": "./20210430-Win10Home-20H2-64bit-memdump.mem",
+        "os": "windows",
+        "plugin": "pslist"
     }
     response = client.post('/api/runplugin', json=data)
 
     # Assert that subprocess.run was called with the expected arguments
     mock_run.assert_called_once_with(
-        ['python3', '../volatility3/vol.py', '-f', './20210430-Win10Home-20H2-64bit-memdump.mem', 'windows.pslist'],
+        ["python3", "../volatility3/vol.py", "-f", "./20210430-Win10Home-20H2-64bit-memdump.mem", "windows.pslist"],
         capture_output=True, text=True, check=True
     )
 
     # Assert the response
     assert response.status_code == 200
-    #assert b'systemd' in response.data
-    #assert b'kthreadd' in response.data
     assert ('"{\\"processes\\": [{\\"108\\": \\"396\\", \\"4\\": \\"2\\", \\"Registry\\": '
     '\\"smss.exe\\", \\"0xbf0f64bc6040\\": \\"0xbf0f66967040\\", \\"-\\": '
     '\\"-\\", \\"N/A\\": \\"N/A\\", \\"False\\": \\"False\\", \\"2021-04-30\\": '
