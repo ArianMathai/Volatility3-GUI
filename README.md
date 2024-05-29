@@ -69,7 +69,7 @@ Pulling Remote Branches
 To pull a branch created by another team member:
 
 # Testing
-To install all the necessary dependencie for testing, go to the root directory terminal and use:
+To install all the necessary dependencies for testing, go to the root directory terminal and use:
 ```bash
 pip install -e .
 pip install -r ./requirements.txt
