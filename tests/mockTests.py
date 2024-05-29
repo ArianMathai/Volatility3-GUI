@@ -39,9 +39,5 @@ def test_runplugin_with_mocked_subprocess(client, monkeypatch):
 
     # Assert the response
     assert response.status_code == 200
-    assert ('"{\\"processes\\": [{\\"108\\": \\"396\\", \\"4\\": \\"2\\", \\"Registry\\": '
-    '\\"smss.exe\\", \\"0xbf0f64bc6040\\": \\"0xbf0f66967040\\", \\"-\\": '
-    '\\"-\\", \\"N/A\\": \\"N/A\\", \\"False\\": \\"False\\", \\"2021-04-30\\": '
-    '\\"2021-04-30\\", \\"12:39:38.000000\\": \\"12:39:40.000000\\", '
-    '\\"Disabled\\": \\"Disabled\\"}]}"\n') in response.data.decode()
+    assert '{"processes":[{"-":"-","0xbf0f64bc6040":"0xbf0f66967040","108":"396","12:39:38.000000":"12:39:40.000000","2021-04-30":"2021-04-30","4":"2","Disabled":"Disabled","False":"False","N/A":"N/A","Registry":"smss.exe"}]}\n' in response.data.decode()
 
