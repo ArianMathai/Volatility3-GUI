@@ -1,27 +1,15 @@
 import pytest
 import requests
-import subprocess
-import time
 import os
-import signal
-
-from backend.app import app
 
 
 # Fixture to start the server in a separate process
 @pytest.fixture(scope="module", autouse=True)
 def run_server():
-    # Start the Flask server in a separate process
-    server_process = subprocess.Popen(['python', '../backend/app.py'])
-
-    # Delay to allow the server to start up
-    time.sleep(2)  # Adjust as needed
-
     # Provide the server URL to the tests
     yield "http://localhost:8000"
 
     # Clean up: terminate the server process
-    os.kill(server_process.pid, signal.SIGTERM)
 
 
 def test_end_to_end_pslist(run_server):
@@ -39,4 +27,4 @@ def test_end_to_end_pslist(run_server):
 
     # Assert the response
     assert response.status_code == 200
-    assert "processes" in response.json()  # Assuming the response contains 'processes'
+    assert "processes" in response.json()
