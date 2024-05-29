@@ -25,7 +25,7 @@ def test_runplugin_with_mocked_subprocess(client, monkeypatch):
 
     # Make a request to the endpoint
     data = {
-        'filepath': 'C:\\Users\\Letri\\OneDrive\\Skrivebord\\smidig-prosjekt\\Volatility3-GUI\\tests\\20210430-Win10Home-20H2-64bit-memdump.mem',
+        'filepath': './20210430-Win10Home-20H2-64bit-memdump.mem',
         'os': 'windows',
         'plugin': 'pslist'
     }
@@ -33,7 +33,7 @@ def test_runplugin_with_mocked_subprocess(client, monkeypatch):
 
     # Assert that subprocess.run was called with the expected arguments
     mock_run.assert_called_once_with(
-        ['python3', '../volatility3/vol.py', '-f', 'C:\\Users\\Letri\\OneDrive\\Skrivebord\\smidig-prosjekt\\Volatility3-GUI\\tests\\20210430-Win10Home-20H2-64bit-memdump.mem', 'windows.pslist'],
+        ['python3', '../volatility3/vol.py', '-f', './20210430-Win10Home-20H2-64bit-memdump.mem', 'windows.pslist'],
         capture_output=True, text=True, check=True
     )
 
