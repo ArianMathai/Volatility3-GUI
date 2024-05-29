@@ -4,7 +4,7 @@ const InfoBox = () => {
     return (
         <article className="bg-themeBlue-dark text-themeText-light rounded-2xl shadow-2xl p-5 ps-10 pe-10 h-full ">
             <h3 className="text-xl font-bold">To get started: </h3>
-            <ul className="p-1">
+            <ul className="ms-2 mt-3 text-xl">
                 <li className="font-bold">
                     1. Create new project
                 </li>
