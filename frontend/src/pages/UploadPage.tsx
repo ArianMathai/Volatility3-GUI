@@ -1,20 +1,30 @@
 import React from "react";
 import UploadFile from "../components/upload/UploadFile";
-import { useNavigate } from "react-router-dom";
 import Logo from "../components/shared/Logo";
-
+import InfoBox from "../components/shared/InfoBox";
+import InfoVolatility3 from "../components/shared/InfoVolatility3";
 
 const UploadPage = () => {
 
   return (
-      <>
-          <div className="ms-5 mt-5">
-            <Logo/>
+      <main className="flex justify-center">
+          <div className="">
+              <div className="m-5">
+                  <Logo/>
+              </div>
+              <div className="flex justify-center gap-20">
+                  <div className="w-1/3">
+                      <InfoBox/>
+                  </div>
+                  <div className="w-1/3">
+                      <InfoVolatility3/>
+                  </div>
+              </div>
+              <div className="mt-10 mb-10">
+                  <UploadFile/>
+              </div>
           </div>
-        <div className="m-auto mt-10">
-            <UploadFile />
-        </div>
-      </>
+      </main>
   );
 };
 

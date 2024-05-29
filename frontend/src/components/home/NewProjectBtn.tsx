@@ -11,7 +11,7 @@ const NewProjectBtn = () => {
   return (
     <button
       onClick={goNext}
-      className="bg-themeYellow-default hover:bg-themeYellow-light rounded cursor-pointer p-3 pt-5 pb-5 m-auto block"
+      className="bg-themeYellow-default hover:bg-themeYellow-light rounded cursor-pointer mt-20 p-3 pt-10 pb-10 m-auto block"
     >
       Create new project
     </button>
