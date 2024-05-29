@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {useNavigate} from "react-router-dom";
 
 const UploadFile: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -50,6 +51,11 @@ const UploadFile: React.FC = () => {
     const isProjectNameValid = projectName !== "";
     const colorOfBtnClass = isFormValid && isProjectNameValid ? 'bg-themeYellow-default' : 'bg-themeGray-dark';
 
+    const navigate = useNavigate();
+    const goNext = () => {
+        navigate("/analysis");
+    };
+
     return (
         <form onSubmit={handleSubmit} className="m-auto">
             <div className="max-w-lg mx-auto flex flex-col gap-3">
@@ -73,7 +79,7 @@ const UploadFile: React.FC = () => {
                 onChange={handleProjectNameChange}
                 placeholder="Name your project..."
             />
-            <button type="submit" className={`${colorOfBtnClass} uppercase rounded p-3`}>
+            <button type="submit" disabled={!isFormValid} onClick={goNext}  className={`${colorOfBtnClass} uppercase rounded p-3`}>
                 Next
             </button>
             </div>
