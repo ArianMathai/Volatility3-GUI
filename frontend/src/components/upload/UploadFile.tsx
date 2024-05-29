@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 const UploadFile: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [projectName, setProjectName] = useState("");
+    const [osName, setOsName] = useState<string>();
+    const [systemInfo, setSystemInfo] = useState();
+    const [isInfoLoaded, setIsInfoLoaded] = useState<boolean>(false);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0] || null;
@@ -19,6 +22,51 @@ const UploadFile: React.FC = () => {
             setProjectName("")
         }
     };
+    async function fetchOsConfig() {
+        try {
+            const res = await fetch("http://127.0.0.1:8000/api/detectos", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'filepath': file?.path
+                })
+            });
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            const data: Record<string, any>[] = await res.json();
+            const osInfo = data.find(item => item.os);
+            const processesInfo = data.find(item => item.processes);
+
+            // Disse funker nå
+            if (osInfo) {
+                setOsName(osInfo.os);
+            }
+            if (processesInfo) {
+                setSystemInfo(processesInfo.processes);
+            }
+
+
+        } catch (error) {
+            console.error("There was a problem fetching the OS config:", error);
+        }
+    }
+
+    useEffect(() => {
+        if (file){
+            fetchOsConfig();
+        }
+    }, [file]);
+
+    useEffect(() => {
+        if (osName && systemInfo){
+            setIsInfoLoaded(true);
+        }
+        console.log("osname = ", osName)
+        console.log("Sysinfo = ", systemInfo)
+    }, [systemInfo, osName]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -28,26 +76,12 @@ const UploadFile: React.FC = () => {
         }
 
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("filepath", file);
 
-        try {
-            const response = await fetch("your-backend-endpoint", {
-                method: "POST",
-                body: formData,
-            });
-
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-
-            const data = await response.json();
-            console.log(data);
-        } catch (error) {
-            console.error("Error uploading file:", error);
-        }
+        await fetchOsConfig()
     };
 
-    const isFormValid = file && projectName;
+    const isFormValid = file && projectName && isInfoLoaded;
     const isProjectNameValid = projectName !== "";
     const colorOfBtnClass = isFormValid && isProjectNameValid ? 'bg-themeYellow-default' : 'bg-themeGray-dark';
 
@@ -55,6 +89,8 @@ const UploadFile: React.FC = () => {
     const goNext = () => {
         navigate("/analysis");
     };
+
+
 
     return (
         <form onSubmit={handleSubmit} className="m-auto">
