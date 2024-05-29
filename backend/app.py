@@ -45,7 +45,7 @@ def runPLugin():
             ['python', volatility_script, '-f', filepath, f"{operatingSystem}.{plugin}"],
             capture_output=True, text=True, check=True
         )
-        # test
+        # test again
         output = result.stdout.strip()
         data = create_processes_object(output)
         json_data = jsonify(data)
