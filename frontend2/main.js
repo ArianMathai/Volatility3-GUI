@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const axios = require('axios');
 const {format} = require("url");
-
+/*
 async function handleFileOpen() {
     console.log("Hit the button.");
     const { canceled, filePaths } = await dialog.showOpenDialog();
@@ -10,6 +10,8 @@ async function handleFileOpen() {
         return filePaths[0];
     }
 }
+
+ */
 
 async function handleSubmitFilePath(filePath) {
     const response = await axios.post('http://localhost:8000/api/detectos', { "filepath": filePath });
@@ -37,8 +39,9 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-    ipcMain.handle('dialog:openFile', handleFileOpen);
-    ipcMain.handle('send-file-path', async (event, filePath) => {
+    //ipcMain.handle('dialog:openFile', handleFileOpen);
+    ipcMain.handle('fetch-system-info', async (event, filePath) => {
+        console.log("in main func file = ", filePath)
         try {
             const response = await handleSubmitFilePath(filePath);
             return response.data;
