@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const axios = require('axios');
+const {format} = require("url");
 
 async function handleFileOpen() {
     console.log("Hit the button.");
@@ -16,6 +17,12 @@ async function handleSubmitFilePath(filePath) {
 }
 
 function createWindow() {
+
+    const startUrl = format({
+        pathname: path.join(__dirname,'./app/build/index.html'),
+        protocol:'file',
+    })
+
     const mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
@@ -25,7 +32,8 @@ function createWindow() {
             nodeIntegration: false
         }
     });
-    mainWindow.loadFile('index.html');
+    mainWindow.webContents.openDevTools();
+    mainWindow.loadURL(startUrl);
 }
 
 app.whenReady().then(() => {
