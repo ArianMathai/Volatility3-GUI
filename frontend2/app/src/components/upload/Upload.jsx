@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useAppContext} from "../context/Context";
+import {useAppContext} from "../../context/Context";
 
 export const Upload = () => {
 
@@ -25,7 +25,7 @@ export const Upload = () => {
         } catch (error) {
             console.error('Error fetching system info:', error);
         }
-        navigate("/analysis");
+        navigate("/plugin");
     };
 
     const handleFileChange = (e) => {

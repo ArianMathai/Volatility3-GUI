@@ -1,5 +1,5 @@
 import React from "react";
-import UploadFile from "../components/Upload";
+import UploadFile from "../components/upload/Upload";
 const UploadPage = () => {
 
     return (
@@ -19,6 +19,7 @@ const UploadPage = () => {
                 <div className="mt-10 mb-10">
                     <UploadFile/>
                 </div>
+                <button></button>
             </div>
         </main>
     );

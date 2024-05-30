@@ -1,14 +1,9 @@
-import React, {useEffect} from "react";
+import React from "react";
 import Logo from "../components/shared/Logo";
-import { useAppContext} from "../context/Context";
+import SystemInfo from "../components/shared/SystemInfo";
+import ProcessList from "../components/analysis/ProcessList";
 
 const AnalysisPage = () => {
-
-    const {osName, systemInfo} = useAppContext();
-
-    useEffect(() => {
-        console.log(osName, systemInfo)
-    }, [osName, systemInfo]);
 
     return (
         <>
@@ -16,14 +11,8 @@ const AnalysisPage = () => {
             <div>
                 <Logo/>
             </div>
-            <h2>{osName.os}</h2>
-            <ul>
-                {systemInfo.processes && systemInfo.processes.map((item, index) => (
-                    <li key={index}>
-                        <strong>{item.Value}:</strong> {item.Variable}
-                    </li>
-                ))}
-            </ul>
+            <SystemInfo/>
+            <ProcessList/>
         </>
     );
 };

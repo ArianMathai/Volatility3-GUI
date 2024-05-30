@@ -18,6 +18,15 @@ async function handleSubmitFilePath(filePath) {
     return response;
 }
 
+async function handleRunPlugin(filePath, osName, plugin) {
+    const response = await axios.post('http://localhost:8000/api/runplugin', {
+        filepath: filePath,
+        os: osName,
+        plugin: plugin,
+    });
+    return response;
+}
+
 function createWindow() {
 
     const startUrl = format({
@@ -50,6 +59,18 @@ app.whenReady().then(() => {
             throw new Error('Failed to send file path to backend');
         }
     });
+
+    ipcMain.handle('run-plugin', async (event, {filePath, osName, plugin}) => {
+        console.log("Running plugin with file :", filePath, "os: ", osName, "plugin: ", plugin)
+        try {
+            const response = await handleRunPlugin(filePath, osName, plugin);
+            return response.data;
+        } catch (error) {
+            console.error("Error running plugin: ", error);
+            throw new Error("Failed to run plugin")
+        }
+    })
+
     createWindow();
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
