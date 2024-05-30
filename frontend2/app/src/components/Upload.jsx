@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useAppContext} from "../context/Context";
 
@@ -7,7 +7,7 @@ export const Upload = () => {
     const [file, setFile] = useState(null);
     const [projectName, setProjectName] = useState("");
 
-    const { osName, setOsName, systemInfo, setSystemInfo } = useAppContext();
+    const { setOsName, setSystemInfo } = useAppContext();
 
 
     const navigate = useNavigate();
