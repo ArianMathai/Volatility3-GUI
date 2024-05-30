@@ -1,6 +1,6 @@
 import React from "react"
 
-const ProcessList = () => {
+const ProcessList = ({}) => {
     return (
         <>
 
