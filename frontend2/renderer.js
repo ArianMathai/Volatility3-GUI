@@ -1,3 +1,4 @@
+/*
 const btnFilePath = document.getElementById('filePathBtn');
 const filePathOutput = document.getElementById('filePathOutput');
 
@@ -30,7 +31,9 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
         document.getElementById('responseMessage').innerText = 'Error sending file path';
     }
 });
-document.getElementById("nextBtn").addEventListener('click', () => {
 
-})
+ */
+
+
+
 
