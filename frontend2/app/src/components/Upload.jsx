@@ -1,28 +1,33 @@
-import React, { useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-
-
-
+import {Context} from "../context/Context";
 
 export const Upload = () => {
 
     const [file, setFile] = useState(null);
     const [projectName, setProjectName] = useState("");
-    const [osName, setOsName] = useState("");
-    const [systemInfo, setSystemInfo] = useState([]);
 
+    const { osName, systemInfo, setOsName, setSystemInfo} = useContext(Context);
+
+    const navigate = useNavigate();
     const fetchSystemInfo = async (e) => {
         e.preventDefault();
         if (!file) return;
         console.log("filepath ", file.path)
         try {
-            const res = await window.electronAPI.send("fetch-system-info", file.path);
-            console.log("res", res);
-            // Process the response and update state as needed
+            const res = await window.electronAPI.fetchSystemInfo(file.path);
+            console.log(res)
+            setOsName(res[0]);
+            setSystemInfo(res[1]);
+            console.log("navigate next")
+
         } catch (error) {
             console.error('Error fetching system info:', error);
         }
     };
+    useEffect(() => {
+        navigate("/analysis");
+    }, [osName, systemInfo]);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files?.[0] || null;
@@ -39,47 +44,10 @@ export const Upload = () => {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!file) {
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("file", file);
-
-
-        try {
-            const response = await fetch("your-backend-endpoint", {
-                method: "POST",
-                body: formData,
-            });
-
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-
-            const data = await response.json();
-            console.log(data);
-        } catch (error) {
-            console.error("Error uploading file:", error);
-        }
-
-
-    };
-
     const isFormValid = file && projectName;
     const isProjectNameValid = projectName !== "";
     const colorOfBtnClass = isFormValid && isProjectNameValid ? 'bg-themeYellow-default' : 'bg-themeGray-dark';
-
-    const navigate = useNavigate();
-
-    const goNext = () => {
-        console.log("name" + projectName)
-        //navigate("/analysis");
-    };
-
-
+    ;
 
     return (
         <form onSubmit={fetchSystemInfo} className="m-auto">
@@ -104,7 +72,7 @@ export const Upload = () => {
                     onChange={handleProjectNameChange}
                     placeholder="Name your project..."
                 />
-                <button type="submit" disabled={!isFormValid} onClick={goNext}  className={`${colorOfBtnClass} uppercase rounded p-3`}>
+                <button type="submit" disabled={!isFormValid} className={`${colorOfBtnClass} uppercase rounded p-3`}>
                     Next
                 </button>
             </div>
