@@ -9,7 +9,7 @@ Everything related to backend. Communicates with volatility3.
 
 ### Tests
 
-Everything related to testing. Communicates with backend and frontend. 
+Everything related to testing. Communicates with backend.
 
 ### Volatility3
 
@@ -76,7 +76,16 @@ pip install -r ./requirements_dev.txt
 ```
 
 You can then test using:
+first download this test memory dump (20210430-Win10Home-20H2-64bit-memdump.mem.7z):
+https://archive.org/download/Africa-DFIRCTF-2021-WK02
+once it's install unzip the contents into the "tests" folder of this project
+you can then enter the terminal at the projects root and type:
 ```bash
-pytest --maxfail=1 --disable-warnings -v
+pip install tox
 ```
-or simply run the tests through the IDE
+After tox is installed, simply type:
+```bash
+tox
+```
+in the project root.
+
