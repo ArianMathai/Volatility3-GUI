@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Electron App</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+</head>
+<body>
+<h1>Electron with Python Backend</h1>
+<button type="button" id="filePathBtn">Open a File</button>
+<p id="filePathOutput">File path: </p>
+<button type="button" id="submitBtn">Submit</button>
+<div id="systemInfo">
+    <h2 id="osName"></h2>
+    <ul id="sysInfoList"></ul>
+</div>
+<button id="nextBtn">Next</button>
+
+<script src="renderer.js"></script>
+</body>
+</html>
