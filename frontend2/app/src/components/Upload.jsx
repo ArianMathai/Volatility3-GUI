@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useAppContext} from "../context/Context";
 
 export const Upload = () => {
 
     const [file, setFile] = useState(null);
     const [projectName, setProjectName] = useState("");
+
+    const { osName, setOsName, systemInfo, setSystemInfo } = useAppContext();
 
 
     const navigate = useNavigate();
@@ -15,13 +18,14 @@ export const Upload = () => {
         try {
             const res = await window.electronAPI.fetchSystemInfo(file.path);
             console.log(res)
-            //setOsName(res[0]);
-            //setSystemInfo(res[1]);
+            setOsName(res[0]);
+            setSystemInfo(res[1]);
             console.log("navigate next")
 
         } catch (error) {
             console.error('Error fetching system info:', error);
         }
+        navigate("/analysis");
     };
 
     const handleFileChange = (e) => {
