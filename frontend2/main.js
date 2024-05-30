@@ -10,6 +10,11 @@ async function handleFileOpen() {
     }
 }
 
+async function handleSubmitFilePath(filePath) {
+    const response = await axios.post('http://localhost:8000/api/detectos', { "filepath": filePath });
+    return response;
+}
+
 function createWindow() {
     const mainWindow = new BrowserWindow({
         webPreferences: {
@@ -23,6 +28,15 @@ function createWindow() {
 
 app.whenReady().then(() => {
     ipcMain.handle('dialog:openFile', handleFileOpen);
+    ipcMain.handle('send-file-path', async (event, filePath) => {
+        try {
+            const response = await handleSubmitFilePath(filePath);
+            return response.data;
+        } catch (error) {
+            console.error('Error sending file path to backend:', error);
+            throw new Error('Failed to send file path to backend');
+        }
+    });
     createWindow();
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
