@@ -78,6 +78,7 @@ pip install -r ./requirements_dev.txt
 You can then test using:
 first download this test memory dump (20210430-Win10Home-20H2-64bit-memdump.mem.7z):
 https://archive.org/download/Africa-DFIRCTF-2021-WK02
+
 once it's install unzip the contents into the "tests" folder of this project
 you can then enter the terminal at the projects root and type:
 ```bash
