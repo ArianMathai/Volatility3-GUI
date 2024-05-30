@@ -2,14 +2,14 @@ import React, {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Context} from "../context/Context";
 
-export const Upload = () => {
+const Upload = () => {
 
     const [file, setFile] = useState(null);
     const [projectName, setProjectName] = useState("");
 
-    const { osName, systemInfo, setOsName, setSystemInfo} = useContext(Context);
+    //const { osName, systemInfo, setOsName, setSystemInfo} = useContext(Context);
 
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const fetchSystemInfo = async (e) => {
         e.preventDefault();
         if (!file) return;
@@ -17,17 +17,20 @@ export const Upload = () => {
         try {
             const res = await window.electronAPI.fetchSystemInfo(file.path);
             console.log(res)
-            setOsName(res[0]);
-            setSystemInfo(res[1]);
-            console.log("navigate next")
+            //setOsName(res[0]);
+            //setSystemInfo(res[1]);
 
         } catch (error) {
             console.error('Error fetching system info:', error);
         }
     };
+    /*
     useEffect(() => {
-        navigate("/analysis");
+        if (osName.length > 0)
+            navigate("/analysis");
     }, [osName, systemInfo]);
+
+     */
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files?.[0] || null;
@@ -47,7 +50,6 @@ export const Upload = () => {
     const isFormValid = file && projectName;
     const isProjectNameValid = projectName !== "";
     const colorOfBtnClass = isFormValid && isProjectNameValid ? 'bg-themeYellow-default' : 'bg-themeGray-dark';
-    ;
 
     return (
         <form onSubmit={fetchSystemInfo} className="m-auto">
@@ -75,8 +77,11 @@ export const Upload = () => {
                 <button type="submit" disabled={!isFormValid} className={`${colorOfBtnClass} uppercase rounded p-3`}>
                     Next
                 </button>
+
             </div>
         </form>
     );
 };
+
+export default Upload;
 

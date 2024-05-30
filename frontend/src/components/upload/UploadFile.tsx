@@ -79,7 +79,7 @@ const UploadFile: React.FC = () => {
                 onChange={handleProjectNameChange}
                 placeholder="Name your project..."
             />
-            <button type="submit" disabled={!isFormValid} onClick={goNext}  className={`${colorOfBtnClass} uppercase rounded p-3`}>
+            <button type="submit" disabled={!isFormValid}  className={`${colorOfBtnClass} uppercase rounded p-3`}>
                 Next
             </button>
             </div>

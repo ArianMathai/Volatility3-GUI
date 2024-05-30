@@ -11,4 +11,7 @@ export const Context = React.createContext<{
     systemInfo: [],
     setOsName: () => {},
     setSystemInfo: () => {}
+
 });
+
+
