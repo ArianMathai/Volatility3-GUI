@@ -1,10 +1,10 @@
 import React, {useContext, useEffect} from "react";
 import Logo from "../components/shared/Logo";
-import {Context} from "../context/Context";
+import { useAppContext} from "../context/Context";
 
 const AnalysisPage = () => {
 
-    const {osName, systemInfo} = useContext(Context);
+    const {osName, systemInfo} = useAppContext();
 
     useEffect(() => {
         console.log(osName, systemInfo)
@@ -16,6 +16,14 @@ const AnalysisPage = () => {
             <div>
                 <Logo/>
             </div>
+            <h2>{osName.os}</h2>
+            <ul>
+                {systemInfo.processes && systemInfo.processes.map((item, index) => (
+                    <li key={index}>
+                        <strong>{item.Value}:</strong> {item.Variable}
+                    </li>
+                ))}
+            </ul>
         </>
     );
 };
