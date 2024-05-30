@@ -30,4 +30,7 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
         document.getElementById('responseMessage').innerText = 'Error sending file path';
     }
 });
+document.getElementById("nextBtn").addEventListener('click', () => {
+
+})
 
