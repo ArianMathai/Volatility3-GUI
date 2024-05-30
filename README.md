@@ -80,6 +80,7 @@ first download this test memory dump (20210430-Win10Home-20H2-64bit-memdump.mem.
 https://archive.org/download/Africa-DFIRCTF-2021-WK02
 
 once that's installed, unzip and move the .mem file into the "tests" folder of this project.
+
 you can then enter the terminal at the projects root and type:
 ```bash
 pip install tox
