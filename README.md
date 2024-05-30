@@ -75,8 +75,7 @@ pip install -e .
 pip install -r ./requirements_dev.txt
 ```
 
-You can then test using:
-first download this test memory dump (20210430-Win10Home-20H2-64bit-memdump.mem.7z):
+Then download this test memory dump (20210430-Win10Home-20H2-64bit-memdump.mem.7z):
 https://archive.org/download/Africa-DFIRCTF-2021-WK02
 
 once that's installed, unzip and move the .mem file into the "tests" folder of this project.
