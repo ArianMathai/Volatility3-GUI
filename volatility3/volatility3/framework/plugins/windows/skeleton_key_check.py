@@ -606,14 +606,14 @@ class Skeleton_Key_Check(interfaces.plugins.PluginInterface):
         lsass_proc, proc_layer_name = self._find_lsass_proc(procs)
         if not lsass_proc:
             vollog.info(
-                "Unable to find a valid lsass.exe process in the process list. This should never happen. Analysis cannot proceed."
+                "Unable to find a valid lsass.exe process in the process list. This should never happen. SelectPlugins cannot proceed."
             )
             return None
 
         cryptdll_base, cryptdll_size = self._find_cryptdll(lsass_proc)
         if not cryptdll_base:
             vollog.info(
-                "Unable to find the location of cryptdll.dll inside of lsass.exe. Analysis cannot proceed."
+                "Unable to find the location of cryptdll.dll inside of lsass.exe. SelectPlugins cannot proceed."
             )
             return None
 
@@ -647,7 +647,7 @@ class Skeleton_Key_Check(interfaces.plugins.PluginInterface):
 
         if csystems is None:
             vollog.info(
-                "Unable to find CSystems inside of cryptdll.dll. Analysis cannot proceed."
+                "Unable to find CSystems inside of cryptdll.dll. SelectPlugins cannot proceed."
             )
             return None
 

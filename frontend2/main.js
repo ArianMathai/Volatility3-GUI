@@ -18,6 +18,16 @@ async function handleSubmitFilePath(filePath) {
     return response;
 }
 
+async function handleSubmitFileInfo(filePath, operatingSystem, plugin) {
+    const response = await axios.post('http://localhost:8000/api/runplugin',
+    { "filepath": filePath,
+        "os": operatingSystem,
+        "plugin": plugin
+        }
+    );
+    return response;
+}
+
 function createWindow() {
 
     const startUrl = format({
@@ -50,6 +60,18 @@ app.whenReady().then(() => {
             throw new Error('Failed to send file path to backend');
         }
     });
+
+    ipcMain.handle('fetch-process-list', async (event, filePath, operatingSystem, plugin) => {
+        console.log(filePath + " |  " + operatingSystem + " | " + plugin)
+        try {
+            const response = await handleSubmitFileInfo(filePath, operatingSystem, plugin);
+            return response.data;
+        } catch (error) {
+            console.error('Error sending file info to backend:', error);
+            throw new Error('Failed to send file info to backend');
+        }
+    });
+
     createWindow();
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();

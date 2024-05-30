@@ -1,6 +1,7 @@
-import React from "react";
-import {Upload} from "../components/Upload";
-const UploadPage = () => {
+import React, {useEffect, useState} from "react";
+import {SelectPlugins} from "../components/SelectPlugins";
+
+const SelectPluginsPage = () => {
 
     return (
         <main className="flex justify-center">
@@ -17,11 +18,11 @@ const UploadPage = () => {
                     </div>
                 </div>
                 <div className="mt-10 mb-10">
-                    <Upload/>
+                    <SelectPlugins/>
                 </div>
             </div>
         </main>
     );
 };
 
-export default UploadPage;
+export default SelectPluginsPage;
