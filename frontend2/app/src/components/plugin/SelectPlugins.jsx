@@ -53,17 +53,8 @@ export const SelectPlugins = () => {
     return (
         <>
             <h1>Analysis page</h1>
-            <div>
-                <Logo/>
-            </div>
-            <h2>{osName.os}</h2>
-            <ul>
-                {systemInfo.processes && systemInfo.processes.map((item, index) => (
-                    <li key={index}>
-                        <strong>{item.Value}:</strong> {item.Variable}
-                    </li>
-                ))}
-            </ul>
+
+
             <div className="pslist-container">
                 <label for="pslist-checkbox">pslist:</label>
                 <input type="checkbox" className="pslist-checkbox" onClick={toggleButton}/>
