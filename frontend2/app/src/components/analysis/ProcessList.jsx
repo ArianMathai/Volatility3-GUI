@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppContext } from '../context/Context'; // Ensure this path is correct
+import { useAppContext } from '../../context/Context'; // Ensure this path is correct
 
 const ProcessList = () => {
     const { processList } = useAppContext(); // Get the process list from context
