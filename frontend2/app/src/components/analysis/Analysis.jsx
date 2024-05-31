@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 
 export const Analysis = () => {
-    const { pslist } = useAppContext();
+    const { processList } = useAppContext();
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("pslist:");
-        console.log(pslist);
-    }, [pslist]);
+        console.log("processList:");
+        console.log(processList);
+    }, [processList]);
 
     return (
         <div className="p-4">
@@ -25,7 +25,7 @@ export const Analysis = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {pslist.length > 1 && pslist.map((item, index) => (
+                {processList.length > 1 && processList.map((item, index) => (
                     <tr key={index} className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}>
                         <td>{item.PID}</td>
                         <td>{item.PPID}</td>
