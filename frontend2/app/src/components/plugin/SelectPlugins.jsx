@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Logo from "../shared/Logo";
 import { useAppContext} from "../../context/Context";
 import {useNavigate} from "react-router-dom";
 
@@ -51,16 +50,15 @@ export const SelectPlugins = () => {
     }, [buttonDisabled]);
 
     return (
-        <>
-            <h1>Analysis page</h1>
-
-
-            <div className="pslist-container">
-                <label for="pslist-checkbox">pslist:</label>
-                <input type="checkbox" className="pslist-checkbox" onClick={toggleButton}/>
-                <button className="run-button" disabled={buttonDisabled} onClick={fetchProcessList}>Run</button>
+        <div className="flex flex-col m-auto w-40 p-5">
+            <div className="bg-themeBlue-darker rounded shadow">
+                <input type="checkbox" className="pslist-checkbox align-middle me-2" onClick={toggleButton}/>
+                <label for="pslist-checkbox" className="text-themeText-light">pslist</label>
             </div>
-        </>
+            <div className="flex justify-end mt-5">
+                <button className="btn p-2 rounded shadow bg-themeYellow-default hover:bg-themeYellow-light" disabled={buttonDisabled} onClick={fetchProcessList}>Run</button>
+            </div>
+        </div>
     );
 };
 
