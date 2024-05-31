@@ -4,13 +4,11 @@ import {useAppContext} from "../../context/Context";
 
 export const Upload = () => {
 
-
     const [projectName, setProjectName] = useState("");
 
     const { setOsName, setSystemInfo, file, setFile } = useAppContext();
-
-
     const navigate = useNavigate();
+
     const fetchSystemInfo = async (e) => {
         e.preventDefault();
         if (!file) return;
