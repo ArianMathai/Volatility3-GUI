@@ -4,19 +4,19 @@ import {useAppContext} from "../context/Context";
 
 export const Upload = () => {
 
-    const [file, setFile] = useState(null);
+    //const [file, setFile] = useState(null);
     const [projectName, setProjectName] = useState("");
 
-    const { setOsName, setSystemInfo } = useAppContext();
+    const { setOsName, setSystemInfo, filePath, setFilePath } = useAppContext();
 
 
     const navigate = useNavigate();
     const fetchSystemInfo = async (e) => {
         e.preventDefault();
-        if (!file) return;
-        console.log("filepath ", file.path)
+        if (!filePath) return;
+        console.log("filepath ", filePath.path)
         try {
-            const res = await window.electronAPI.fetchSystemInfo(file.path);
+            const res = await window.electronAPI.fetchSystemInfo(filePath.path);
             console.log(res)
             setOsName(res[0]);
             setSystemInfo(res[1]);
@@ -30,7 +30,7 @@ export const Upload = () => {
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files?.[0] || null;
-        setFile(selectedFile);
+        setFilePath(selectedFile);
     };
 
     const handleProjectNameChange = (e) => {
@@ -43,7 +43,7 @@ export const Upload = () => {
         }
     };
 
-    const isFormValid = file && projectName;
+    const isFormValid = filePath && projectName;
     const isProjectNameValid = projectName !== "";
     const colorOfBtnClass = isFormValid && isProjectNameValid ? 'bg-themeYellow-default' : 'bg-themeGray-dark';
 

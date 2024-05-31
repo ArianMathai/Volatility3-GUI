@@ -18,8 +18,9 @@ async function handleSubmitFilePath(filePath) {
     return response;
 }
 
-async function handleRunPlugin(filepath,os){
-    const response = await axios.post('http://localhost:5000/api/runplugin',{"filepath":filepath,"os":os});
+async function handleRunPlugin(filepath,os,plugin){
+    const response = await axios.post('http://localhost:5000/api/runplugin',{"filepath":filepath,"os":os, "plugin": plugin});
+    return response;
 }
 
 function createWindow() {
@@ -54,9 +55,10 @@ app.whenReady().then(() => {
             throw new Error('Failed to send file path to backend');
         }
     });
-    ipcMain.handle('fetch-plugin-report', async (event,filepath,operatingSystem) => {
+    ipcMain.handle('fetch-plugin-report', async (event,filepath,operatingSystem, plugin) => {
         try{
-            const response = await handleRunPlugin(filepath,operatingSystem);
+            const response = await handleRunPlugin(filepath,operatingSystem,plugin);
+            console.log(response.data);
             return response.data;
         } catch (error){
             console.error('Error sending plugin info to backend: ', error);
