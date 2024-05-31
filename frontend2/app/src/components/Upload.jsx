@@ -4,10 +4,10 @@ import {useAppContext} from "../context/Context";
 
 export const Upload = () => {
 
-    //const [file, setFile] = useState(null);
+
     const [projectName, setProjectName] = useState("");
 
-    const { setOsName, setSystemInfo, filePath, setFilePath } = useAppContext();
+    const { setOsName, setSystemInfo, file, setFile } = useAppContext();
 
 
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ export const Upload = () => {
         } catch (error) {
             console.error('Error fetching system info:', error);
         }
-        navigate("/analysis");
+        navigate("/selectplugins");
     };
 
     const handleFileChange = (e) => {
