@@ -14,12 +14,12 @@ async function handleFileOpen() {
  */
 
 async function handleSubmitFilePath(filePath) {
-    const response = await axios.post('http://localhost:5000/api/detectos', { "filepath": filePath });
+    const response = await axios.post('http://localhost:8000/api/detectos', { "filepath": filePath });
     return response;
 }
 
 async function handleRunPlugin(filepath,os,plugin){
-    const response = await axios.post('http://localhost:5000/api/runplugin',{"filepath":filepath,"os":os, "plugin": plugin});
+    const response = await axios.post('http://localhost:8000/api/runplugin',{"filepath":filepath,"os":os, "plugin": plugin});
     return response;
 }
 
