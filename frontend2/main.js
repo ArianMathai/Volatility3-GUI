@@ -71,7 +71,6 @@ app.whenReady().then(() => {
             throw new Error('Failed to send file info to backend');
         }
     });
-
     createWindow();
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();

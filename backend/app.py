@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import os
 import subprocess
-from backend.util.create_processes_object import create_processes_object
+from util.create_processes_object import create_processes_object
 
 
 app = Flask(__name__)

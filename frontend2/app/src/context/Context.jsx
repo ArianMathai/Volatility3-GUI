@@ -17,10 +17,12 @@ export const AppProvider = ({ children }) => {
     const [file, setFile] = useState(null);
     const [osName, setOsName] = useState('');
     const [systemInfo, setSystemInfo] = useState([]);
+
     const [pslist, setPslist] = useState([]);
 
     return (
         <AppContext.Provider value={{ osName, systemInfo, setOsName, setSystemInfo, file, setFile, pslist, setPslist }}>
+
             {children}
         </AppContext.Provider>
     );
