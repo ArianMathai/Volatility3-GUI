@@ -14,7 +14,7 @@ const PluginList = () => {
 
     const handleRunClick = async () => {
         try {
-            const response = await window.electronAPI.fetchSystemInfo(filePath, osName, selectedPlugin);
+            const response = await window.electronAPI.runPlugin(filePath, osName, selectedPlugin);
             setProcessList(response)
             console.log("plugin output: ", response)
         } catch (error) {
