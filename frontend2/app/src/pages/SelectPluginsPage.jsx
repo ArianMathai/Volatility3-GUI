@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {SelectPlugins} from "../components/SelectPlugins";
+import {SelectPlugins} from "../components/plugin/SelectPlugins";
 
 const SelectPluginsPage = () => {
 
