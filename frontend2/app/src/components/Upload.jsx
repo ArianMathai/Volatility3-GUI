@@ -13,10 +13,10 @@ export const Upload = () => {
     const navigate = useNavigate();
     const fetchSystemInfo = async (e) => {
         e.preventDefault();
-        if (!filePath) return;
-        console.log("filepath ", filePath.path)
+        if (!file) return;
+        console.log("filepath ", file.path)
         try {
-            const res = await window.electronAPI.fetchSystemInfo(filePath.path);
+            const res = await window.electronAPI.fetchSystemInfo(file.path);
             console.log(res)
             setOsName(res[0]);
             setSystemInfo(res[1]);
@@ -30,7 +30,7 @@ export const Upload = () => {
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files?.[0] || null;
-        setFilePath(selectedFile);
+        setFile(selectedFile);
     };
 
     const handleProjectNameChange = (e) => {
@@ -43,7 +43,7 @@ export const Upload = () => {
         }
     };
 
-    const isFormValid = filePath && projectName;
+    const isFormValid = file && projectName;
     const isProjectNameValid = projectName !== "";
     const colorOfBtnClass = isFormValid && isProjectNameValid ? 'bg-themeYellow-default' : 'bg-themeGray-dark';
 
