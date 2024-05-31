@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {useAppContext} from "../../context/Context";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../context/Context";
 
 export const Analysis = () => {
-    const {osName, systemInfo, file, pslist, setPslist} = useAppContext();
+    const { pslist } = useAppContext();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -12,48 +12,31 @@ export const Analysis = () => {
     }, [pslist]);
 
     return (
-        <>
-            <style>
-                {`
-                    .process-info-container {
-                        display: grid;
-                        grid-template-columns: repeat(6, 1fr);
-                        gap: 10px;
-                        margin-bottom: 10px;
-                    }
-                    .process-info-header, .process-info-item {
-                        display: contents; /* Allows child elements to be direct children of the grid container */
-                    }
-                    .process-info-header div, .process-info-item div {
-                        padding: 5px;
-                        border: 1px solid #ccc;
-                    }
-                    .process-info-header div {
-                        font-weight: bold;
-                        background-color: #f0f0f0;
-                    }
-                `}
-            </style>
-            <div className="process-info-container">
-                <div className="process-info-header">
-                    <div>PID</div>
-                    <div>PPID</div>
-                    <div>ImageFileName</div>
-                    <div>Handles</div>
-                    <div>Threads</div>
-                    <div>CreateTime</div>
-                </div>
+        <div className="p-4">
+            <table className="min-w-full text-themeText-light">
+                <thead className="bg-themeBlue-default text-white">
+                <tr>
+                    <th className="font-bold">PID</th>
+                    <th className="font-bold">PPID</th>
+                    <th className="font-bold">ImageFileName</th>
+                    <th className="font-bold">Handles</th>
+                    <th className="font-bold">Threads</th>
+                    <th className="font-bold">CreateTime</th>
+                </tr>
+                </thead>
+                <tbody>
                 {pslist.length > 1 && pslist.map((item, index) => (
-                    <div className="process-info-item" key={index}>
-                        <div>{item.PID}</div>
-                        <div>{item.PPID}</div>
-                        <div>{item.ImageFileName}</div>
-                        <div>{item.Handles}</div>
-                        <div>{item.Threads}</div>
-                        <div>{item.CreateTime}</div>
-                    </div>
+                    <tr key={index} className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}>
+                        <td>{item.PID}</td>
+                        <td>{item.PPID}</td>
+                        <td>{item.ImageFileName}</td>
+                        <td>{item.Handles}</td>
+                        <td>{item.Threads}</td>
+                        <td>{item.CreateTime}</td>
+                    </tr>
                 ))}
-            </div>
-        </>
+                </tbody>
+            </table>
+        </div>
     );
 };
