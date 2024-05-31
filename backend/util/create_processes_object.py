@@ -1,6 +1,11 @@
 import json
+import os
+import sys
 
-from backend.util.parse_process_output import parse_process_output
+file_dir = os.path.dirname(__file__)
+sys.path.append(file_dir)
+
+from parse_process_output import parse_process_output
 
 
 

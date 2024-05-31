@@ -1,7 +1,13 @@
 from flask import Flask, jsonify, request
-import os
 import subprocess
-from backend.util.create_processes_object import create_processes_object
+
+import os
+import sys
+
+file_dir = os.path.dirname(__file__)
+sys.path.append(file_dir)
+
+from util.create_processes_object import create_processes_object
 
 app = Flask(__name__)
 
