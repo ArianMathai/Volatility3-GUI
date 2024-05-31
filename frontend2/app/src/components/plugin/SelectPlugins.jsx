@@ -50,13 +50,25 @@ export const SelectPlugins = () => {
     }, [buttonDisabled]);
 
     return (
-        <div className="flex flex-col m-auto w-40 p-5">
-            <div className="bg-themeBlue-darker rounded shadow">
-                <input type="checkbox" className="pslist-checkbox align-middle me-2" onClick={toggleButton}/>
-                <label for="pslist-checkbox" className="text-themeText-light">pslist</label>
+        <div className="flex flex-col m-auto p-5">
+            <div className="grid grid-cols-3 rounded shadow gap-4 bg-themeBlue-darker">
+                <div className="p-2">
+                    <input type="checkbox" id="pslist-checkbox" className="align-middle me-2" onClick={toggleButton}/>
+                    <label htmlFor="pslist-checkbox" className="text-themeText-light">pslist</label>
+                </div>
+                <div className="p-2">
+                    <input type="checkbox" id="plugin2-checkbox" className="align-middle me-2"/>
+                    <label htmlFor="plugin2-checkbox" className="text-themeText-light">plugin2</label>
+                </div>
+                <div className="p-2">
+                    <input type="checkbox" id="plugin3-checkbox" className="align-middle me-2"/>
+                    <label htmlFor="plugin3-checkbox" className="text-themeText-light">plugin3</label>
+                </div>
             </div>
             <div className="flex justify-end mt-5">
-                <button className="btn p-2 rounded shadow bg-themeYellow-default hover:bg-themeYellow-light" disabled={buttonDisabled} onClick={fetchProcessList}>Run</button>
+                <button className="btn p-2 rounded shadow bg-themeYellow-default hover:bg-themeYellow-light"
+                        disabled={buttonDisabled} onClick={fetchProcessList}>Run
+                </button>
             </div>
         </div>
     );
