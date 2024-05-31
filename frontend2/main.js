@@ -14,8 +14,12 @@ async function handleFileOpen() {
  */
 
 async function handleSubmitFilePath(filePath) {
-    const response = await axios.post('http://localhost:8000/api/detectos', { "filepath": filePath });
+    const response = await axios.post('http://localhost:5000/api/detectos', { "filepath": filePath });
     return response;
+}
+
+async function handleRunPlugin(filepath,os){
+    const response = await axios.post('http://localhost:5000/api/runplugin',{"filepath":filepath,"os":os});
 }
 
 function createWindow() {
@@ -50,6 +54,15 @@ app.whenReady().then(() => {
             throw new Error('Failed to send file path to backend');
         }
     });
+    ipcMain.handle('fetch-plugin-report', async (event,filepath,operatingSystem) => {
+        try{
+            const response = await handleRunPlugin(filepath,operatingSystem);
+            return response.data;
+        } catch (error){
+            console.error('Error sending plugin info to backend: ', error);
+            throw new Error('Failed to send plugin info to backend');
+        }
+    })
     createWindow();
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();

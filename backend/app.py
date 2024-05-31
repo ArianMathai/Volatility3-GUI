@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import os
 import subprocess
-from backend.util.create_processes_object import create_processes_object
+from util.create_processes_object import create_processes_object
 
 
 app = Flask(__name__)
@@ -73,7 +73,7 @@ def auto_detect_os():
     for file_os in file_operating_system:
         try:
             result = subprocess.run(
-                ['python3', '../volatility3/vol.py', '-f', filepath, f"{file_os}.info"],
+                ['python', '../volatility3/vol.py', '-f', filepath, f"{file_os}.info"],
                 capture_output=True, text=True, check=True
             )
             output = result.stdout.strip()
