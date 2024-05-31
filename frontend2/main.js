@@ -2,16 +2,11 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const axios = require('axios');
 const {format} = require("url");
-/*
-async function handleFileOpen() {
-    console.log("Hit the button.");
-    const { canceled, filePaths } = await dialog.showOpenDialog();
-    if (!canceled) {
-        return filePaths[0];
-    }
-}
+const { spawn } = require('child_process');
 
- */
+
+let pythonBackend;
+const pythonScriptPath = '../backend/app.py'
 
 async function handleSubmitFilePath(filePath) {
     const response = await axios.post('http://localhost:8000/api/detectos', { "filepath": filePath });
@@ -48,7 +43,22 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-    //ipcMain.handle('dialog:openFile', handleFileOpen);
+
+        pythonBackend = spawn('python', [pythonScriptPath]);
+
+
+        pythonBackend.stdout.on('data', (data) => {
+            console.log(`Python terminal stdout: ${data}`);
+        });
+
+        pythonBackend.stderr.on('data', (data) => {
+            console.error(`Python terminal stderr: ${data}`);
+        });
+
+        pythonBackend.on('close', (code) => {
+            console.log(`Python process exited with code ${code}`);
+        });
+
     ipcMain.handle('fetch-system-info', async (event, filePath) => {
         console.log("in main func file = ", filePath)
         try {
@@ -78,4 +88,10 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit();
+});
+
+app.on('quit', () => {
+    if (pythonBackend) {
+        pythonBackend.kill('SIGINT');
+    }
 });

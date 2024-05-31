@@ -36,15 +36,10 @@ def runPlugin():
     filepath = data.get('filepath')
     operatingSystem = data.get('os')
     plugin = data.get('plugin')
-    print(f"Received filepath: {filepath}")
 
     backend_dir = os.path.dirname(os.path.abspath(__file__))
     volatility_script = 'vol.py'  # Remove the leading './'
     volatility_script = os.path.join(backend_dir, "../volatility3/", volatility_script)
-
-    print("Operating System: ", operatingSystem)
-    print("Plugin Name: ", plugin)
-    print("filepath: ", filepath)
 
     if not filepath or not os.path.isfile(filepath):
         print(f"Invalid file path: {filepath}")
@@ -64,12 +59,10 @@ def runPlugin():
                 capture_output=True, text=True, check=True
             )
 
-        print("Result:", result)
         output = result.stdout.strip()
         data = create_processes_object(output)
-        print("Report:", data)
         json_data = jsonify(data)
-        print("Json_data:", json_data)
+
 
         return json_data
     except subprocess.CalledProcessError as e:
@@ -107,12 +100,9 @@ def auto_detect_os():
                 print(f"Error running plugin {file_os} with python: {e}")
                 continue
 
-        print("Result:", result)
         output = result.stdout.strip()
         if output:
             data = create_processes_object(output)
-            print(f"Detected OS with plugin {file_os}")
-            print(output)
             return jsonify({"os": file_os}, data), 200
 
     print("Could not detect OS.")
@@ -120,5 +110,5 @@ def auto_detect_os():
 
 
 if __name__ == '__main__':
-    app.run(port=8000, debug=True)  # Possibly remove host
+    app.run(port=8000)  # Possibly remove host
     print(f"Server started yayy")
