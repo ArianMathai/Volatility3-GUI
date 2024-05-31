@@ -1,8 +1,7 @@
 from flask import Flask, jsonify, request
 import os
 import subprocess
-from util.create_processes_object import create_processes_object
-
+from backend.util.create_processes_object import create_processes_object
 
 app = Flask(__name__)
 
@@ -10,6 +9,7 @@ app = Flask(__name__)
 @app.route('/data', methods=['GET'])
 def get_data():
     return jsonify({"message": "Hello from Python!"})
+
 
 # Send request body on format:
 # {
@@ -25,7 +25,7 @@ def get_data():
 #     "plugin": "info"
 # }
 @app.route('/api/runplugin', methods=['POST'])
-def runPLugin():
+def runPlugin():
     data = request.get_json()
     filepath = data.get('filepath')
     operatingSystem = data.get('os')
@@ -34,28 +34,42 @@ def runPLugin():
 
     backend_dir = os.path.dirname(os.path.abspath(__file__))
     volatility_script = 'vol.py'  # Remove the leading './'
-    volatility_script = os.path.join(backend_dir,"../volatility3/", volatility_script)
+    volatility_script = os.path.join(backend_dir, "../volatility3/", volatility_script)
+
+    print("Operating System: ", operatingSystem)
+    print("Plugin Name: ", plugin)
+    print("filepath: ", filepath)
 
     if not filepath or not os.path.isfile(filepath):
         print(f"Invalid file path: {filepath}")
         return jsonify({'error': 'Invalid file path'}), 400
+
     try:
         print(f"Running Volatility command on {filepath}")
-        result = subprocess.run(
-            ['python', volatility_script, '-f', filepath, f"{operatingSystem}.{plugin}"],
-            capture_output=True, text=True, check=True
-        )
-        # test again
+        try:
+            result = subprocess.run(
+                ['python3', volatility_script, '-f', filepath, f"{operatingSystem}.{plugin}"],
+                capture_output=True, text=True, check=True
+            )
+        except subprocess.CalledProcessError as e:
+            print(f"Error running command with python3: {e}")
+            result = subprocess.run(
+                ['python', volatility_script, '-f', filepath, f"{operatingSystem}.{plugin}"],
+                capture_output=True, text=True, check=True
+            )
+
+        print("Result:", result)
         output = result.stdout.strip()
         data = create_processes_object(output)
+        print("Report:", data)
         json_data = jsonify(data)
+        print("Json_data:", json_data)
 
         return json_data
     except subprocess.CalledProcessError as e:
         print(f"Command failed with error: {str(e)}")
         print(f"Command output: {e.output}")
         return jsonify({'error': str(e), 'output': e.output}), 500
-
 
 # {
 #       "filepath": "yourFilePath"
@@ -64,7 +78,7 @@ def runPLugin():
 def auto_detect_os():
     data = request.get_json()
     filepath = data.get('filepath')
-    file_operating_system = ["linux", "windows", "mac"]
+    file_operating_system = ["windows", "linux", "mac"]
 
     if not filepath or not os.path.isfile(filepath):
         print(f"Invalid file path: {filepath}")
@@ -73,24 +87,32 @@ def auto_detect_os():
     for file_os in file_operating_system:
         try:
             result = subprocess.run(
-                ['python', '../volatility3/vol.py', '-f', filepath, f"{file_os}.info"],
+                ['python3', '../volatility3/vol.py', '-f', filepath, f"{file_os}.info"],
                 capture_output=True, text=True, check=True
             )
-            output = result.stdout.strip()
-            if output:
-                data = create_processes_object(output)
-                print(f"Detected OS with plugin {file_os}")
-                print(output)
-                return jsonify({"os": file_os}, data), 200
-
         except subprocess.CalledProcessError as e:
-            print(f"Error running plugin {file_os}: {e}")
-            continue
+            print(f"Error running plugin {file_os} with python3: {e}")
+            try:
+                result = subprocess.run(
+                    ['python', '../volatility3/vol.py', '-f', filepath, f"{file_os}.info"],
+                    capture_output=True, text=True, check=True
+                )
+            except subprocess.CalledProcessError as e:
+                print(f"Error running plugin {file_os} with python: {e}")
+                continue
+
+        print("Result:", result)
+        output = result.stdout.strip()
+        if output:
+            data = create_processes_object(output)
+            print(f"Detected OS with plugin {file_os}")
+            print(output)
+            return jsonify({"os": file_os}, data), 200
 
     print("Could not detect OS.")
     return jsonify({'error': 'Could not detect OS'}), 500
 
 
 if __name__ == '__main__':
-    app.run(port=8000, debug=True) # Possibly remove host
+    app.run(port=8000, debug=True)  # Possibly remove host
     print(f"Server started yayy")
