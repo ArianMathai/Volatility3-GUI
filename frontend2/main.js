@@ -44,7 +44,6 @@ function createWindow() {
             nodeIntegration: false
         }
     });
-    mainWindow.webContents.openDevTools();
     mainWindow.loadURL(startUrl);
 }
 
