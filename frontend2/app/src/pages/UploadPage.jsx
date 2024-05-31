@@ -1,5 +1,5 @@
 import React from "react";
-import {Upload} from "../components/Upload";
+import {Upload} from "../components/upload/Upload";
 import Logo from "../components/shared/Logo";
 import InfoBox from "../components/shared/InfoBox";
 import InfoVolatility3 from "../components/shared/InfoVolatility3";

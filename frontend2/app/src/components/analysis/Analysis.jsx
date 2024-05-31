@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useAppContext} from "../context/Context";
+import {useAppContext} from "../../context/Context";
 
 export const Analysis = () => {
     const {osName, systemInfo, file, pslist, setPslist} = useAppContext();

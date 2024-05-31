@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import Logo from "../components/shared/Logo";
-import { useAppContext} from "../context/Context";
+import Logo from "../shared/Logo";
+import { useAppContext} from "../../context/Context";
 import {useNavigate} from "react-router-dom";
 
 export const SelectPlugins = () => {
