@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {SelectPlugins} from "../components/plugin/SelectPlugins";
+import SystemInfo from "../components/shared/SystemInfo";
+import Logo from "../components/shared/Logo";
 
 const SelectPluginsPage = () => {
 
     return (
-        <main className="flex justify-center">
+        <main>
+            <div>
+                <Logo/>
+            </div>
             <div className="">
                 <div className="m-5">
 
                 </div>
-                <div className="flex justify-center gap-20">
-                    <div className="w-1/3">
-
-                    </div>
-                    <div className="w-1/3">
-
-                    </div>
+                <div className="">
+                    <SystemInfo/>
                 </div>
                 <div className="mt-10 mb-10">
                     <SelectPlugins/>
