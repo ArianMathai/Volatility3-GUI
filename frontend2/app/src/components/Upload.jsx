@@ -48,7 +48,7 @@ export const Upload = () => {
     const colorOfBtnClass = isFormValid && isProjectNameValid ? 'bg-themeYellow-default' : 'bg-themeGray-dark';
 
     return (
-        <form onSubmit={fetchSystemInfo} className="m-auto bg-blue-200">
+        <form onSubmit={fetchSystemInfo} className="m-auto">
             <div className="max-w-lg mx-auto flex flex-col gap-3">
                 <label className="text-themeText-light" htmlFor="file_input">
                     Supported formats: dmp, vmem, mem, raw, txt
