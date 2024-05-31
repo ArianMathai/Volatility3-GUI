@@ -10,14 +10,12 @@ const SelectPluginsPage = () => {
             <div>
                 <Logo/>
             </div>
-            <div className="">
-                <div className="m-5">
-
-                </div>
-                <div className="">
+            <div>
+                <h1 className="text-xl font-bold text-themeText-light">Select plugins</h1>
+                <div>
                     <SystemInfo/>
                 </div>
-                <div className="mt-10 mb-10">
+                <div>
                     <SelectPlugins/>
                 </div>
             </div>

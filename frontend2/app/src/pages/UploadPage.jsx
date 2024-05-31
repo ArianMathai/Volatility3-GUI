@@ -10,7 +10,7 @@ const UploadPage = () => {
     return (
         <main className="flex justify-center">
             <div className="">
-                <div className="m-5">
+                <div>
                     <Logo/>
                 </div>
                 <div className="flex justify-center gap-20">
