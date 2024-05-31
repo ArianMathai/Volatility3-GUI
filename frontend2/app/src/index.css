@@ -1,19 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background-color: #053046;
+    font-family: "JetBrains Mono", monospace;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.processes-info-div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("../public/fonts/JetBrainsMono-Regular.ttf") format("mono");
 }

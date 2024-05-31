@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useAppContext} from "../context/Context";
+import {useAppContext} from "../../context/Context";
 
 export const Upload = () => {
 
@@ -51,14 +51,14 @@ export const Upload = () => {
         <form onSubmit={fetchSystemInfo} className="m-auto">
             <div className="max-w-lg mx-auto flex flex-col gap-3">
                 <label className="text-themeText-light" htmlFor="file_input">
-                    Supported formats: dmp, vmem, mem, txt
+                    Supported formats: dmp, vmem, mem, raw, txt
                 </label>
                 <input
                     type="file"
                     name="file_input"
                     id="file_input"
                     className="cursor-pointer text-themeText-light border rounded p-3"
-                    accept=".dmp, .vmem, .mem, .txt"
+                    accept=".dmp, .vmem, .mem, .raw, .txt"
                     onChange={handleFileChange}
                     required
                 />
