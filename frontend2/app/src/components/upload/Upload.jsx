@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useAppContext} from "../../context/Context";
 
-export const Upload = () => {
+export const Upload = ({setIsLoading}) => {
 
     const [projectName, setProjectName] = useState("");
 
@@ -11,6 +11,7 @@ export const Upload = () => {
 
     const fetchSystemInfo = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         if (!file) return;
         console.log("filepath ", file.path)
         try {
@@ -23,6 +24,7 @@ export const Upload = () => {
         } catch (error) {
             console.error('Error fetching system info:', error);
         }
+        setIsLoading(false);
         navigate("/selectplugins");
     };
 
