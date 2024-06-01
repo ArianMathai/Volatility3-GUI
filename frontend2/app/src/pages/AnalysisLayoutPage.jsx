@@ -1,9 +1,9 @@
 import React from "react";
-import {Analysis} from "../components/analysis/Analysis";
+import {AnalysisLayout} from "../components/analysis/AnalysisLayout";
 import Logo from "../components/shared/Logo";
 import HomeButton from "../components/shared/HomeButton";
 
-const AnalysisPage = () => {
+const AnalysisLayoutPage = () => {
 
     return (
         <>
@@ -15,9 +15,9 @@ const AnalysisPage = () => {
                     <HomeButton/>
                 </div>
             </div>
-            <Analysis />
+            <AnalysisLayout />
         </>
     );
 };
 
-export default AnalysisPage;
+export default AnalysisLayoutPage;

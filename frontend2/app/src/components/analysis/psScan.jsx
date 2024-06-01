@@ -1,15 +1,27 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 
-export const Analysis = () => {
+export const PsScan = () => {
     const { processList } = useAppContext();
     const navigate = useNavigate();
+    const [report, setReport] = useState([]);
 
     useEffect(() => {
         console.log("processList:");
         console.log(processList);
+        processList.forEach((element) => {
+            if (element.plugin === "psscan") {
+                setReport(element.processes)
+            }
+        })
     }, [processList]);
+
+    useEffect(() => {
+        console.log("report:");
+        console.log(report);
+
+    }, [report]);
 
     return (
         <div className="p-4">
@@ -25,7 +37,7 @@ export const Analysis = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {processList.length > 1 && processList.map((item, index) => (
+                {report.length > 1 && report.map((item, index) => (
                     <tr key={index} className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}>
                         <td>{item.PID}</td>
                         <td>{item.PPID}</td>

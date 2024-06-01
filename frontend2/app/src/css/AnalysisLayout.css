@@ -1,0 +1,35 @@
+.tab-item {
+    width: 200px;
+    height: 30px;
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+    padding: 0.5rem 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+    color: #DBD5C3;
+    font-weight: 500;
+}
+
+.tab-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: inherit;
+    clip-path: inherit;
+    z-index: -1;
+}
+
+.tab-item:hover {
+    background-color: rgb(56 189 248); /* Adjust the hover color as needed */
+}
+
+.active-tab {
+    background-color: rgb(56 189 248); /* Active tab background color */
+}
+
+.inactive-tab {
+    background-color: rgb(12 74 110); /* Inactive tab background color */
+}
