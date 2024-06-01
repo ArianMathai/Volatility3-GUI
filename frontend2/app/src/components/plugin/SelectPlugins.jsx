@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useAppContext} from "../../context/Context";
 import {useNavigate} from "react-router-dom";
 
-export const SelectPlugins = () => {
+export const SelectPlugins = ({setIsLoading}) => {
 
     const {osName, systemInfo, file, processlist, setProcessList} = useAppContext();
     const [plugin, setPlugin] = useState("")
@@ -16,6 +16,7 @@ export const SelectPlugins = () => {
 
     const fetchProcessList = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         if (!file) return;
         console.log("filepath ", file.path)
         console.log("os ", osName.os)
@@ -29,6 +30,7 @@ export const SelectPlugins = () => {
         } catch (error) {
             console.error('Error fetching system info:', error);
         }
+        setIsLoading(false);
         navigate("/analysis");
     };
 
