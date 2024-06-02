@@ -13,6 +13,10 @@ async function handleSubmitFilePath(filePath) {
     return response;
 }
 
+async function handleGetPlugins(os){
+    return await axios.post('http://localhost:8000/api/get-plugins',{"os":os});
+}
+
 async function handleSubmitFileInfo(filePath, operatingSystem, plugin) {
     const response = await axios.post('http://localhost:8000/api/runplugin',
     { "filepath": filePath,
@@ -80,6 +84,15 @@ app.whenReady().then(() => {
             throw new Error('Failed to send file info to backend');
         }
     });
+
+    ipcMain.handle('get-plugin-list', async (event, os) => {
+        try{
+            const response = await handleGetPlugins(os);
+            return response.data.plugins;
+        } catch (error){
+            console.error('Error getting plugins from backend.', error);
+        }
+    })
     createWindow();
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
