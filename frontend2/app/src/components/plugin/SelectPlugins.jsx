@@ -7,6 +7,7 @@ export const SelectPlugins = ({ setIsLoading }) => {
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [pluginList, setPluginList] = useState([]);
     const [hoveredPlugin, setHoveredPlugin] = useState(null)
+    const [pluginQuery, setPluginQuery] = useState("");
 
     const navigate = useNavigate();
 
@@ -70,11 +71,21 @@ export const SelectPlugins = ({ setIsLoading }) => {
         console.log("Selected Plugins:", plugins);
     };
 
+    const filteredPlugins = pluginList.filter(plugin =>
+    plugin.name.toLowerCase().includes(pluginQuery.toLowerCase()))
+
     return (
         <div className="flex flex-col m-auto p-5">
-            {pluginList.length > 0 && (
+            <input
+                type="text"
+                placeholder="Search plugins..."
+                value={pluginQuery}
+                onChange={(e) => setPluginQuery(e.target.value)}
+                className="m-3 p-1 border rounded w-1/3 ms-auto"
+            />
+            {filteredPlugins.length > 0 && (
                 <div className="grid grid-cols-3 rounded shadow gap-4 bg-themeBlue-darker">
-                    {pluginList.map((plugin, index) => (
+                    {filteredPlugins.map((plugin, index) => (
                         <div className="p-2" key={index}>
                             <input
                                 type="checkbox"
@@ -92,10 +103,10 @@ export const SelectPlugins = ({ setIsLoading }) => {
                                 {plugin.name}
                             </label>
                             {hoveredPlugin === plugin && (
-                                    <div className="bg-themeGray-default absolute p-2 rounded w-50 shadow-lg z-50 max-w-xs break-words">
-                                        <p>{plugin.description}</p>
-                                    </div>
-                                )}
+                                <div className="bg-white-important absolute p-2 rounded w-50 shadow-lg z-50 max-w-xs break-words">
+                                    <p>{plugin.description}</p>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>

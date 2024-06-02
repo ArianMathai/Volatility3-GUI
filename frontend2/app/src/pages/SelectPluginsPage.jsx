@@ -24,7 +24,7 @@ const SelectPluginsPage = () => {
                         <SystemInfo />
                     </div>
                     <div className="col-span-4">
-                        <h1 className="text-xl font-bold text-themeText-light">Select plugins</h1>
+                        <h1 className="text-xl text-center font-bold text-themeText-light">Select plugins</h1>
                         <SelectPlugins setIsLoading={setIsLoading} />
                     </div>
                     <div className="col-span-1">
