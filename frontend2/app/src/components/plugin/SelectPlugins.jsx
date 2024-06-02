@@ -3,18 +3,46 @@ import { useAppContext } from "../../context/Context";
 import { useNavigate } from "react-router-dom";
 
 export const SelectPlugins = ({ setIsLoading }) => {
-    const { osName, file, setProcessList, setPlugins,plugins } = useAppContext();
+    const { osName, file, setProcessList, setPlugins, plugins } = useAppContext();
     const [buttonDisabled, setButtonDisabled] = useState(true);
+    const [pluginList, setPluginList] = useState([]);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(osName);
+        console.log("OS Name:", osName);
     }, [osName]);
+
+    const fetchPlugins = async () => {
+        setIsLoading(true);
+        if (!osName) {
+            setIsLoading(false);
+            return;
+        }
+
+        try {
+            const data = await window.electronAPI.fetchPlugins(osName.os);
+            setPluginList(data);
+        } catch (error) {
+            console.error('Error fetching plugins:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        if (!osName) return;
+        fetchPlugins();
+    }, []);
+
+    useEffect(() => {
+        console.log("Plugin List:", pluginList);
+    }, [pluginList]);
 
     const fetchProcessLists = async () => {
         setIsLoading(true);
-        if (!file && !plugins) return;
+        if (!file || !plugins.length) return;
+
         const processList = [];
         for (const plugin of plugins) {
             try {
@@ -36,30 +64,39 @@ export const SelectPlugins = ({ setIsLoading }) => {
             setButtonDisabled(false);
         } else {
             setPlugins(prevPlugins => prevPlugins.filter(plugin => plugin !== value));
-            setButtonDisabled(true);
+            setButtonDisabled(plugins.length === 1); // Disable button if no plugins are selected
         }
-        console.log(plugins)
+        console.log("Selected Plugins:", plugins);
     };
 
     return (
         <div className="flex flex-col m-auto p-5">
-            <div className="grid grid-cols-3 rounded shadow gap-4 bg-themeBlue-darker">
-                <div className="p-2">
-                    <input type="checkbox" value="pslist" id="pslist-checkbox" onChange={handleCheckboxChange} className="align-middle me-2" />
-                    <label htmlFor="pslist-checkbox" className="text-themeText-light">pslist</label>
+            {pluginList.length > 0 && (
+                <div className="grid grid-cols-3 rounded shadow gap-4 bg-themeBlue-darker">
+                    {pluginList.map((plugin, index) => (
+                        <div className="p-2" key={index}>
+                            <input
+                                type="checkbox"
+                                value={plugin.name}
+                                id={`plugin${index}-checkbox`}
+                                onChange={handleCheckboxChange}
+                                className="align-middle me-2"
+                            />
+                            <label htmlFor={`plugin${index}-checkbox`} className="text-themeText-light">
+                                {plugin.name}
+                            </label>
+                            <p className="text-white italic">{plugin.description}</p>
+                        </div>
+                    ))}
                 </div>
-                <div className="p-2">
-                    <input type="checkbox" value="pstree" id="plugin2-checkbox" onChange={handleCheckboxChange} className="align-middle me-2" />
-                    <label htmlFor="plugin2-checkbox" className="text-themeText-light">pstree</label>
-                </div>
-                <div className="p-2">
-                    <input type="checkbox" value="psscan" id="plugin3-checkbox" onChange={handleCheckboxChange} className="align-middle me-2" />
-                    <label htmlFor="plugin3-checkbox" className="text-themeText-light">psscan</label>
-                </div>
-            </div>
+            )}
             <div className="flex justify-end mt-5">
-                <button className="btn p-2 rounded shadow bg-themeYellow-default hover:bg-themeYellow-light"
-                    disabled={buttonDisabled} onClick={fetchProcessLists}>Run
+                <button
+                    className="btn p-2 rounded shadow bg-themeYellow-default hover:bg-themeYellow-light"
+                    disabled={buttonDisabled}
+                    onClick={fetchProcessLists}
+                >
+                    Run
                 </button>
             </div>
         </div>

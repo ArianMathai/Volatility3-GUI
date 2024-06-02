@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, jsonify, request
 import subprocess
 
@@ -63,12 +65,12 @@ def runPlugin():
         data = create_processes_object(output)
         json_data = jsonify(data)
 
-
         return json_data
     except subprocess.CalledProcessError as e:
         print(f"Command failed with error: {str(e)}")
         print(f"Command output: {e.output}")
         return jsonify({'error': str(e), 'output': e.output}), 500
+
 
 # {
 #       "filepath": "yourFilePath"
@@ -107,6 +109,31 @@ def auto_detect_os():
 
     print("Could not detect OS.")
     return jsonify({'error': 'Could not detect OS'}), 500
+
+
+@app.route('/api/get-plugins', methods=['POST'])
+def get_plugins():
+    try:
+        data = request.get_json()
+        platform = data.get('os')
+
+        if not platform:
+            return jsonify({"error": "Platform not specified"}), 400
+
+        file_path = os.path.join(os.path.dirname(__file__), "plugins.json")
+        plugin_list = []
+        with open(file_path) as file:
+            plugins = json.load(file)
+            for plugin in plugins:
+                if plugin['platform'] == platform:
+                    plugin_list.append(plugin)
+
+            print(plugin_list)
+
+            return jsonify({"plugins": plugin_list}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':
