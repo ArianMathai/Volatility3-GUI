@@ -3,8 +3,7 @@ import { useAppContext } from "../../context/Context";
 import { useNavigate } from "react-router-dom";
 
 export const SelectPlugins = ({ setIsLoading }) => {
-    const { osName, file, setProcessList } = useAppContext();
-    const [plugins, setPlugins] = useState([]);
+    const { osName, file, setProcessList, setPlugins,plugins } = useAppContext();
     const [buttonDisabled, setButtonDisabled] = useState(true);
 
     const navigate = useNavigate();
@@ -15,7 +14,7 @@ export const SelectPlugins = ({ setIsLoading }) => {
 
     const fetchProcessLists = async () => {
         setIsLoading(true);
-        if (!file) return;
+        if (!file && !plugins) return;
         const processList = [];
         for (const plugin of plugins) {
             try {
