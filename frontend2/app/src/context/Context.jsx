@@ -5,6 +5,7 @@ export const AppContext = createContext({
     file: '',
     systemInfo: [],
     processList: [],
+    projectName: [],
     setOsName: () => {},
     setSystemInfo: () => {},
     setFile: () => {},
@@ -21,10 +22,10 @@ export const AppProvider = ({ children }) => {
     const [systemInfo, setSystemInfo] = useState([]);
     const [processList, setProcessList] = useState([]);
     const [plugins, setPlugins] = useState([]);
+    const [projectName, setProjectName] = useState()
 
     return (
-        <AppContext.Provider value={{ osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList,plugins,setPlugins }}>
-
+        <AppContext.Provider value={{ osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList, plugins, setPlugins, projectName, setProjectName }}>
             {children}
         </AppContext.Provider>
     );
