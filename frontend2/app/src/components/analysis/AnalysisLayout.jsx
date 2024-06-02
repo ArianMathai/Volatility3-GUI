@@ -4,10 +4,19 @@ import { useAppContext } from "../../context/Context";
 import '../../css/AnalysisLayout.css'; // Import custom CSS
 
 export const AnalysisLayout = () => {
+
+    const {plugins} = useAppContext();
+
     const { processList } = useAppContext();
-    const [navItems, setNavItems] = useState(["pslist", "pstree", "psscan"]);
+    const [navItems, setNavItems] = useState([]);
     const navigate = useNavigate();
     const currentLocation = useLocation();
+
+    useEffect(() => {
+        if(plugins){
+            setNavItems(plugins);
+        }
+    }, [plugins]);
 
     useEffect(() => {
         console.log("processList:");
