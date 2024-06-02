@@ -13,5 +13,210 @@
         "platform": "windows",
         "name": "pstree",
         "description": "Plugin for listing processes in a tree based on their parent process ID."
+    },
+    {
+        "platform": "windows",
+        "name": "bigpools",
+        "description": "List big page pools."
+    },
+    {
+        "platform": "windows",
+        "name": "cachedump",
+        "description": "Dumps lsa secrets from memory."
+    },
+    {
+        "platform": "windows",
+        "name": "callbacks",
+        "description": "Lists kernel callbacks and notification routines."
+    },
+    {
+        "platform": "windows",
+        "name": "cmdline",
+        "description": "Lists process command line arguments."
+    },
+    {
+        "platform": "windows",
+        "name": "crashinfo",
+        "description": "Lists the information from a Windows crash dump."
+    },
+    {
+        "platform": "windows",
+        "name": "devicetree",
+        "description": "Listing tree based on drivers and attached devices in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "dlllist",
+        "description": "Lists the loaded modules in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "driverirp",
+        "description": "List IRPs for drivers in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "drivermodule",
+        "description": "Determines if any loaded drivers were hidden by a rootkit."
+    },
+    {
+        "platform": "windows",
+        "name": "driverscan",
+        "description": "Scans for drivers present in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "dumpfiles",
+        "description": "Dumps cached file contents from Windows memory samples."
+    },
+    {
+        "platform": "windows",
+        "name": "envars",
+        "description": "Display process environment variables."
+    },
+    {
+        "platform": "windows",
+        "name": "filescan",
+        "description": "Scans for file objects present in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "getservicesids",
+        "description": "Lists process token SIDs."
+    },
+    {
+        "platform": "windows",
+        "name": "getsids",
+        "description": "Print the SIDs owning each process."
+    },
+    {
+        "platform": "windows",
+        "name": "handles",
+        "description": "Lists process open handles."
+    },
+    {
+        "platform": "windows",
+        "name": "hashdump",
+        "description": "Dumps user hashes from memory."
+    },
+    {
+        "platform": "windows",
+        "name": "iat",
+        "description": "Extract Import Address Table to list API (functions) used by a program contained in external libraries."
+    },
+    {
+        "platform": "windows",
+        "name": "info",
+        "description": "Show OS & kernel details of the memory sample being analyzed."
+    },
+    {
+        "platform": "windows",
+        "name": "joblinks",
+        "description": "Print process job link information."
+    },
+    {
+        "platform": "windows",
+        "name": "ldrmodules",
+        "description": "Lists the loaded modules in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "lsadump",
+        "description": "Dumps lsa secrets from memory."
+    },
+    {
+        "platform": "windows",
+        "name": "malfind",
+        "description": "Lists process memory ranges that potentially contain injected code."
+    },
+    {
+        "platform": "windows",
+        "name": "mbrscan",
+        "description": "Scans for and parses potential Master Boot Records (MBRs)."
+    },
+    {
+        "platform": "windows",
+        "name": "memmap",
+        "description": "Prints the memory map."
+    },
+    {
+        "platform": "windows",
+        "name": "mftscan_ads",
+        "description": "Scans for Alternate Data Stream."
+    },
+    {
+        "platform": "windows",
+        "name": "mftscan",
+        "description": "Scans for MFT FILE objects present in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "modscan",
+        "description": "Scans for modules present in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "modules",
+        "description": "Lists the loaded kernel modules."
+    },
+    {
+        "platform": "windows",
+        "name": "mutantscan",
+        "description": "Scans for mutexes present in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "netscan",
+        "description": "Scans for network objects present in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "netstat",
+        "description": "Traverses network tracking structures present in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "poolscanner",
+        "description": "A generic pool scanner plugin."
+    },
+    {
+        "platform": "windows",
+        "name": "privileges",
+        "description": "Lists process token privileges."
+    },
+    {
+        "platform": "windows",
+        "name": "pslist",
+        "description": "Lists the processes present in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "psscan",
+        "description": "Scans for processes present in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "pstree",
+        "description": "Plugin for listing processes in a tree based on their parent process ID."
+    },
+    {
+        "platform": "windows",
+        "name": "registry_certificates",
+        "description": "Lists the certificates in the registry's Certificate Store."
+    },
+    {
+        "platform": "windows",
+        "name": "registry_hivelist",
+        "description": "Lists the registry hives present in a particular memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "registry_hivescan",
+        "description": "Scans for registry hives present in a particular windows memory image."
+    },
+    {
+        "platform": "windows",
+        "name": "registry_printkey",
+        "description": "Lists"
     }
 ]
