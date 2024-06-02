@@ -6,6 +6,7 @@ export const SelectPlugins = ({ setIsLoading }) => {
     const { osName, file, setProcessList, setPlugins, plugins } = useAppContext();
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [pluginList, setPluginList] = useState([]);
+    const [hoveredPlugin, setHoveredPlugin] = useState(null)
 
     const navigate = useNavigate();
 
@@ -64,7 +65,7 @@ export const SelectPlugins = ({ setIsLoading }) => {
             setButtonDisabled(false);
         } else {
             setPlugins(prevPlugins => prevPlugins.filter(plugin => plugin !== value));
-            setButtonDisabled(plugins.length === 1); // Disable button if no plugins are selected
+            setButtonDisabled(plugins.length === 1);
         }
         console.log("Selected Plugins:", plugins);
     };
@@ -82,10 +83,19 @@ export const SelectPlugins = ({ setIsLoading }) => {
                                 onChange={handleCheckboxChange}
                                 className="align-middle me-2"
                             />
-                            <label htmlFor={`plugin${index}-checkbox`} className="text-themeText-light">
+                            <label
+                                htmlFor={`plugin${index}-checkbox`}
+                                className="text-themeText-light hover:underline"
+                                onMouseEnter={() => setHoveredPlugin(plugin)}
+                                onMouseLeave={() => setHoveredPlugin(null)}
+                            >
                                 {plugin.name}
                             </label>
-                            <p className="text-white italic">{plugin.description}</p>
+                            {hoveredPlugin === plugin && (
+                                    <div className="bg-themeGray-default absolute p-2 rounded w-50 shadow-lg z-50 max-w-xs break-words">
+                                        <p>{plugin.description}</p>
+                                    </div>
+                                )}
                         </div>
                     ))}
                 </div>
