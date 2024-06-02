@@ -6,7 +6,7 @@ export const SelectPlugins = ({ setIsLoading }) => {
     const { osName, file, setProcessList, setPlugins, plugins } = useAppContext();
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [pluginList, setPluginList] = useState([]);
-    const [hoveredPlugin, setHoveredPlugin] = useState(null)
+    const [hoveredPlugin, setHoveredPlugin] = useState(null);
     const [pluginQuery, setPluginQuery] = useState("");
 
     const navigate = useNavigate();
@@ -72,21 +72,27 @@ export const SelectPlugins = ({ setIsLoading }) => {
     };
 
     const filteredPlugins = pluginList.filter(plugin =>
-    plugin.name.toLowerCase().includes(pluginQuery.toLowerCase()))
+        plugin.name.toLowerCase().includes(pluginQuery.toLowerCase())
+    );
 
     return (
         <div className="flex flex-col m-auto p-5">
-            <input
-                type="text"
-                placeholder="Search plugins..."
-                value={pluginQuery}
-                onChange={(e) => setPluginQuery(e.target.value)}
-                className="m-3 p-1 border rounded w-1/3 ms-auto"
-            />
+            <div className="w-1/3 ms-auto mb-3 relative">
+                <img src="../public/img/search-icon.png" className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4" alt="search icon"/>
+                <input
+                    type="text"
+                    placeholder="Search plugins..."
+                    value={pluginQuery}
+                    onChange={(e) => setPluginQuery(e.target.value)}
+                    className="p-1 pl-8 border rounded w-full"
+                />
+            </div>
+
             {filteredPlugins.length > 0 && (
-                <div className="grid grid-cols-3 rounded shadow gap-4 bg-themeBlue-darker">
+                <div
+                    className="p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-32 gap-4 rounded shadow bg-themeBlue-darker max-h-80 overflow-y-auto relative">
                     {filteredPlugins.map((plugin, index) => (
-                        <div className="p-2" key={index}>
+                        <div className="p-1 relative flex items-center" key={index}>
                             <input
                                 type="checkbox"
                                 value={plugin.name}
@@ -96,14 +102,17 @@ export const SelectPlugins = ({ setIsLoading }) => {
                             />
                             <label
                                 htmlFor={`plugin${index}-checkbox`}
-                                className="text-themeText-light hover:underline"
-                                onMouseEnter={() => setHoveredPlugin(plugin)}
+                                className="text-themeText-light hover:underline whitespace-nowrap"
+                                onMouseEnter={(e) => setHoveredPlugin(plugin)}
                                 onMouseLeave={() => setHoveredPlugin(null)}
                             >
                                 {plugin.name}
                             </label>
                             {hoveredPlugin === plugin && (
-                                <div className="bg-white-important absolute p-2 rounded w-50 shadow-lg z-50 max-w-xs break-words">
+                                <div
+                                    className="bg-white-important absolute p-2 rounded w-50 shadow-lg z-20 max-w-xs break-words"
+                                    style={{ top: '100%', left: '0'}}
+                                >
                                     <p>{plugin.description}</p>
                                 </div>
                             )}

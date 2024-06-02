@@ -1,12 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import {useNavigate} from "react-router-dom";
 import {useAppContext} from "../../context/Context";
 
 export const Upload = ({setIsLoading}) => {
 
-    const [projectName, setProjectName] = useState("");
-
-    const { setOsName, setSystemInfo, file, setFile } = useAppContext();
+    const { setOsName, setSystemInfo, file, setFile, projectName, setProjectName } = useAppContext();
     const navigate = useNavigate();
 
     const fetchSystemInfo = async (e) => {

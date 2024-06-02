@@ -10,7 +10,7 @@ const SystemInfo = () => {
     );
 
     return (
-        <div className="w-40 p-3 ms-5 bg-gray-200 rounded-md shadow-md text-themeText-light bg-themeBlue-darker">
+        <div className="p-3 bg-gray-200 rounded-md shadow-md text-themeText-light bg-themeBlue-darker">
             <h4>Systeminfo</h4>
             <div className="text-left text-xs mt-2">
                 <p><strong>OS:</strong> {osName.os}</p>

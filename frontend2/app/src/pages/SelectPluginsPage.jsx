@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { SelectPlugins } from '../components/plugin/SelectPlugins';
 import SystemInfo from '../components/shared/SystemInfo';
 import Logo from '../components/shared/Logo';
 import HomeButton from '../components/shared/HomeButton';
 import Loader from '../components/Loader';
+import ProjectName from "../components/shared/ProjectName";
 
 const SelectPluginsPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +22,10 @@ const SelectPluginsPage = () => {
             <div>
                 <div className="grid grid-cols-6 gap-10">
                     <div className="col-span-1">
-                        <SystemInfo />
+                        <div className="w-40 ms-5">
+                            <ProjectName/>
+                            <SystemInfo />
+                        </div>
                     </div>
                     <div className="col-span-4">
                         <h1 className="text-xl text-center font-bold text-themeText-light">Select plugins</h1>
