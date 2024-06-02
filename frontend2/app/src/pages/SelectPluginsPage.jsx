@@ -10,7 +10,7 @@ const SelectPluginsPage = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     return (
-        <main>
+        <main className="overflow-clip">
             <div className="flex flex-row justify-between">
                 <div>
                     <Logo />
