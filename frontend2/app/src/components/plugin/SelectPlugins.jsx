@@ -87,10 +87,10 @@ export const SelectPlugins = ({ setIsLoading }) => {
                     className="p-1 pl-8 border rounded w-full"
                 />
             </div>
-
+            <div className="rounded shadow bg-themeBlue-darker max-h-80 min-h-80 overflow-y-auto">
             {filteredPlugins.length > 0 && (
                 <div
-                    className="p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-32 gap-4 rounded shadow bg-themeBlue-darker max-h-80 overflow-y-auto relative">
+                    className="p-5 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-32 relative">
                     {filteredPlugins.map((plugin, index) => (
                         <div className="p-1 relative flex items-center" key={index}>
                             <input
@@ -120,6 +120,7 @@ export const SelectPlugins = ({ setIsLoading }) => {
                     ))}
                 </div>
             )}
+            </div>
             <div className="flex justify-end mt-5">
                 <button
                     className="btn p-2 rounded shadow bg-themeYellow-default hover:bg-themeYellow-light"
