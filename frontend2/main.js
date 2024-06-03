@@ -14,6 +14,7 @@ async function handleSubmitFilePath(filePath) {
 }
 
 async function handleGetPlugins(os){
+    console.log(os)
     return await axios.post('http://localhost:8000/api/get-plugins',{"os":os});
 }
 
@@ -89,6 +90,19 @@ app.whenReady().then( async () => {
         pythonBackend.quit();
         return;
     }
+
+
+        pythonBackend.stdout.on('data', (data) => {
+            console.log(`Python terminal stdout: ${data}`);
+        });
+
+        pythonBackend.stderr.on('data', (data) => {
+            console.error(`Python terminal stderr: ${data}`);
+        });
+
+        pythonBackend.on('close', (code) => {
+            console.log(`Python process exited with code ${code}`);
+        });
 
     ipcMain.handle('fetch-system-info', async (event, filePath) => {
         console.log("in main func file = ", filePath)

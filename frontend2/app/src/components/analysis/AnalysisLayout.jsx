@@ -4,16 +4,15 @@ import { useAppContext } from "../../context/Context";
 import '../../css/AnalysisLayout.css'; // Import custom CSS
 
 export const AnalysisLayout = () => {
-
-    const {plugins} = useAppContext();
-
+    const { plugins } = useAppContext();
     const { processList } = useAppContext();
     const [navItems, setNavItems] = useState([]);
     const navigate = useNavigate();
     const currentLocation = useLocation();
+    const [prevPath, setPrevPath] = useState("");
 
     useEffect(() => {
-        if(plugins){
+        if (plugins) {
             setNavItems(plugins);
         }
     }, [plugins]);
@@ -24,6 +23,12 @@ export const AnalysisLayout = () => {
 
         // Update navItems based on processList or any other logic
     }, [processList]);
+
+    useEffect(() => {
+        console.log("Current Path:", currentLocation.pathname);
+        console.log("Previous Path:", prevPath);
+        setPrevPath(currentLocation.pathname);
+    }, [currentLocation]);
 
     return (
         <div className="p-4">
