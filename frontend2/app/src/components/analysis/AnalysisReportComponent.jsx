@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 
 export const AnalysisReportComponent = () => {
     const { processList } = useAppContext();
-    const navigate = useNavigate();
     const { plugin } = useParams();  // Get the last URL parameter
     const location = useLocation();  // Get the current location
     const [report, setReport] = useState([]);
+    const [headers, setHeaders] = useState([]);
 
     useEffect(() => {
         console.log("Current Path:", location.pathname);
@@ -21,8 +21,14 @@ export const AnalysisReportComponent = () => {
         const currentReport = processList.find((element) => element.plugin === plugin);
         if (currentReport) {
             setReport(currentReport.processes);
+
+            // Extract headers from the first object in the report
+            if (currentReport.processes.length > 0) {
+                setHeaders(Object.keys(currentReport.processes[0]));
+            }
         } else {
             setReport([]);
+            setHeaders([]);
         }
     }, [processList, plugin]);  // Add plugin to the dependency array
 
@@ -33,32 +39,27 @@ export const AnalysisReportComponent = () => {
 
     return (
         <div className="p-4">
+            <h1>Current Plugin: {plugin}</h1>
             <table className="min-w-full text-themeText-light">
                 <thead className="bg-themeBlue-default text-white">
                     <tr>
-                        <th className="font-bold">PID</th>
-                        <th className="font-bold">PPID</th>
-                        <th className="font-bold">ImageFileName</th>
-                        <th className="font-bold">Handles</th>
-                        <th className="font-bold">Threads</th>
-                        <th className="font-bold">CreateTime</th>
+                        {headers.map((header) => (
+                            <th key={header} className="font-bold">{header}</th>
+                        ))}
                     </tr>
                 </thead>
                 <tbody>
                     {report.length > 0 ? (
                         report.map((item, index) => (
                             <tr key={index} className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}>
-                                <td>{item.PID}</td>
-                                <td>{item.PPID}</td>
-                                <td>{item.ImageFileName}</td>
-                                <td>{item.Handles}</td>
-                                <td>{item.Threads}</td>
-                                <td>{item.CreateTime}</td>
+                                {headers.map((header) => (
+                                    <td key={header}>{item[header]}</td>
+                                ))}
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="6" className="text-center">No data available for this plugin.</td>
+                            <td colSpan={headers.length} className="text-center">No data available for this plugin.</td>
                         </tr>
                     )}
                 </tbody>
