@@ -27,6 +27,40 @@ async function handleSubmitFileInfo(filePath, operatingSystem, plugin) {
     return response;
 }
 
+function startPythonBackend(command) {
+    const process = spawn(command, [pythonScriptPath]);
+
+    process.stdout.on('data', (data) => {
+        console.log(`Python terminal stdout: ${data}`);
+    });
+
+    process.stderr.on('data', (data) => {
+        console.error(`Python terminal stderr: ${data}`);
+    });
+
+    process.on('close', (code) => {
+        if (code === 0) {
+            console.log(`Python process exited with code ${code}`);
+        } else {
+            console.error(`Python process exited with error code ${code}`);
+            if (command === 'python3') {
+                console.error('python3 command failed, falling back to python');
+                startPythonBackend('python');
+            } else {
+                console.error('Both python3 and python commands failed');
+                app.quit();
+            }
+        }
+    });
+
+    process.on('error', (error) => {
+        console.error(`Failed to start Python process: ${error}`);
+    });
+
+    return process;
+}
+
+
 function createWindow() {
 
     const startUrl = format({
@@ -46,22 +80,15 @@ function createWindow() {
     mainWindow.loadURL(startUrl);
 }
 
-app.whenReady().then(() => {
+app.whenReady().then( async () => {
 
-        pythonBackend = spawn('python3', [pythonScriptPath]);
-
-
-        pythonBackend.stdout.on('data', (data) => {
-            console.log(`Python terminal stdout: ${data}`);
-        });
-
-        pythonBackend.stderr.on('data', (data) => {
-            console.error(`Python terminal stderr: ${data}`);
-        });
-
-        pythonBackend.on('close', (code) => {
-            console.log(`Python process exited with code ${code}`);
-        });
+    try {
+        pythonBackend = startPythonBackend('python3');
+    } catch (error) {
+        console.error('Both python3 and python commands failed:', error);
+        pythonBackend.quit();
+        return;
+    }
 
     ipcMain.handle('fetch-system-info', async (event, filePath) => {
         console.log("in main func file = ", filePath)
@@ -105,6 +132,7 @@ app.on('window-all-closed', function () {
 
 app.on('quit', () => {
     if (pythonBackend) {
-        pythonBackend.kill('SIGINT');
+        pythonBackend.kill();
     }
 });
+
