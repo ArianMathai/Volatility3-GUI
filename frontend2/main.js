@@ -3,10 +3,39 @@ const path = require('path');
 const axios = require('axios');
 const {format} = require("url");
 const { spawn } = require('child_process');
+const fs = require('fs');
 
 
 let pythonBackend;
 const pythonScriptPath = '../backend/app.py'
+
+const resultPath = path.join(__dirname,'..','results');
+if(!fs.existsSync(resultPath)){
+    fs.mkdirSync(resultPath);
+    console.log("'Created 'results' folder");
+}
+
+//This function checks if folder exist. If it does, it creates a (<number>) to make it unique
+function getUniqueFolderName(basePath,baseName){
+    let folderName = baseName;
+    let counter = 1;
+    while (fs.existsSync(path.join(basePath,folderName))){
+        folderName = `${baseName}_(${counter})`;
+        counter++;
+    }
+    return folderName;
+}
+
+ipcMain.handle('create-project-folder', (event,projectName) => {
+    const uniqueProjectName = getUniqueFolderName(resultPath,projectName);
+    const projectPath = path.join(resultPath,uniqueProjectName);
+    fs.mkdirSync(projectPath);
+    console.log(`Created project folder: ${projectPath}`)
+    return {
+        projectPath:projectPath,
+        projectName:uniqueProjectName,
+    }
+});
 
 async function handleSubmitFilePath(filePath) {
     const response = await axios.post('http://localhost:8000/api/detectos', { "filepath": filePath });

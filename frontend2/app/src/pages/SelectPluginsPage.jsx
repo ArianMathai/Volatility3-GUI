@@ -5,6 +5,7 @@ import Logo from '../components/shared/Logo';
 import HomeButton from '../components/shared/HomeButton';
 import Loader from '../components/Loader';
 import ProjectName from "../components/shared/ProjectName";
+import ProjectFilePath from "../components/shared/ProjectFilePath";
 
 const SelectPluginsPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +25,7 @@ const SelectPluginsPage = () => {
                     <div className="col-span-1">
                         <div className="w-40 ms-5">
                             <ProjectName/>
+                            <ProjectFilePath/>
                             <SystemInfo />
                         </div>
                     </div>

@@ -6,3 +6,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     fetchPlugins:(os) => ipcRenderer.invoke("get-plugin-list",os)
 });
 
+contextBridge.exposeInMainWorld('fileAPI', {
+    createProjectFolder: (projectName) => ipcRenderer.invoke('create-project-folder', projectName),
+})

@@ -4,7 +4,7 @@ import {useAppContext} from "../../context/Context";
 
 export const Upload = ({setIsLoading}) => {
 
-    const { setOsName, setSystemInfo, file, setFile, projectName, setProjectName } = useAppContext();
+    const { setOsName, setSystemInfo, file, setFile, projectName, setProjectName,setFolderPath } = useAppContext();
     const navigate = useNavigate();
 
     const fetchSystemInfo = async (e) => {
@@ -22,9 +22,19 @@ export const Upload = ({setIsLoading}) => {
         } catch (error) {
             console.error('Error fetching system info:', error);
         }
+        await createProjectFolder();
         setIsLoading(false);
         navigate("/selectplugins");
     };
+
+    const createProjectFolder = async () => {
+        const result = await window.fileAPI.createProjectFolder(projectName)
+        if(result.projectName !== projectName){
+            setProjectName(result.projectName);
+        }
+        setFolderPath(result.projectPath);
+    }
+
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files?.[0] || null;
