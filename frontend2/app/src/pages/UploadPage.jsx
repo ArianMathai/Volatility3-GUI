@@ -4,6 +4,8 @@ import Logo from '../components/shared/Logo';
 import InfoBox from '../components/shared/InfoBox';
 import InfoVolatility3 from '../components/shared/InfoVolatility3';
 import Loader from '../components/Loader';
+import PluginLibraryPage from "./PluginLibraryPage";
+import LibraryButton from "../components/shared/LibraryButton";
 
 const UploadPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +28,7 @@ const UploadPage = () => {
                     <Upload setIsLoading={setIsLoading} />
                     <Loader isLoading={isLoading} />
                 </div>
+                <LibraryButton/>
             </div>
         </main>
     );
