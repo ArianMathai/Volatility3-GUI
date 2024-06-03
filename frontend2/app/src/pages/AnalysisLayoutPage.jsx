@@ -2,6 +2,7 @@ import React from "react";
 import {AnalysisLayout} from "../components/analysis/AnalysisLayout";
 import Logo from "../components/shared/Logo";
 import HomeButton from "../components/shared/HomeButton";
+import LeftPanel from "../components/analysis/LeftPanel";
 
 const AnalysisLayoutPage = () => {
 
@@ -15,7 +16,10 @@ const AnalysisLayoutPage = () => {
                     <HomeButton/>
                 </div>
             </div>
-            <AnalysisLayout />
+            <div className="flex flex-row">
+                <LeftPanel/>
+                <AnalysisLayout />
+            </div>
         </>
     );
 };

@@ -26,7 +26,7 @@ export const AnalysisLayout = () => {
     }, [processList]);
 
     return (
-        <div className="p-4">
+        <div className="w-full">
             <div className="flex space-x-2 bg-gray-200 p-2 rounded-t-md shadow-md">
                 {navItems.map((item, index) => {
                     const isActive = currentLocation.pathname.includes(item);
