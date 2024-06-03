@@ -37,6 +37,14 @@ ipcMain.handle('create-project-folder', (event,projectName) => {
     }
 });
 
+ipcMain.handle('save-csv', async (event, folderPath, projectName, csvContent) => {
+    const filePath = path.join(folderPath, `${projectName}.csv`);
+    const blob = new Blob([csvContent], {type:'text/csv;charset=utf-8;'});
+    const arrayBuffer = await blob.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    fs.writeFileSync(filePath, buffer);
+});
+
 async function handleSubmitFilePath(filePath) {
     const response = await axios.post('http://localhost:8000/api/detectos', { "filepath": filePath });
     return response;
