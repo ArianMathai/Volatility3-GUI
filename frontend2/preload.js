@@ -7,3 +7,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     fetchAllPlugins: () => ipcRenderer.invoke('get-all-plugins')
 });
 
+contextBridge.exposeInMainWorld('fileAPI', {
+    createProjectFolder: (projectName) => ipcRenderer.invoke('create-project-folder', projectName),
+})

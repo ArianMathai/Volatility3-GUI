@@ -173,6 +173,8 @@ compile_commands.json
 *.vmem
 *.img
 
+results
+
 # npm package
 /npm/dist
 /npm/path.txt
