@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 const DynamicReport = ({ report, searchQuery }) => {
+    const [sortKey, setSortKey] = useState(null);
+    const [sorted, setSorted] = useState(false);
     const [filteredReport, setFilteredReport] = useState([]);
 
+    // Filter logic
     useEffect(() => {
         if (!report || report.length === 0) {
             setFilteredReport([]);
@@ -24,11 +27,33 @@ const DynamicReport = ({ report, searchQuery }) => {
         setFilteredReport(filteredData);
     }, [report, searchQuery]);
 
-    useEffect(()=>{
-        console.log(searchQuery);
-    }, [searchQuery]);
+    // Sorting logic
+    const sortedAndFilteredReport = useMemo(() => {
+        if (!sorted || !sortKey) return filteredReport;
+        let sortedItems = [...filteredReport];
 
-    const headers = filteredReport.length > 0 ? Object.keys(filteredReport[0]) : [];
+        // Sorts as numbers or strings based on datatype
+        sortedItems.sort((a, b) => {
+            const valA = isNaN(Number(a[sortKey])) ? a[sortKey] : Number(a[sortKey]);
+            const valB = isNaN(Number(b[sortKey])) ? b[sortKey] : Number(b[sortKey]);
+
+            if (typeof valA === 'number' && typeof valB === 'number') {
+                return valA - valB;
+            } else {
+                return valA.toString().localeCompare(valB.toString());
+            }
+        });
+        return sortedItems;
+    }, [filteredReport, sortKey, sorted]);
+
+    const sortReport = (key) => {
+        setSortKey(key);
+        setSorted(!sorted); // Toggle sorted state to trigger re-sorting
+    };
+
+    const headers = useMemo(() => {
+        return report && report.length > 0 ? Object.keys(report[0]) : [];
+    }, [report]);
 
     const cellStyle = {
         maxWidth: '120px',
@@ -41,18 +66,24 @@ const DynamicReport = ({ report, searchQuery }) => {
         textAlign: 'center',
     };
 
+    if (!report || report.length === 0) {
+        return <div>No data available for this plugin.</div>;
+    }
+
     return (
         <table className="min-w-full text-themeText-light">
             <thead className="bg-themeBlue-default text-white">
             <tr>
                 {headers.map(header => (
-                    <th key={header} className="font-bold" style={headerStyle}>{header}</th>
+                    <th key={header} className="font-bold" style={headerStyle}>
+                        <button onClick={() => sortReport(header)}>{header}</button>
+                    </th>
                 ))}
             </tr>
             </thead>
             <tbody>
-            {filteredReport.length > 0 ? (
-                filteredReport.map((item, index) => (
+            {sortedAndFilteredReport.length > 0 ? (
+                sortedAndFilteredReport.map((item, index) => (
                     <tr key={index} className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}>
                         {headers.map((header) => (
                             <td key={header} style={cellStyle}>{item[header]}</td>
