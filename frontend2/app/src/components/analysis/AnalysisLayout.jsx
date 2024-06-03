@@ -10,6 +10,7 @@ export const AnalysisLayout = () => {
     const navigate = useNavigate();
     const currentLocation = useLocation();
     const [prevPath, setPrevPath] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         if (plugins) {
@@ -32,6 +33,15 @@ export const AnalysisLayout = () => {
 
     return (
         <div className="p-4">
+            <div className="mb-4">
+                <input
+                    type="text"
+                    placeholder="Search report..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="p-2 border rounded w-full"
+                />
+            </div>
             <div className="flex space-x-2 bg-gray-200 p-2 rounded-t-md shadow-md">
                 {navItems.map((item, index) => {
                     const isActive = currentLocation.pathname.includes(item);
@@ -49,7 +59,7 @@ export const AnalysisLayout = () => {
                 })}
             </div>
             <div className="p-4 bg-white shadow-md rounded-b-md">
-                <Outlet />
+                <Outlet context={[searchQuery]}/>
             </div>
         </div>
     );

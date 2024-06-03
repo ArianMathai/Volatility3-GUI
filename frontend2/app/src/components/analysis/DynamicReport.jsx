@@ -1,21 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const DynamicReport = ({ report }) => {
-    if (!report || report.length === 0) return <div>No data available for this plugin.</div>;
+const DynamicReport = ({ report, searchQuery }) => {
+    const [filteredReport, setFilteredReport] = useState([]);
 
-    const headers = Object.keys(report[0]);
+    useEffect(() => {
+        if (!report || report.length === 0) {
+            setFilteredReport([]);
+            return;
+        }
+
+        if (!searchQuery) {
+            setFilteredReport(report);
+            return;
+        }
+
+        const filteredData = report.filter(item => {
+            return Object.values(item)
+                .join(' ')
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase());
+        });
+
+        setFilteredReport(filteredData);
+    }, [report, searchQuery]);
+
+    useEffect(()=>{
+        console.log(searchQuery);
+    }, [searchQuery]);
+
+    const headers = filteredReport.length > 0 ? Object.keys(filteredReport[0]) : [];
 
     const cellStyle = {
-        maxWidth: '120px',  // Set your desired max width here
-        whiteSpace: 'normal',  // Allow text to wrap down
-        wordWrap: 'break-word',  // Break long words
-        textAlign: 'center',  // Center-align text
+        maxWidth: '120px',
+        whiteSpace: 'normal',
+        wordWrap: 'break-word',
+        textAlign: 'center',
     };
 
     const headerStyle = {
-        textAlign: 'center',  // Center-align text
+        textAlign: 'center',
     };
-
 
     return (
         <table className="min-w-full text-themeText-light">
@@ -27,8 +51,8 @@ const DynamicReport = ({ report }) => {
             </tr>
             </thead>
             <tbody>
-            {report.length > 0 ? (
-                report.map((item, index) => (
+            {filteredReport.length > 0 ? (
+                filteredReport.map((item, index) => (
                     <tr key={index} className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}>
                         {headers.map((header) => (
                             <td key={header} style={cellStyle}>{item[header]}</td>

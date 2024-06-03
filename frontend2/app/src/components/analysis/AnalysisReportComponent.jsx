@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import {useParams, useLocation, useOutletContext} from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 import DynamicReport from "./DynamicReport";
 
@@ -9,6 +9,7 @@ export const AnalysisReportComponent = () => {
     const location = useLocation();  // Get the current location
     const [report, setReport] = useState([]);
     const [headers, setHeaders] = useState([]);
+    const [searchQuery] = useOutletContext();
 
     useEffect(() => {
         console.log("Current Path:", location.pathname);
@@ -40,7 +41,7 @@ export const AnalysisReportComponent = () => {
 
     return (
         <div className="p-4">
-            <DynamicReport report={report} /> {/* Use the new DynamicReport component */}
+            <DynamicReport report={report} searchQuery={searchQuery}/> {/* Use the new DynamicReport component */}
         </div>
     );
 };
