@@ -88,7 +88,7 @@ def auto_detect_os():
     for file_os in file_operating_system:
         try:
             result = subprocess.run(
-                ['python', '../volatility3/vol.py', '-f', filepath, f"{file_os}.info"],
+                ['python3', '../volatility3/vol.py', '-f', filepath, f"{file_os}.info"],
                 capture_output=True, text=True, check=True
             )
         except subprocess.CalledProcessError as e:

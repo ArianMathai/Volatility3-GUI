@@ -48,7 +48,7 @@ function createWindow() {
 
 app.whenReady().then(() => {
 
-        pythonBackend = spawn('python', [pythonScriptPath]);
+        pythonBackend = spawn('python3', [pythonScriptPath]);
 
 
         pythonBackend.stdout.on('data', (data) => {
