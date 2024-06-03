@@ -138,6 +138,20 @@ def auto_detect_os():
 
 
 
+@app.route('/api/get-all-plugins', methods=['GET'])
+def get_all_plugins():
+    print("getting all plugins")
+    try:
+        file_path = os.path.join(os.path.dirname(__file__), "plugins.json")
+        with open(file_path) as file:
+            plugins = json.load(file)
+        print("Plugins:", plugins)
+        return jsonify({"plugins": plugins}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == '__main__':
     app.run(port=8000)  # Possibly remove host
     print(f"Server started yayy")

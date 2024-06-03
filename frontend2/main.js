@@ -18,6 +18,10 @@ async function handleGetPlugins(os){
     return await axios.post('http://localhost:8000/api/get-plugins',{"os":os});
 }
 
+async function handleGetAllPlugins(){
+    return await axios.get('http://localhost:8000/api/get-all-plugins');
+}
+
 async function handleSubmitFileInfo(filePath, operatingSystem, plugin) {
     const response = await axios.post('http://localhost:8000/api/runplugin',
     { "filepath": filePath,
@@ -134,6 +138,16 @@ app.whenReady().then( async () => {
             console.error('Error getting plugins from backend.', error);
         }
     })
+
+    ipcMain.handle('get-all-plugins', async (event) => {
+        try{
+            const response = await handleGetAllPlugins();
+            return response.data.plugins;
+        } catch (error){
+            console.error('Error getting all plugins from backend.', error);
+        }
+    })
+
     createWindow();
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();

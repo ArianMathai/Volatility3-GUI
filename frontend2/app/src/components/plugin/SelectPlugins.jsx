@@ -8,6 +8,7 @@ export const SelectPlugins = ({ setIsLoading }) => {
     const [pluginList, setPluginList] = useState([]);
     const [hoveredPlugin, setHoveredPlugin] = useState(null);
     const [pluginQuery, setPluginQuery] = useState("");
+    const [allPlugins, setAllPlugins] = useState([]);
 
     const navigate = useNavigate();
 
@@ -40,6 +41,30 @@ export const SelectPlugins = ({ setIsLoading }) => {
     useEffect(() => {
         console.log("Plugin List:", pluginList);
     }, [pluginList]);
+
+
+    // Function to fetch all plugins across all os
+    const fetchAllPlugins = async () => {
+        setIsLoading(true);
+        try {
+            const data = await window.electronAPI.fetchAllPlugins();
+            setAllPlugins(data);
+        } catch (error) {
+            console.error('Error fetching plugins:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchAllPlugins();
+    }, []);
+
+    useEffect(() => {
+        console.log("All plugins = ", allPlugins);
+    }, [allPlugins]);
+
+
 
     const fetchProcessLists = async () => {
         setIsLoading(true);
