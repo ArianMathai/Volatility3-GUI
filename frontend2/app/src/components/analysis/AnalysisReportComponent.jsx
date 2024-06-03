@@ -37,6 +37,17 @@ export const AnalysisReportComponent = () => {
         console.log(report);
     }, [report]);
 
+    const cellStyle = {
+        maxWidth: '120px',  // Set your desired max width here
+        whiteSpace: 'normal',  // Allow text to wrap down
+        wordWrap: 'break-word',  // Break long words
+        textAlign: 'center',  // Center-align text
+    };
+
+    const headerStyle = {
+        textAlign: 'center',  // Center-align text
+    };
+
     return (
         <div className="p-4">
             <h1>Current Plugin: {plugin}</h1>
@@ -44,7 +55,7 @@ export const AnalysisReportComponent = () => {
                 <thead className="bg-themeBlue-default text-white">
                     <tr>
                         {headers.map((header) => (
-                            <th key={header} className="font-bold">{header}</th>
+                            <th key={header} className="font-bold" style={headerStyle}>{header}</th>
                         ))}
                     </tr>
                 </thead>
@@ -53,7 +64,7 @@ export const AnalysisReportComponent = () => {
                         report.map((item, index) => (
                             <tr key={index} className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}>
                                 {headers.map((header) => (
-                                    <td key={header}>{item[header]}</td>
+                                    <td key={header} style={cellStyle}>{item[header]}</td>
                                 ))}
                             </tr>
                         ))
