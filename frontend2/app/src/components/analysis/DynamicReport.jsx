@@ -4,6 +4,7 @@ const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
     const [sorted, setSorted] = useState(false);
     const [filteredReport, setFilteredReport] = useState([]);
+    const [hoverIndex, setHoverIndex] = useState(null);
 
     // Filter logic
     useEffect(() => {
@@ -62,6 +63,16 @@ const DynamicReport = ({ report, searchQuery }) => {
         textAlign: 'center',
     };
 
+    // HER MÅ FRONTEND HJELPE MEG FOR DET SER HELT JÆVELIG UT
+    const hoverStyle = {
+        color: 'white',
+        cursor: 'pointer',
+        border: '1px solid white',
+        borderRadius: '20%',
+        padding: '0.1em'
+    };
+
+
     const headerStyle = {
         textAlign: 'center',
     };
@@ -74,9 +85,16 @@ const DynamicReport = ({ report, searchQuery }) => {
         <table className="min-w-full text-themeText-light">
             <thead className="bg-themeBlue-default text-white">
             <tr>
-                {headers.map(header => (
+                {headers.map((header, index) => (
                     <th key={header} className="font-bold" style={headerStyle}>
-                        <button onClick={() => sortReport(header)}>{header}</button>
+                        <button
+                            onMouseEnter={() => setHoverIndex(index)}
+                            onMouseLeave={() => setHoverIndex(null)}
+                            style={hoverIndex === index ? hoverStyle : null}
+                            onClick={() => sortReport(header)}
+                        >
+                            {header}
+                        </button>
                     </th>
                 ))}
             </tr>
@@ -84,7 +102,8 @@ const DynamicReport = ({ report, searchQuery }) => {
             <tbody>
             {sortedAndFilteredReport.length > 0 ? (
                 sortedAndFilteredReport.map((item, index) => (
-                    <tr key={index} className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}>
+                    <tr key={index}
+                        className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}>
                         {headers.map((header) => (
                             <td key={header} style={cellStyle}>{item[header]}</td>
                         ))}
