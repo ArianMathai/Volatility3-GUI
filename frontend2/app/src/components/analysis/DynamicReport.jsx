@@ -65,11 +65,12 @@ const DynamicReport = ({ report, searchQuery }) => {
 
     // HER MÅ FRONTEND HJELPE MEG FOR DET SER HELT JÆVELIG UT
     const hoverStyle = {
+        backgroundColor: '#007bff',
         color: 'white',
         cursor: 'pointer',
-        border: '1px solid white',
-        borderRadius: '20%',
-        padding: '0.1em'
+        borderRadius: '0.25em',
+        transition: 'background-color 0.2s ease-in-out',
+        outline: 'none',
     };
 
 
