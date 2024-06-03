@@ -18,7 +18,7 @@ async function handleGetPlugins(os){
 }
 
 async function handleGetAllPlugins(){
-    return await axios.post('http://localhost:8000/api/get-all-plugins');
+    return await axios.get('http://localhost:8000/api/get-all-plugins');
 }
 
 async function handleSubmitFileInfo(filePath, operatingSystem, plugin) {

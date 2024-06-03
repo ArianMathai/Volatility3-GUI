@@ -138,11 +138,12 @@ def get_plugins():
 
 @app.route('/api/get-all-plugins', methods=['GET'])
 def get_all_plugins():
+    print("getting all plugins")
     try:
         file_path = os.path.join(os.path.dirname(__file__), "plugins.json")
         with open(file_path) as file:
             plugins = json.load(file)
-
+        print("Plugins:", plugins)
         return jsonify({"plugins": plugins}), 200
 
     except Exception as e:
