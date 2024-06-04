@@ -40,7 +40,7 @@ const DynamicReport = ({ report, searchQuery }) => {
         setFilteredReport(filteredData);
     }, [report, searchQuery]);
 
-    /*
+
     const sortedAndFilteredReport = useMemo(() => {
         console.log("Sorting logic triggered with sortKey:", sortKey, "and sorted:", sorted);
         if (!sorted || !sortKey) {
@@ -68,7 +68,7 @@ const DynamicReport = ({ report, searchQuery }) => {
         return sortedItems;
     }, [filteredReport, sortKey, sorted]);
 
-     */
+
 
     const sortReport = (key) => {
         setSortKey(key);
@@ -148,8 +148,8 @@ const DynamicReport = ({ report, searchQuery }) => {
             </tr>
             </thead>
             <tbody>
-            {filteredReport.length > 0 ? (
-                filteredReport.map((item, index) => (
+            {sortedAndFilteredReport.length > 0 ? (
+                sortedAndFilteredReport.map((item, index) => (
                     <tr key={index}
                         className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}
                         style={{ backgroundColor: getRowColor(index) }}

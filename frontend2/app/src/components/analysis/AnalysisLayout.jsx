@@ -59,12 +59,9 @@ export const AnalysisLayout = () => {
                     })}
                 </div>
             </div>
-            <div className="content-container">
-                <Outlet/>
                 <div className="p-4 bg-white shadow-md rounded-b-md">
                     <Outlet context={[searchQuery]}/>
                 </div>
-            </div>
         </div>
     );
 };
