@@ -34,9 +34,10 @@ export const AppProvider = ({ children }) => {
     const [folderPath, setFolderPath] = useState("");
     const [allPlugins, setAllPlugins] = useState([]);
     const [pluginList, setPluginList] = useState([]);
+    const [selectedProcess, setSelectedProcess] = useState([]);
 
     return (
-        <AppContext.Provider value={{ osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList, plugins, setPlugins, projectName, setProjectName, folderPath, setFolderPath, allPlugins, setAllPlugins, pluginList, setPluginList }}>
+        <AppContext.Provider value={{ osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList, plugins, setPlugins, projectName, setProjectName, folderPath, setFolderPath, allPlugins, setAllPlugins, pluginList, setPluginList, selectedProcess, setSelectedProcess }}>
             {children}
         </AppContext.Provider>
     );
