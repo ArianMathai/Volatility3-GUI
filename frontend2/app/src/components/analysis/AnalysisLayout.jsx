@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
-import '../../css/AnalysisLayout.css'; // Import custom CSS
+import '../../css/AnalysisLayout.css';
+import AdditionalPluginBar from "./AdditionalPluginBar"; // Import custom CSS
 
 export const AnalysisLayout = () => {
     const { plugins, setPlugins } = useAppContext();
@@ -33,6 +34,9 @@ export const AnalysisLayout = () => {
     };
 
     return (
+
+        <div className="p-4">
+            <AdditionalPluginBar/>
         <div className="analysis-layout-container">
             <div className="mb-4">
                 <input

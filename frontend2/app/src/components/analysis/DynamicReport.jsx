@@ -3,7 +3,6 @@ import { useAppContext } from "../../context/Context";
 
 const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
-    const [sorted, setSorted] = useState(false);
     const [filteredReport, setFilteredReport] = useState([]);
     const [hoverIndex, setHoverIndex] = useState(null);
     const { selectedProcess, setSelectedProcess } = useAppContext();
@@ -42,11 +41,9 @@ const DynamicReport = ({ report, searchQuery }) => {
 
 
     const sortedAndFilteredReport = useMemo(() => {
-        console.log("Sorting logic triggered with sortKey:", sortKey, "and sorted:", sorted);
-        if (!sorted || !sortKey) {
-            console.log("Returning filteredReport without sorting:", filteredReport);
-            return filteredReport;
-        }
+
+        if (!sortKey) return filteredReport;
+
         let sortedItems = [...filteredReport];
 
         console.log("Sorting logic triggered with sortKey:", sortKey, "and sorted:", sorted);
@@ -66,13 +63,12 @@ const DynamicReport = ({ report, searchQuery }) => {
         });
         console.log("Sorted Items:", sortedItems);
         return sortedItems;
-    }, [filteredReport, sortKey, sorted]);
+    }, [filteredReport, sortKey]);
 
 
 
     const sortReport = (key) => {
-        setSortKey(key);
-        setSorted(!sorted); // Toggle sorted state to trigger re-sorting
+        setSortKey(key); // Set the sort key and always sort in ascending order
     };
 
     const headers = useMemo(() => {

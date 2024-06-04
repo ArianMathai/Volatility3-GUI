@@ -12,9 +12,9 @@ const UploadPage = () => {
 
     return (
         <main className="flex justify-center">
-            <div className="">
-                <div>
-                    <Logo />
+            <div className="w-full flex flex-col items-center">
+                <div className="m-5">
+                    <img src="../public/img/v3logo.png" alt="v3logo"/>
                 </div>
                 <div className="flex justify-center gap-20">
                     <div className="w-1/3">
