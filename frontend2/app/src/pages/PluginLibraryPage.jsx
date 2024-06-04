@@ -20,30 +20,30 @@ const PluginLibraryPage = () => {
                     <h1 className="text-3xl font-bold">Plugin Library</h1>
                 </div>
                 <div>
-                    <HomeButton/>
+                    <HomeButton />
                 </div>
             </div>
             <div className="flex justify-center mt-4">
                 <button
-                    className={`px-6 py-2 mx-1 font-medium rounded-t-lg ${selectedOS === 'Windows' ? 'bg-gray-300 text-gray-800' : 'bg-gray-800 text-gray-300'}`}
+                    className={`w-32 p-3 rounded-2xl ${selectedOS === 'MacOs' ? 'bg-darkerblue-important text-xl text-white' : 'bg-darkblue-important text-gray-400'}`}
+                    onClick={() => handleOSTabClick('MacOs')}
+                >
+                    MacOs
+                </button>
+                <button
+                    className={`w-32 p-3 rounded-2xl ${selectedOS === 'Windows' ? 'bg-darkerblue-important text-xl text-white' : 'bg-darkblue-important text-gray-400'}`}
                     onClick={() => handleOSTabClick('Windows')}
                 >
                     Windows
                 </button>
                 <button
-                    className={`px-6 py-2 mx-1 font-medium rounded-t-lg ${selectedOS === 'Mac' ? 'bg-gray-300 text-gray-800' : 'bg-gray-800 text-gray-300'}`}
-                    onClick={() => handleOSTabClick('Mac')}
-                >
-                    Mac
-                </button>
-                <button
-                    className={`px-6 py-2 mx-1 font-medium rounded-t-lg ${selectedOS === 'Linux' ? 'bg-gray-300 text-gray-800' : 'bg-gray-800 text-gray-300'}`}
+                    className={`w-32 p-3 rounded-2xl ${selectedOS === 'Linux' ? 'bg-darkerblue-important text-xl text-white' : 'bg-darkblue-important text-gray-400'}`}
                     onClick={() => handleOSTabClick('Linux')}
                 >
                     Linux
                 </button>
             </div>
-            <div className="p-4">
+            <div className="p-4 flex-grow">
                 <PluginList selectedOS={selectedOS} />
             </div>
         </>
