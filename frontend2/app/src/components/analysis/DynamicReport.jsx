@@ -1,50 +1,62 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useAppContext } from "../../context/Context";
 
-
 const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
     const [sorted, setSorted] = useState(false);
     const [filteredReport, setFilteredReport] = useState([]);
     const [hoverIndex, setHoverIndex] = useState(null);
-    const { selectedProcess, setSelectedProcess } = useAppContext(); // Added setPlugins for updating plugins array
+    const { selectedProcess, setSelectedProcess } = useAppContext();
     const [hoveredRow, setHoveredRow] = useState(null);
 
-    
-
+    useEffect(() => {
+        console.log("Within DynamicReport component:", searchQuery);
+        console.log("Report Data:", report);
+    }, [searchQuery, report]);
 
     // Filter logic
     useEffect(() => {
+        console.log("Filtering report with searchQuery:", searchQuery);
         if (!report || report.length === 0) {
+            console.log("Report is empty or undefined");
             setFilteredReport([]);
             return;
         }
 
         if (!searchQuery) {
+            console.log("Search query is empty, setting filtered report to full report");
             setFilteredReport(report);
             return;
         }
 
         const filteredData = report.filter(item => {
-            return Object.values(item)
-                .join(' ')
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase());
+            const itemValues = Object.values(item).join(' ').toLowerCase();
+            const query = searchQuery.toLowerCase();
+            console.log("Filtering item:", itemValues, "with query:", query);
+            return itemValues.includes(query);
         });
 
+        console.log("Filtered Data:", filteredData);
         setFilteredReport(filteredData);
     }, [report, searchQuery]);
-  
 
-    // Sorting logic
+    /*
     const sortedAndFilteredReport = useMemo(() => {
-        if (!sorted || !sortKey) return filteredReport;
+        console.log("Sorting logic triggered with sortKey:", sortKey, "and sorted:", sorted);
+        if (!sorted || !sortKey) {
+            console.log("Returning filteredReport without sorting:", filteredReport);
+            return filteredReport;
+        }
         let sortedItems = [...filteredReport];
+
+        console.log("Sorting logic triggered with sortKey:", sortKey, "and sorted:", sorted);
 
         // Sorts as numbers or strings based on datatype
         sortedItems.sort((a, b) => {
             const valA = isNaN(Number(a[sortKey])) ? a[sortKey] : Number(a[sortKey]);
             const valB = isNaN(Number(b[sortKey])) ? b[sortKey] : Number(b[sortKey]);
+
+            console.log("Comparing values:", valA, valB);
 
             if (typeof valA === 'number' && typeof valB === 'number') {
                 return valA - valB;
@@ -52,8 +64,11 @@ const DynamicReport = ({ report, searchQuery }) => {
                 return valA.toString().localeCompare(valB.toString());
             }
         });
+        console.log("Sorted Items:", sortedItems);
         return sortedItems;
     }, [filteredReport, sortKey, sorted]);
+
+     */
 
     const sortReport = (key) => {
         setSortKey(key);
@@ -71,7 +86,6 @@ const DynamicReport = ({ report, searchQuery }) => {
         wordWrap: 'break-word',
     };
 
-    // HER MÅ FRONTEND HJELPE MEG FOR DET SER HELT JÆVELIG UT
     const hoverStyle = {
         backgroundColor: '#007bff',
         color: 'white',
@@ -81,38 +95,30 @@ const DynamicReport = ({ report, searchQuery }) => {
         outline: 'none',
     };
 
-
     const headerStyle = {
         textAlign: 'center',
     };
 
-    // Function to handle row hover
     const handleRowHover = (index) => {
         setHoveredRow(index);
     };
 
-    // Determine row background color based on hover state
     const getRowColor = (index) => {
         return index === hoveredRow ? 'rgba(125, 211, 252, 0.6)' : (index % 2 === 0 ? 'rgb(8, 47, 73)' : 'rgb(12, 74, 110)');
     };
 
-    // Function to handle item selection
     const handleItemClick = (item) => {
-        // Set isActive property of all items to false
         const updatedSelectedProcess = selectedProcess.map(process => ({
             ...process,
             isActive: false
         }));
 
-        // Find the clicked item and set its isActive property to true
         const newItem = { isActive: true, data: item };
         const indexOfClickedItem = updatedSelectedProcess.findIndex(process => process.data.PID === item.PID);
 
-        // If the clicked item exists, update its isActive property to true
         if (indexOfClickedItem !== -1) {
             updatedSelectedProcess[indexOfClickedItem] = newItem;
         } else {
-            // If the clicked item doesn't exist, add it to the selectedProcess array
             updatedSelectedProcess.push(newItem);
         }
 
@@ -123,7 +129,7 @@ const DynamicReport = ({ report, searchQuery }) => {
         return <div>No data available for this plugin.</div>;
     }
 
-return (
+    return (
         <table className="min-w-full text-themeText-light">
             <thead className="bg-themeBlue-default text-white">
             <tr>
@@ -142,8 +148,8 @@ return (
             </tr>
             </thead>
             <tbody>
-            {sortedAndFilteredReport.length > 0 ? (
-                sortedAndFilteredReport.map((item, index) => (
+            {filteredReport.length > 0 ? (
+                filteredReport.map((item, index) => (
                     <tr key={index}
                         className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}
                         style={{ backgroundColor: getRowColor(index) }}
