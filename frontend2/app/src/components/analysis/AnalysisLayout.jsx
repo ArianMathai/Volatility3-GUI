@@ -5,7 +5,7 @@ import '../../css/AnalysisLayout.css';
 import AdditionalPluginBar from "./AdditionalPluginBar"; // Import custom CSS
 
 export const AnalysisLayout = () => {
-    const { plugins } = useAppContext();
+    const { plugins, setPlugins } = useAppContext();
     const { processList } = useAppContext();
     const [navItems, setNavItems] = useState([]);
     const navigate = useNavigate();
@@ -16,25 +16,28 @@ export const AnalysisLayout = () => {
     useEffect(() => {
         if (plugins) {
             setNavItems(plugins);
+            console.log("hallo fra check")
         }
+        console.log("navitems: ", navItems)
+        console.log("selected plugins: ", plugins);
     }, [plugins]);
 
-    useEffect(() => {
-        console.log("processList:");
-        console.log(processList);
-
-        // Update navItems based on processList or any other logic
-    }, [processList]);
 
     useEffect(() => {
-        console.log("Current Path:", currentLocation.pathname);
-        console.log("Previous Path:", prevPath);
+        // console.log("Current Path:", currentLocation.pathname);
+        // console.log("Previous Path:", prevPath);
         setPrevPath(currentLocation.pathname);
     }, [currentLocation]);
 
+    const handleRemovePlugin = (pluginToRemove) => {
+        setPlugins((prevPlugins) => prevPlugins.filter(plugin => plugin !== pluginToRemove));
+    };
+
     return (
+
         <div className="p-4">
             <AdditionalPluginBar/>
+        <div className="analysis-layout-container">
             <div className="mb-4">
                 <input
                     type="text"
@@ -44,25 +47,25 @@ export const AnalysisLayout = () => {
                     className="p-2 border rounded w-full"
                 />
             </div>
-            <div className="flex space-x-2 bg-gray-200 p-2 rounded-t-md shadow-md">
-                {navItems.map((item, index) => {
-                    const isActive = currentLocation.pathname.includes(item);
-                    return (
-                        <div
-                            key={index}
-                            className={`tab-item relative px-4 py-2 cursor-pointer transition-all ${
-                                isActive ? 'active-tab text-black shadow-md' : 'inactive-tab text-gray-700'
-                            }`}
-                            onClick={() => navigate(`/analysis/${item}`)}
-                        >
-                            <span className="relative z-10">{item}</span>
-                        </div>
-                    );
-                })}
+            <div className="tabs-container">
+                <div className="flex space-x-2 bg-gray-200 p-2 rounded-t-md shadow-md">
+                    {navItems.map((item, index) => {
+                        const isActive = currentLocation.pathname.includes(item);
+                        return (
+                            <div key={index} className={`tab-item ${isActive ? 'active-tab' : 'inactive-tab'}`}>
+                                <span onClick={() => navigate(`/analysis/${item}`)}>{item}</span>
+                                {isActive && (
+                                    <button className="close-button"
+                                            onClick={() => handleRemovePlugin(item)}>X</button>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
-            <div className="p-4 bg-white shadow-md rounded-b-md">
-                <Outlet context={[searchQuery]}/>
-            </div>
+                <div className="p-4 bg-white shadow-md rounded-b-md">
+                    <Outlet context={[searchQuery]}/>
+                </div>
         </div>
     );
 };

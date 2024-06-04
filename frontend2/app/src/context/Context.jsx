@@ -6,6 +6,8 @@ export const AppContext = createContext({
     systemInfo: [],
     processList: [],
     projectName: [],
+    selectedProcess: [],
+    setSelectedProcess: () => {},
     setOsName: () => {},
     setSystemInfo: () => {},
     setFile: () => {},

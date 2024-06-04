@@ -2,23 +2,24 @@ import React, { useEffect, useState } from "react";
 import {useParams, useLocation, useOutletContext} from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 import DynamicReport from "./DynamicReport";
+import { BladesLayout } from "../blades/BladesLayout";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import BladesReportComponent from "../blades/BladesReportComponent";
+import '../../css/AnalysisReportComponent.css'; // Import custom CSS for additional styling
 
 export const AnalysisReportComponent = () => {
-    const { processList } = useAppContext();
+    const { processList, selectedProcess, setSelectedProcess } = useAppContext();
     const { plugin } = useParams();  // Get the last URL parameter
     const location = useLocation();  // Get the current location
     const [report, setReport] = useState([]);
     const [headers, setHeaders] = useState([]);
-    const [searchQuery] = useOutletContext();
+    const [searchQuery] = useOutletContext() || [''];
+
+    useEffect(()=>{
+        console.log(searchQuery);
+    },[searchQuery]);
 
     useEffect(() => {
-        console.log("Current Path:", location.pathname);
-    }, [location]);
-
-    useEffect(() => {
-        console.log("Current Plugin:", plugin);
-        console.log("processList:");
-        console.log(processList);
 
         const currentReport = processList.find((element) => element.plugin === plugin);
         if (currentReport) {
@@ -34,14 +35,26 @@ export const AnalysisReportComponent = () => {
         }
     }, [processList, plugin]);  // Add plugin to the dependency array
 
-    useEffect(() => {
-        console.log("report:");
-        console.log(report);
-    }, [report]);
 
     return (
         <div className="p-4">
-            <DynamicReport report={report} searchQuery={searchQuery}/> {/* Use the new DynamicReport component */}
+            <div className="report-layout">
+                <PanelGroup direction="horizontal">
+                    <Panel defaultSize={25} order={1}>
+                        <div className="dynamic-report-container">
+                            <DynamicReport report={report } searchQuery={searchQuery}/>
+                        </div>
+                    </Panel>
+                    {selectedProcess.length > 0 && <PanelResizeHandle />}
+                    {selectedProcess.length > 0 && (
+                        <Panel defaultSize={25} order={2}>
+                            <div className="blades-layout-container">
+                                <BladesLayout report={report} />
+                            </div>
+                        </Panel >
+                    )}
+                </PanelGroup>
+            </div>
         </div>
     );
 };

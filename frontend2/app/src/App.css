@@ -1,3 +1,10 @@
 .bg-white-important {
   background-color: #ffffff !important;
 }
+
+.bg-darkerblue-important {
+  background-color: #0A202C !important;
+}
+.bg-darkblue-important {
+  background-color: #0C2A3A !important;
+}
