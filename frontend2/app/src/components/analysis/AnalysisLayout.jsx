@@ -67,5 +67,6 @@ export const AnalysisLayout = () => {
                     <Outlet context={[searchQuery]}/>
                 </div>
         </div>
+        </div>
     );
 };

@@ -46,7 +46,6 @@ const DynamicReport = ({ report, searchQuery }) => {
 
         let sortedItems = [...filteredReport];
 
-        console.log("Sorting logic triggered with sortKey:", sortKey, "and sorted:", sorted);
 
         // Sorts as numbers or strings based on datatype
         sortedItems.sort((a, b) => {
