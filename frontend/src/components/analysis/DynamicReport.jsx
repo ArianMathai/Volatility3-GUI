@@ -4,7 +4,6 @@ import { useAppContext } from "../../context/Context";
 const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
     const [filteredReport, setFilteredReport] = useState([]);
-    const [hoverIndex, setHoverIndex] = useState(null);
     const { selectedProcess, setSelectedProcess } = useAppContext();
     const [hoveredRow, setHoveredRow] = useState(null);
 
@@ -89,8 +88,6 @@ const DynamicReport = ({ report, searchQuery }) => {
                 {headers.map((header, index) => (
                     <th key={header} className="font-bold text-left">
                         <button
-                            onMouseEnter={() => setHoverIndex(index)}
-                            onMouseLeave={() => setHoverIndex(null)}
                             onClick={() => sortReport(header)}
                         >
                             {header}
