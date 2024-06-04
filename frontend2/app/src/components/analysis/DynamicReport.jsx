@@ -1,13 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useAppContext } from "../../context/Context";
 
-const DynamicReport = ({ report }) => {
+
+const DynamicReport = ({ report, searchQuery }) => {
+    const [sortKey, setSortKey] = useState(null);
+    const [sorted, setSorted] = useState(false);
+    const [filteredReport, setFilteredReport] = useState([]);
+    const [hoverIndex, setHoverIndex] = useState(null);
     const { selectedProcess, setSelectedProcess } = useAppContext(); // Added setPlugins for updating plugins array
     const [hoveredRow, setHoveredRow] = useState(null);
 
-    if (!report || report.length === 0) return <div>No data available for this plugin.</div>;
+    
 
-    const headers = Object.keys(report[0]);
+
+    // Filter logic
+    useEffect(() => {
+        if (!report || report.length === 0) {
+            setFilteredReport([]);
+            return;
+        }
+
+        if (!searchQuery) {
+            setFilteredReport(report);
+            return;
+        }
+
+        const filteredData = report.filter(item => {
+            return Object.values(item)
+                .join(' ')
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase());
+        });
+
+        setFilteredReport(filteredData);
+    }, [report, searchQuery]);
+  
+
+    // Sorting logic
+    const sortedAndFilteredReport = useMemo(() => {
+        if (!sorted || !sortKey) return filteredReport;
+        let sortedItems = [...filteredReport];
+
+        // Sorts as numbers or strings based on datatype
+        sortedItems.sort((a, b) => {
+            const valA = isNaN(Number(a[sortKey])) ? a[sortKey] : Number(a[sortKey]);
+            const valB = isNaN(Number(b[sortKey])) ? b[sortKey] : Number(b[sortKey]);
+
+            if (typeof valA === 'number' && typeof valB === 'number') {
+                return valA - valB;
+            } else {
+                return valA.toString().localeCompare(valB.toString());
+            }
+        });
+        return sortedItems;
+    }, [filteredReport, sortKey, sorted]);
+
+    const sortReport = (key) => {
+        setSortKey(key);
+        setSorted(!sorted); // Toggle sorted state to trigger re-sorting
+    };
+
+    const headers = useMemo(() => {
+        return report && report.length > 0 ? Object.keys(report[0]) : [];
+    }, [report]);
 
     const cellStyle = {
         textAlign: 'center',
@@ -15,6 +70,17 @@ const DynamicReport = ({ report }) => {
         whiteSpace: 'normal',
         wordWrap: 'break-word',
     };
+
+    // HER MÅ FRONTEND HJELPE MEG FOR DET SER HELT JÆVELIG UT
+    const hoverStyle = {
+        backgroundColor: '#007bff',
+        color: 'white',
+        cursor: 'pointer',
+        borderRadius: '0.25em',
+        transition: 'background-color 0.2s ease-in-out',
+        outline: 'none',
+    };
+
 
     const headerStyle = {
         textAlign: 'center',
@@ -53,29 +119,47 @@ const DynamicReport = ({ report }) => {
         setSelectedProcess(updatedSelectedProcess);
     };
 
-    return (
+    if (!report || report.length === 0) {
+        return <div>No data available for this plugin.</div>;
+    }
+
+return (
         <table className="min-w-full text-themeText-light">
             <thead className="bg-themeBlue-default text-white">
-                <tr>
-                    {headers.map(header => (
-                        <th key={header} className="font-bold" style={headerStyle}>{header}</th>
-                    ))}
-                </tr>
+            <tr>
+                {headers.map((header, index) => (
+                    <th key={header} className="font-bold" style={headerStyle}>
+                        <button
+                            onMouseEnter={() => setHoverIndex(index)}
+                            onMouseLeave={() => setHoverIndex(null)}
+                            style={hoverIndex === index ? hoverStyle : null}
+                            onClick={() => sortReport(header)}
+                        >
+                            {header}
+                        </button>
+                    </th>
+                ))}
+            </tr>
             </thead>
             <tbody>
-                {report.map((item, index) => (
-                    <tr key={index} className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}
+            {sortedAndFilteredReport.length > 0 ? (
+                sortedAndFilteredReport.map((item, index) => (
+                    <tr key={index}
+                        className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}
                         style={{ backgroundColor: getRowColor(index) }}
                         onMouseEnter={() => handleRowHover(index)}
                         onMouseLeave={() => handleRowHover(null)}
                         onClick={() => handleItemClick(item)}>
                         {headers.map((header) => (
-                            <td key={header} style={cellStyle}>
-                                {item[header]}
-                            </td>
+                            <td key={header} style={cellStyle}>{item[header]}</td>
                         ))}
                     </tr>
-                ))}
+                ))
+            ) : (
+                <tr>
+                    <td colSpan={headers.length} className="text-center">No data available for this plugin.</td>
+                </tr>
+            )}
             </tbody>
         </table>
     );

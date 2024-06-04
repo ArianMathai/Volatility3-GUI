@@ -9,4 +9,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
 contextBridge.exposeInMainWorld('fileAPI', {
     createProjectFolder: (projectName) => ipcRenderer.invoke('create-project-folder', projectName),
+    saveCSV: (folderPath,projectName,csvContent) => ipcRenderer.invoke('save-csv', folderPath,projectName,csvContent),
 })

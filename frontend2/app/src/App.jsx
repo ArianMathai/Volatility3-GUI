@@ -6,6 +6,7 @@ import { AppProvider } from "./context/Context";
 import AnalysisLayoutPage from "./pages/AnalysisLayoutPage";
 import {AnalysisReportComponent} from "./components/analysis/AnalysisReportComponent"; // Ensure you import this correctly
 import UploadPage from "./pages/UploadPage";
+import PluginLibraryPage from "./pages/PluginLibraryPage";
 
 function App() {
     const [osName, setOsName] = useState("");
@@ -17,6 +18,7 @@ function App() {
                 <HashRouter>
                     <Routes>
                         <Route path='/' element={<UploadPage />} />
+                        <Route path='/pluginlibrary' element={<PluginLibraryPage />} />
                         <Route path='/selectplugins' element={<SelectPluginsPage />} />
                         <Route path='/analysis' element={<AnalysisLayoutPage />}>
                             <Route path=':plugin' element={<AnalysisReportComponent />} />

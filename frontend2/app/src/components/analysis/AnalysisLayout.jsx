@@ -10,6 +10,7 @@ export const AnalysisLayout = () => {
     const navigate = useNavigate();
     const currentLocation = useLocation();
     const [prevPath, setPrevPath] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         if (plugins) {
@@ -35,20 +36,36 @@ export const AnalysisLayout = () => {
     return (
         <div className="analysis-layout-container">
             <div className="tabs-container">
-                {navItems.map((item, index) => {
-                    const isActive = currentLocation.pathname.includes(item);
-                    return (
-                        <div key={index} className={`tab-item ${isActive ? 'active-tab' : 'inactive-tab'}`}>
-                            <span onClick={() => navigate(`/analysis/${item}`)}>{item}</span>
-                            {isActive && (
-                                <button className="close-button" onClick={() => handleRemovePlugin(item)}>X</button>
-                            )}
-                        </div>
-                    );
-                })}
-            </div>
-            <div className="content-container">
-                <Outlet />
+                <div className="p-4">
+                    <div className="mb-4">
+                        <input
+                            type="text"
+                            placeholder="Search report..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="p-2 border rounded w-full"
+                        />
+                    </div>
+                    <div className="flex space-x-2 bg-gray-200 p-2 rounded-t-md shadow-md">
+                        {navItems.map((item, index) => {
+                            const isActive = currentLocation.pathname.includes(item);
+                            return (
+                                <div key={index} className={`tab-item ${isActive ? 'active-tab' : 'inactive-tab'}`}>
+                                    <span onClick={() => navigate(`/analysis/${item}`)}>{item}</span>
+                                    {isActive && (
+                                        <button className="close-button" onClick={() => handleRemovePlugin(item)}>X</button>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+                <div className="content-container">
+                    <Outlet />
+                    <div className="p-4 bg-white shadow-md rounded-b-md">
+                        <Outlet context={[searchQuery]} />
+                    </div>
+                </div>
             </div>
         </div>
     );

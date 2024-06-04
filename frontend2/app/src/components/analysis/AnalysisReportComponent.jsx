@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import {useParams, useLocation, useOutletContext} from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 import DynamicReport from "./DynamicReport";
 import { BladesLayout } from "../blades/BladesLayout";
@@ -12,6 +12,7 @@ export const AnalysisReportComponent = () => {
     const location = useLocation();  // Get the current location
     const [report, setReport] = useState([]);
     const [headers, setHeaders] = useState([]);
+    const [searchQuery] = useOutletContext();
 
     useEffect(() => {
         console.log("Current Path:", location.pathname);
@@ -44,7 +45,7 @@ export const AnalysisReportComponent = () => {
         <div className="p-4">
             <div className="report-layout">
                 <div className="dynamic-report-container">
-                    <DynamicReport report={report} />
+                    <DynamicReport report={report } searchQuery={searchQuery}/>
                 </div>
                 {selectedProcess.length > 0 && (
                     <div className="blades-layout-container">
