@@ -22,13 +22,13 @@ export const BladesLayout = () => {
     }, [selectedProcess]);
 
     useEffect(() => {
-        console.log("selected process:", selectedProcess);
-        console.log("selected navItems:", navItems);
+        // console.log("selected process:", selectedProcess);
+        // console.log("selected navItems:", navItems);
     }, [selectedProcess, navItems]);
 
     useEffect(() => {
-        console.log("Current Path:", currentLocation.pathname);
-        console.log("Previous Path:", prevPath);
+        // console.log("Current Path:", currentLocation.pathname);
+        // console.log("Previous Path:", prevPath);
         setPrevPath(currentLocation.pathname);
     }, [currentLocation]);
 
