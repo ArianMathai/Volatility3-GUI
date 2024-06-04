@@ -14,13 +14,11 @@ export const AnalysisReportComponent = () => {
     const [headers, setHeaders] = useState([]);
     const [searchQuery] = useOutletContext() || [''];
 
-    useEffect(() => {
-        console.log("Current Path:", location.pathname);
-    }, [location]);
+    useEffect(()=>{
+        console.log(searchQuery);
+    },[searchQuery]);
 
     useEffect(() => {
-        console.log("Current Plugin:", plugin);
-        console.log("processList:");
 
         const currentReport = processList.find((element) => element.plugin === plugin);
         if (currentReport) {
@@ -36,10 +34,6 @@ export const AnalysisReportComponent = () => {
         }
     }, [processList, plugin]);  // Add plugin to the dependency array
 
-    useEffect(() => {
-        console.log("report:");
-        console.log(report);
-    }, [report]);
 
     return (
         <div className="p-4">
