@@ -13,7 +13,11 @@ export const AppContext = createContext({
     plugins: [],
     setPlugins: () => {},
     folderPath: '',
-    setFolderPath: () => {}
+    setFolderPath: () => {},
+    allPlugins: [],
+    setAllPlugins: () => {},
+    pluginList: [],
+    setPluginList: () => {}
 });
 
 export const useAppContext = () => useContext(AppContext);
@@ -26,9 +30,11 @@ export const AppProvider = ({ children }) => {
     const [plugins, setPlugins] = useState([]);
     const [projectName, setProjectName] = useState()
     const [folderPath, setFolderPath] = useState("");
+    const [allPlugins, setAllPlugins] = useState([]);
+    const [pluginList, setPluginList] = useState([]);
 
     return (
-        <AppContext.Provider value={{ osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList, plugins, setPlugins, projectName, setProjectName, folderPath,setFolderPath }}>
+        <AppContext.Provider value={{ osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList, plugins, setPlugins, projectName, setProjectName, folderPath, setFolderPath, allPlugins, setAllPlugins, pluginList, setPluginList }}>
             {children}
         </AppContext.Provider>
     );
