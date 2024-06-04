@@ -1,42 +1,62 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useAppContext } from "../../context/Context";
 
 const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
     const [sorted, setSorted] = useState(false);
     const [filteredReport, setFilteredReport] = useState([]);
     const [hoverIndex, setHoverIndex] = useState(null);
+    const { selectedProcess, setSelectedProcess } = useAppContext();
+    const [hoveredRow, setHoveredRow] = useState(null);
+
+    useEffect(() => {
+        console.log("Within DynamicReport component:", searchQuery);
+        console.log("Report Data:", report);
+    }, [searchQuery, report]);
 
     // Filter logic
     useEffect(() => {
+        console.log("Filtering report with searchQuery:", searchQuery);
         if (!report || report.length === 0) {
+            console.log("Report is empty or undefined");
             setFilteredReport([]);
             return;
         }
 
         if (!searchQuery) {
+            console.log("Search query is empty, setting filtered report to full report");
             setFilteredReport(report);
             return;
         }
 
         const filteredData = report.filter(item => {
-            return Object.values(item)
-                .join(' ')
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase());
+            const itemValues = Object.values(item).join(' ').toLowerCase();
+            const query = searchQuery.toLowerCase();
+            console.log("Filtering item:", itemValues, "with query:", query);
+            return itemValues.includes(query);
         });
 
+        console.log("Filtered Data:", filteredData);
         setFilteredReport(filteredData);
     }, [report, searchQuery]);
 
-    // Sorting logic
+    /*
     const sortedAndFilteredReport = useMemo(() => {
-        if (!sorted || !sortKey) return filteredReport;
+        console.log("Sorting logic triggered with sortKey:", sortKey, "and sorted:", sorted);
+        if (!sorted || !sortKey) {
+            console.log("Returning filteredReport without sorting:", filteredReport);
+            return filteredReport;
+        }
         let sortedItems = [...filteredReport];
+
+        console.log("Sorting logic triggered with sortKey:", sortKey, "and sorted:", sorted);
 
         // Sorts as numbers or strings based on datatype
         sortedItems.sort((a, b) => {
             const valA = isNaN(Number(a[sortKey])) ? a[sortKey] : Number(a[sortKey]);
             const valB = isNaN(Number(b[sortKey])) ? b[sortKey] : Number(b[sortKey]);
+
+            console.log("Comparing values:", valA, valB);
 
             if (typeof valA === 'number' && typeof valB === 'number') {
                 return valA - valB;
@@ -44,8 +64,11 @@ const DynamicReport = ({ report, searchQuery }) => {
                 return valA.toString().localeCompare(valB.toString());
             }
         });
+        console.log("Sorted Items:", sortedItems);
         return sortedItems;
     }, [filteredReport, sortKey, sorted]);
+
+     */
 
     const sortReport = (key) => {
         setSortKey(key);
@@ -57,13 +80,12 @@ const DynamicReport = ({ report, searchQuery }) => {
     }, [report]);
 
     const cellStyle = {
+        textAlign: 'center',
         maxWidth: '120px',
         whiteSpace: 'normal',
         wordWrap: 'break-word',
-        textAlign: 'center',
     };
 
-    // HER MÅ FRONTEND HJELPE MEG FOR DET SER HELT JÆVELIG UT
     const hoverStyle = {
         backgroundColor: '#007bff',
         color: 'white',
@@ -73,9 +95,34 @@ const DynamicReport = ({ report, searchQuery }) => {
         outline: 'none',
     };
 
-
     const headerStyle = {
         textAlign: 'center',
+    };
+
+    const handleRowHover = (index) => {
+        setHoveredRow(index);
+    };
+
+    const getRowColor = (index) => {
+        return index === hoveredRow ? 'rgba(125, 211, 252, 0.6)' : (index % 2 === 0 ? 'rgb(8, 47, 73)' : 'rgb(12, 74, 110)');
+    };
+
+    const handleItemClick = (item) => {
+        const updatedSelectedProcess = selectedProcess.map(process => ({
+            ...process,
+            isActive: false
+        }));
+
+        const newItem = { isActive: true, data: item };
+        const indexOfClickedItem = updatedSelectedProcess.findIndex(process => process.data.PID === item.PID);
+
+        if (indexOfClickedItem !== -1) {
+            updatedSelectedProcess[indexOfClickedItem] = newItem;
+        } else {
+            updatedSelectedProcess.push(newItem);
+        }
+
+        setSelectedProcess(updatedSelectedProcess);
     };
 
     if (!report || report.length === 0) {
@@ -101,10 +148,14 @@ const DynamicReport = ({ report, searchQuery }) => {
             </tr>
             </thead>
             <tbody>
-            {sortedAndFilteredReport.length > 0 ? (
-                sortedAndFilteredReport.map((item, index) => (
+            {filteredReport.length > 0 ? (
+                filteredReport.map((item, index) => (
                     <tr key={index}
-                        className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}>
+                        className={index % 2 === 0 ? 'bg-themeBlue-dark text-white' : 'bg-white text-black'}
+                        style={{ backgroundColor: getRowColor(index) }}
+                        onMouseEnter={() => handleRowHover(index)}
+                        onMouseLeave={() => handleRowHover(null)}
+                        onClick={() => handleItemClick(item)}>
                         {headers.map((header) => (
                             <td key={header} style={cellStyle}>{item[header]}</td>
                         ))}
