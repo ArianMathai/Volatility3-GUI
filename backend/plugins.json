@@ -1,363 +1,529 @@
 [
     {
         "platform": "windows",
-        "name": "pslist",
-        "description": "Lists the processes present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "BigPools",
+        "description": "Displays a list of large page pool",
+        "description2": "This plugin displays a list of large page pools in a Windows memory image by identifying memory allocations that use large pages. It provides insights into how the operating system manages large memory segments, which can be useful for performance analysis and detecting abnormal memory usage patterns.",
+        "category": "System Info ",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.bigpools.html"
     },
     {
         "platform": "windows",
-        "name": "psscan",
-        "description": "Scans for processes present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "Cachedump",
+        "description": "Dumps lsa secrets from memory",
+        "description2": "This plugin dumps LSA (Local Security Authority) secrets from memory in a Windows memory image by extracting sensitive security information stored by the operating system. It provides insights into credentials and other secret data that can be used for authentication.",
+        "category": "System Activity",
+        "link": "https://volatility3.readthedocs.io/en/stable/volatility3.plugins.windows.cachedump.html"
     },
     {
         "platform": "windows",
-        "name": "pstree",
-        "description": "Plugin for listing processes in a tree based on their parent process ID.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "Callbacks",
+        "description": "Lists kernel callbacks and notification routines",
+        "description2": "This plugin lists kernel callbacks and notification routines in a Windows memory image by identifying functions registered to respond to various system events. It provides insights into the interactions between the kernel and other system components. ",
+        "category": "System Activity",
+        "link": "https://volatility3.readthedocs.io/en/stable/volatility3.plugins.windows.callbacks.html#volatility3.plugins.windows.callbacks.Callbacks"
     },
     {
         "platform": "windows",
-        "name": "bigpools",
-        "description": "List big page pools.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "CmdLine",
+        "description": "Lists process command line arguments",
+        "description2": "This plugin lists the information from a Windows crash dump by extracting key details such as the crash reason, memory addresses, and error codes. It provides crucial insights into the cause of the system crash, helping to diagnose and troubleshoot the underlying issues.",
+        "category": "System Info",
+        "link": "https://volatility3.readthedocs.io/en/stable/volatility3.plugins.windows.cmdline.html#volatility3.plugins.windows.cmdline.CmdLine"
     },
     {
         "platform": "windows",
-        "name": "cachedump",
-        "description": "Dumps lsa secrets from memory.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "CrashInfo",
+        "description": "Lists the information from a Windows crash dump",
+        "description2": "This plugin lists the information from a Windows crash dump by extracting key details such as the crash reason, memory addresses, and error codes. It provides crucial insights into the cause of the system crash, helping to diagnose and troubleshoot the underlying issues.",
+        "category": "System Info",
+        "link": "https://volatility3.readthedocs.io/en/stable/volatility3.plugins.windows.crashinfo.html#volatility3.plugins.windows.crashinfo.Crashinfo"
     },
     {
         "platform": "windows",
-        "name": "callbacks",
-        "description": "Lists kernel callbacks and notification routines.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "DeviceTree",
+        "description": "Enumerate device tree and driver-related information",
+        "description2": "This plugin enumerates the device tree and driver-related information in a Windows memory image, mapping out the relationships between drivers and devices. It provides detailed insights into the system's hardware configuration and the associated drivers.",
+        "category": "System Info",
+        "link": "https://volatility3.readthedocs.io/en/stable/volatility3.plugins.windows.devicetree.html#volatility3.plugins.windows.devicetree.DeviceTree"
     },
     {
         "platform": "windows",
-        "name": "cmdline",
-        "description": "Lists process command line arguments.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "DllList",
+        "description": "Lists loaded modules in a Windows memory image",
+        "description2": "This plugin lists loaded modules in a Windows memory image by enumerating the dynamic link libraries (DLLs) currently in use. It provides valuable information about the executable files and libraries loaded into the system's memory, aiding in the analysis of software components and dependencies.",
+        "category": "System Info",
+        "link": "https://volatility3.readthedocs.io/en/stable/volatility3.plugins.windows.dlllist.html"
     },
     {
         "platform": "windows",
-        "name": "crashinfo",
-        "description": "Lists the information from a Windows crash dump.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "DriverIrp",
+        "description": "Lists IRPs for drivers in a Windows memory image",
+        "description2": "This plugin lists IRPs for drivers in a Windows memory image by examining the I/O Request Packets associated with the drivers. It provides detailed insights into the communication between drivers and the Windows operating system.",
+        "category": "System Info",
+        "link": "https://volatility3.readthedocs.io/en/stable/volatility3.plugins.windows.driverirp.html"
     },
     {
         "platform": "windows",
-        "name": "devicetree",
-        "description": "Listing tree based on drivers and attached devices in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "DriverModule",
+        "description": "Determines if any loaded drivers were hidden by a rootkit ",
+        "description2": "This plugin analyzes the list of loaded kernel modules in a Windows memory image. It identifies discrepancies that suggest the presence of hidden drivers, which is a common technique used by rootkits to evade detection.",
+        "category": "System Info",
+        "link": "https://volatility3.readthedocs.io/en/stable/volatility3.plugins.windows.drivermodule.html"
     },
     {
         "platform": "windows",
-        "name": "dlllist",
-        "description": "Lists the loaded modules in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "DriverScan",
+        "description": "Scans for drivers in a windows memory image",
+        "description2": "This plugin scans for drivers in a Windows memory image, systematically analyzing the memory to detect and list all loaded drivers present within the system's memory space.",
+        "category": "System Info",
+        "link": "https://volatility3.readthedocs.io/en/stable/volatility3.plugins.windows.driverscan.html"
     },
     {
         "platform": "windows",
-        "name": "driverirp",
-        "description": "List IRPs for drivers in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "DumpFiles",
+        "description": "Dumps cached file contents from Windows memory samples",
+        "description2": "This plugin dumps cached file contents from Windows memory samples, providing insights into the files cached in memory. It aids in forensic investigations by extracting file data from memory images, which can reveal important artifacts for analysis.",
+        "category": "System Activity",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.dumpfiles.html"
     },
     {
         "platform": "windows",
-        "name": "drivermodule",
-        "description": "Determines if any loaded drivers were hidden by a rootkit.",
-        "description2": "",
-        "category": "",
-        "link": ""
+        "name": "Envars",
+        "description": "Display process environment variables",
+        "description2": "This plugin displays process environment variables, offering insights into the environment configurations of running processes within a Windows memory image. By listing these variables, it provides valuable context for understanding process behavior and interactions with the operating system.",
+        "category": "System Activity",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.envars.html"
     },
     {
         "platform": "windows",
-        "name": "driverscan",
-        "description": "Scans for drivers present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "dumpfiles",
-        "description": "Dumps cached file contents from Windows memory samples.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "envars",
-        "description": "Display process environment variables.",
-        "description2": "",
-        "category": "",
-        "link": ""
-
-    },
-    {
-        "platform": "windows",
-        "name": "filescan",
+        "name": "FileScan",
         "description": "Scans for file objects present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
+        "description2": "This plugin scans for file objects present in a particular windows memory image. By systematically analyzing the memory, it identifies and lists all file objects stored within the memory space.",
+        "category": "System Activity",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.filescan.html"
+        },
+        {
         "platform": "windows",
-        "name": "getservicesids",
-        "description": "Lists process token SIDs.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
+        "name": "GetServiceSIDs",
+        "description": "Lists process token SIDs",
+        "description2": "This plugin lists process token SIDs (Security Identifiers), providing insights into the security context of running processes within a Windows memory image. By enumerating these SIDs, it reveals the security permissions and privileges associated with each process, aiding in forensic investigations and system monitoring.",
+        "category": "System Activity",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.getservicesids.html"
+        },
+        {
         "platform": "windows",
-        "name": "getsids",
-        "description": "Print the SIDs owning each process.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
+        "name": "GetSIDs",
+        "description": "Print the SIDs owning each process",
+        "description2": "This plugin prints the SIDs (Security Identifiers) owning each process within a Windows memory image. By enumerating these SIDs, it reveals the security context of running processes, including the user or group accounts associated with each process.",
+        "category": "System Activity",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.getsids.html"
+        },
+            {
+            "platform": "windows",
+            "name": "Handles",
+            "description": "Lists process open handles",
+            "description2": "This plugin lists process open handles within a Windows memory image, providing insights into the resources accessed and manipulated by running processes. By enumerating these handles, it reveals the files, registry keys, and other objects accessed by each process.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.handles.html"
+            },
+        {
         "platform": "windows",
-        "name": "handles",
-        "description": "Lists process open handles.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
+        "name": "Hashdump",
+        "description": "Dumps user hashes from memory",
+        "description2": "This plugin dumps user hashes from memory within a Windows memory image, providing access to hashed passwords stored in memory. By extracting these hashes, it allows for the analysis of user credentials and authentication mechanisms used within the system.",
+        "category": "Malware",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.hashdump.html"
+        },
+        {
         "platform": "windows",
-        "name": "hashdump",
-        "description": "Dumps user hashes from memory.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
+        "name": "IAT",
+        "description": "Extracts Import Address Table to list program APIs from external libraries.",
+        "description2": "This plugin extracts the Import Address Table (IAT) to list program APIs from external libraries within a Windows memory image. By enumerating these APIs, it reveals the functions and procedures imported by programs, aiding in the analysis of their behavior and dependencies.",
+        "category": "System Activity",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.iat.html"
+        },
+        {
         "platform": "windows",
-        "name": "iat",
-        "description": "Extract Import Address Table to list API (functions) used by a program contained in external libraries.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
+        "name": "Info",
+        "description": "Show OS & kernel details of the memory sample being analyzed",
+        "description2": "This plugin displays operating system and kernel details of the memory sample being analyzed within a Windows memory image. By providing information about the OS version, build number, and kernel details, it offers valuable context for understanding the system environment and configuration.",
+        "category": "System Info",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.info.html"
+        },
+        {
         "platform": "windows",
-        "name": "info",
-        "description": "Show OS & kernel details of the memory sample being analyzed.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
+        "name": "JobLinks",
+        "description": "Print process job link information",
+        "description2": "This plugin prints process job link information within a Windows memory image, revealing the relationships between processes and job objects. By enumerating these job links, it provides insights into process grouping and management within the operating system.",
+        "category": "System Activity",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.joblinks.html"
+        },
+        {
         "platform": "windows",
-        "name": "joblinks",
-        "description": "Print process job link information.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
+        "name": "LdrModules",
+        "description": "Lists the loaded modules in a particular windows memory image",
+        "description2": "This plugin lists the loaded modules in a particular Windows memory image, enumerating the dynamic link libraries (DLLs) and other modules currently loaded into memory. By providing a comprehensive overview of the modules present, it aids in understanding the software components and dependencies within the system.",
+        "category": "System Info",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.ldrmodules.html"
+        },
+        {
         "platform": "windows",
-        "name": "ldrmodules",
-        "description": "Lists the loaded modules in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
+        "name": "LsaDump",
+        "description": "Dumps lsa secrets from memory",
+        "description2": "This plugin dumps LSA (Local Security Authority) secrets from memory within a Windows memory image, extracting sensitive security information stored by the operating system. By retrieving these secrets, it provides access to credentials, encryption keys, and other security-related data used for authentication and access control.",
+        "category": "Malware",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.lsadump.html"
+        },
+        {
         "platform": "windows",
-        "name": "lsadump",
-        "description": "Dumps lsa secrets from memory.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
+        "name": "Malfind",
+        "description": "Lists process memory ranges that potentially contain injected code",
+        "description2": "This plugin lists process memory ranges within a Windows memory image that potentially contain injected code. By identifying these memory regions, it reveals areas where malicious code may have been injected into legitimate processes.",
+        "category": "Malware",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.malfind.html"
+        },
+        {
         "platform": "windows",
-        "name": "malfind",
-        "description": "Lists process memory ranges that potentially contain injected code.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
+        "name": "MBRScan",
+        "description": "Scans for and parses potential Master Boot Records (MBRs)",
+        "description2": "This plugin scans for and parses potential Master Boot Records (MBRs) within a Windows memory image. By analyzing the memory, it identifies and extracts data related to the MBR, which is crucial for understanding the boot process and potential boot sector infections.",
+        "category": "Malware",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.mbrscan.html"
+        },
+        {
         "platform": "windows",
-        "name": "mbrscan",
-        "description": "Scans for and parses potential Master Boot Records (MBRs).",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "memmap",
-        "description": "Prints the memory map.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "mftscan_ads",
-        "description": "Scans for Alternate Data Stream.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "mftscan",
-        "description": "Scans for MFT FILE objects present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "modscan",
-        "description": "Scans for modules present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "modules",
-        "description": "Lists the loaded kernel modules.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "mutantscan",
-        "description": "Scans for mutexes present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "netscan",
-        "description": "Scans for network objects present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "netstat",
-        "description": "Traverses network tracking structures present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "poolscanner",
-        "description": "A generic pool scanner plugin.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "privileges",
-        "description": "Lists process token privileges.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "pslist",
-        "description": "Lists the processes present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "psscan",
-        "description": "Scans for processes present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "pstree",
-        "description": "Plugin for listing processes in a tree based on their parent process ID.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "registry_certificates",
-        "description": "Lists the certificates in the registry's Certificate Store.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "registry_hivelist",
-        "description": "Lists the registry hives present in a particular memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "registry_hivescan",
-        "description": "Scans for registry hives present in a particular windows memory image.",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "windows",
-        "name": "registry_printkey",
-        "description": "Lists",
-        "description2": "",
-        "category": "",
-        "link": ""
-    },
-    {
-        "platform": "mac",
-        "name": "test",
-        "description": "test",
-        "description2": "",
-        "category": "test",
-        "link": ""
-    }
-]
+        "name": "MemMap",
+        "description": "Prints the memory map",
+        "description2": "This plugin prints the memory map within a Windows memory image, providing a detailed overview of memory usage and allocation. By enumerating memory regions and their properties, it offers insights into the layout of the system's memory space.",
+        "category": "System Info",
+        "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.memmap.html"
+        },
+        {
+            "platform": "windows",
+            "name": "MFTScan",
+            "description": "Scans for Alternate Data Stream",
+            "description2": "This plugin scans for Alternate Data Streams (ADS) within the Master File Table (MFT) in a Windows memory image. By analyzing the MFT, it identifies and extracts data streams associated with files, revealing hidden or additional information stored alongside regular file data.",
+            "category": "Malware",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.mftscan.html"
+        },
+        {
+            "platform": "windows",
+            "name": "ModScan",
+            "description": "Scans for modules present in a particular windows memory image",
+            "description2": "This plugin scans for modules present in a particular Windows memory image, enumerating the loaded kernel modules and drivers. By identifying these modules, it provides insights into the system's kernel-level components and their functionalities.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.modscan.html"
+        },
+        {
+            "platform": "windows",
+            "name": "Modules",
+            "description": "Lists the loaded kernel modules",
+            "description2": "This plugin lists the loaded kernel modules within a Windows memory image, providing insights into the kernel-level components present in the system. By enumerating these modules, it offers valuable information about the functionalities and extensions loaded into the kernel space.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.modules.html"
+        },
+        {
+            "platform": "windows",
+            "name": "MutantScan",
+            "description": "Scans for mutexes present in a particular windows memory image",
+            "description2": "This plugin scans for mutexes (mutual exclusion objects) present in a particular Windows memory image, enumerating synchronization primitives used by processes for inter-process communication and coordination. By identifying these mutexes, it provides insights into process synchronization and potential inter-process dependencies within the system.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.mutantscan.html"
+        },
+        {
+            "platform": "windows",
+            "name": "NetScan",
+            "description": "Scans for network objects present in a particular windows memory image",
+            "description2": "This plugin scans for network objects present in a particular Windows memory image, identifying network-related data structures and configurations stored in memory. By enumerating these objects, it provides insights into network connections, sockets, and other network-related artifacts within the system.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.netscan.html"
+        },
+        {
+            "platform": "windows",
+            "name": "NetStat",
+            "description": "Traverses network tracking structures present in a particular windows memory image",
+            "description2": "This plugin traverses network tracking structures present in a particular Windows memory image, providing insights into network-related activities and connections within the system. By analyzing these structures, it reveals information about active network connections, listening ports, and other network-related artifacts.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.netstat.html"
+        },
+        {
+            "platform": "windows",
+            "name": "PoolScanner",
+            "description": "Class to maintain tag/size/index/type information about Pool header tags",
+            "description2": "This plugin maintains tag/size/index/type information about Pool header tags within a Windows memory image. By analyzing these pool header tags, it provides insights into memory pool allocations and usage patterns.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.poolscanner.html"
+        },
+        {
+            "platform": "windows",
+            "name": "Privs",
+            "description": "Lists process token privileges",
+            "description2": "This plugin lists process token privileges within a Windows memory image, providing insights into the security privileges assigned to running processes. By enumerating these privileges, it reveals the permissions and capabilities granted to each process, aiding in forensic investigations and security assessments.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.privileges.html"
+        },
+        {
+            "platform": "windows",
+            "name": "PsList",
+            "description": "Lists the processes present in a particular windows memory image",
+            "description2": "This plugin scans for processes present in a particular Windows memory image. By analyzing process data structures, it identifies and lists active processes within the system, providing insights into process attributes such as process IDs, names, parent process IDs, and other details.",
+            "category": "Processes",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.pslist.html"
+        },
+        {
+            "platform": "windows",
+            "name": "PsScan",
+            "description": "Scans for processes present in a particular windows memory image",
+            "description2": "This plugin scans for processes present in a particular Windows memory image. By analyzing process data structures, it identifies and lists active processes within the system, providing insights into process attributes such as process IDs, names, parent process IDs, and other details.",
+            "category": "Processes",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.psscan.html"
+        },
+        {
+            "platform": "windows",
+            "name": "PsTree",
+            "description": "Plugin for listing processes in a tree based on their parent process ID",
+            "description2": "This plugin lists processes in a tree structure based on their parent process ID within a Windows memory image. By organizing processes hierarchically, it offers a visual representation of process relationships, illustrating parent-child connections and dependencies.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.pstree.html"
+        },
+        {
+            "platform": "windows",
+            "name": "Certificates",
+            "description": "Lists the certificates in the registrys Certificate Store",
+            "description2": "This plugin Lists the certificates in the registrys Certificate Store, offering a detailed overview of the cryptographic credentials stored within the system. By accessing this critical repository, it provides valuable insights into the security posture of the system, aiding in the identification of trusted entities, certificate expiration dates, and cryptographic algorithms in use.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.registry.certificates.html"
+        },
+        {
+            "platform": "windows",
+            "name": "HiveList",
+            "description": "Traverses the registry HiveList and stores invalid offsets if the list walk fails",
+            "description2": "This plugin Traverses the registry HiveList and stores invalid offsets if the list walk fails. By navigating through this crucial registry structure, it provides indispensable insights into the system's configuration and integrity.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.registry.hivelist.html#module-volatility3.plugins.windows.registry.hivelist"
+        },
+        {
+            "platform": "windows",
+            "name": "HiveScan",
+            "description": "Scans for registry hives present in a particular windows memory image",
+            "description2": "This plugin Scans for registry hives present in a particular Windows memory image, meticulously examining the memory contents to identify and catalog registry hives. By scrutinizing the memory image, it provides valuable insights into the system's registry configuration and structure.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.registry.hivescan.html#module-volatility3.plugins.windows.registry.hivescan"
+        },
+        {
+            "platform": "windows",
+            "name": "PrintKey",
+            "description": "Lists the registry keys under a hive or specific key value",
+            "description2": "This plugin Lists the registry keys under a hive or specific key value, meticulously presenting a detailed overview of the registry hierarchy. By traversing through the specified hive or key value, it provides valuable insights into the structure and organization of the registry.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.registry.printkey.html#module-volatility3.plugins.windows.registry.printkey"
+        },
+        {
+            "platform": "windows",
+            "name": "UserAssist",
+            "description": "Print userassist registry keys and information",
+            "description2": "This plugin Print userassist registry keys and information retrieves and presents detailed insights into userassist registry keys and associated information. It provides valuable visibility into user activity and interactions on the system, aiding forensic analysts and system administrators in understanding user behavior and identifying potential security incidents.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.registry.userassist.html#module-volatility3.plugins.windows.registry.userassist"
+        },
+        {
+            "platform": "windows",
+            "name": "Sessions",
+            "description": "lists Processes with Session information extracted from Environmental Variables",
+            "description2": "This plugin lists processes with session information extracted from environmental variables within a Windows memory image. By examining environmental variables, it identifies processes associated with specific user sessions, providing insights into session-based activity and resource usage.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.sessions.html"
+        },
+        {
+            "platform": "windows",
+            "name": "Skeleton_Key_Check",
+            "description": "Looks for signs of Skeleton Key malware",
+            "description2": "This plugin looks for signs of Skeleton Key malware within a Windows memory image. It examines memory structures and system artifacts to identify indicators associated with Skeleton Key infections. By detecting anomalous authentication patterns or modifications to authentication mechanisms.",
+            "category": "Malware",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.skeleton_key_check.html"
+        },
+        {
+            "platform": "windows",
+            "name": "SSDT",
+            "description": "Lists the system call table",
+            "description2": "This plugin lists the system call table within a Windows memory image. The System Service Descriptor Table (SSDT) contains entries that point to the kernel routines handling system calls. By extracting and analyzing the SSDT, this plugin provides insights into the system's core functionality and the services available to user-mode applications.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.ssdt.html"
+        },
+        {
+            "platform": "windows",
+            "name": "Statistics",
+            "description": "Lists statistics about the memory space",
+            "description2": "This plugin Lists statistics about the memory space, providing valuable insights into memory usage, allocation, and fragmentation. It offers essential information for system administrators and analysts to understand memory consumption patterns, identify potential bottlenecks, and optimize system performance.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.statistics.html"
+        },
+        {
+            "platform": "windows",
+            "name": "Strings",
+            "description": "Reads output from the strings command and indicates which process(es) each string belongs to",
+            "description2": "This plugin reads output from the strings command within a Windows memory image and indicates which process(es) each string belongs to. The strings command extracts human-readable text from binary data, and by associating strings with processes.",
+            "category": "System Acitivty",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.strings.html"
+        },
+        {
+            "platform": "windows",
+            "name": "SvcScan",
+            "description": "Create new instance of ServiceBinaryInfo(dll, binary)",
+            "description2": "This plugin creates a new instance of ServiceBinaryInfo (DLL, binary) within a Windows memory image. By examining service-related data structures and configurations, it provides insights into installed services and their associated binaries.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.svcscan.html"
+        },
+        {
+            "platform": "windows",
+            "name": "SymlinkScan",
+            "description": "Scans for links present in a particular windows memory image",
+            "description2": "This plugin scans for links present in a particular Windows memory image. Symbolic links, also known as symlinks, are special files that point to other files or directories. By identifying and analyzing symlinks, this plugin provides insights into file system structures, file relationships, and potential file manipulation activities.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.symlinkscan.html"
+        },
+        {
+            "platform": "windows",
+            "name": "ThrdScan",
+            "description": "Scans for windows threads",
+            "description2": "This plugin scans for Windows threads present in a particular memory image. Threads are the smallest units of execution within a process, responsible for carrying out tasks concurrently. By identifying and analyzing threads, this plugin provides insights into process execution, multitasking behavior, and resource utilization patterns.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.thrdscan.html"
+        },
+        {
+            "platform": "windows",
+            "name": "Passphrase",
+            "description": "TrueCrypt Cached Passphrase Finder",
+            "description2": "This plugin TrueCrypt Cached Passphrase Finder searches for cached passphrases used in TrueCrypt encryption, providing a means to recover potentially crucial cryptographic keys. It enables forensic analysts to uncover hidden or encrypted data protected by TrueCrypt volumes by identifying cached passphrases stored in memory.",
+            "category": "Malware",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.truecrypt.html"
+        },
+        {
+            "platform": "windows",
+            "name": "VadInfo",
+            "description": "Lists process memory ranges",
+            "description2": "This plugin lists process memory ranges within a Windows memory image. Virtual Address Descriptors (VADs) are data structures used by the Windows operating system to manage process memory. By enumerating VADs, this plugin provides insights into the memory layout of each process, including allocated memory regions and their attributes.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.vadinfo.html"
+        },
+        {
+            "platform": "windows",
+            "name": "VadWalk",
+            "description": "Walk the VAD tree",
+            "description2": "This plugin walks the Virtual Address Descriptor (VAD) tree within a Windows memory image. The VAD tree is a hierarchical data structure used by the Windows operating system to manage process memory. By traversing the VAD tree, this plugin provides a systematic exploration of process memory layouts, revealing details about memory allocation, protection, and usage patterns.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.vadwalk.html"
+        },
+        {
+            "platform": "windows",
+            "name": "VadYaraScan",
+            "description": "Scans all the Virtual Address Descriptor memory maps using yara",
+            "description2": "This plugin scans all the Virtual Address Descriptor (VAD) memory maps within a Windows memory image using YARA rules. YARA is a powerful pattern matching tool used for malware research and detection. By applying YARA rules to VAD memory maps, this plugin identifies patterns indicative of known malware or suspicious behavior.",
+            "category": "Malware",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.vadyarascan.html"
+        },
+        {
+            "platform": "windows",
+            "name": "VerInfo",
+            "description": "Lists version information from PE files",
+            "description2": "This plugin lists version information from Portable Executable (PE) files within a Windows memory image. PE files are executable file formats used in Windows operating systems. By extracting version information from PE files, this plugin provides insights into the software versions, build numbers, and other metadata associated with executable files.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.verinfo.html"
+        },
+        {
+            "platform": "windows",
+            "name": "VirtMap",
+            "description": "Lists virtual mapped sections",
+            "description2": "This plugin lists virtual mapped sections within a Windows memory image. Virtual mapped sections represent memory regions that have been mapped into the virtual address space of a process. By enumerating virtual mapped sections, this plugin provides insights into the memory layout of each process, including mapped files, executables, and libraries.",
+            "category": "System Info",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.virtmap.html"
+        },
+        {
+            "platform": "macOS",
+            "name": "Bash",
+            "description": "Recovers bash command history from memory",
+            "description2": "This plugin Recovers bash command history from memory, retrieves and presents the command history of the Bash shell stored in memory. It provides valuable insights into past commands executed in the shell, aiding forensic analysts and system administrators in understanding user activities and troubleshooting issues.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.mac.bash.html"
+        },
+        {
+            "platform": "macOS",
+            "name": "Check_syscall",
+            "description": "Check system call table for hooks",
+            "description2": "This plugin Check system call table for hooks examines the system call table to detect any modifications or hooks. It plays a crucial role in security auditing and forensic analysis, helping to identify potential tampering or malicious activity that may have altered the behavior of system calls. By scrutinizing the integrity of the system call table, the plugin provides valuable insights into the security posture of the system, aiding in the detection and mitigation of kernel-level threats and vulnerabilities.",
+            "category": "Malware",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.mac.check_syscall.html"
+        },
+        {
+            "platform": "macOS",
+            "name": "Check_sysctl",
+            "description": "Check sysctl handlers for hooks",
+            "description2": "This plugin Check sysctl handlers for hooks, examines the sysctl handlers to detect any modifications or hooks. It is essential for security auditing and forensic analysis, enabling the identification of potential tampering or malicious activity that may have altered the behavior of sysctl handlers. By scrutinizing the integrity of sysctl handlers, the plugin provides valuable insights into the security posture of the system, aiding in the detection and mitigation of kernel-level threats and vulnerabilities.",
+            "category": "Malware",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.mac.check_sysctl.html"
+        },
+        {
+            "platform": "macOS",
+            "name": "Check_trap_table",
+            "description": "Check mach trap table for hooks",
+            "description2": "This plugin Check mach trap table for hooks scrutinizes the mach trap table to detect any modifications or hooks. It plays a critical role in security auditing and forensic analysis by identifying potential tampering or malicious activity that may have altered the behavior of mach trap table entries. By examining the integrity of the mach trap table, the plugin offers valuable insights into the security posture of the system, assisting in the detection and mitigation of kernel-level threats and vulnerabilities.",
+            "category": "Malware",
+            "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.mac.check_trap_table.html"
+        },
+        {
+            "platform": "Linux",
+            "name": "Bash",
+            "description": "Recovers bash command history from memory",
+            "description2": "This plugin Recovers bash command history from memory by accessing the stored command history of bash shell sessions. It reveals user activities and executed commands on the system.",
+            "category": "System Activity",
+            "link": "https://volatility3.readthedocs.io/en/develop/volatility3.plugins.linux.bash.html"
+        },
+        {
+            "platform": "Linux",
+            "name": "Capabilities",
+            "description": "Lists process capabilities",
+            "description2": "This plugin Lists process capabilities by detailing the specific privileges assigned to each process. It provides insight into the security and permission levels of processes running on the system.",
+            "category": "Processes",
+            "link": "https://volatility3.readthedocs.io/en/develop/volatility3.plugins.linux.capabilities.html"
+        },
+        {
+            "platform": "Linux",
+            "name": "Check_afinfo",
+            "description": "Verifies the operation function pointers of network protocols",
+            "description2": "This plugin Verifies the operation function pointers of network protocols by checking the integrity and validity of these pointers. It ensures that the network protocols are functioning correctly and have not been tampered with.",
+            "category": "Network",
+            "link": "https://volatility3.readthedocs.io/en/develop/volatility3.plugins.linux.check_afinfo.html"
+        }
+       
+       
+      ]
+      
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
