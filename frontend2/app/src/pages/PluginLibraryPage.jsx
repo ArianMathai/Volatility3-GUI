@@ -12,7 +12,7 @@ const PluginLibraryPage = () => {
 
     return (
         <>
-            <div className="flex flex-row justify-between items-center p-4 bg-gray-800 text-white">
+            <div className="flex flex-row justify-between items-center p-4 text-white">
                 <div>
                     <Logo />
                 </div>
@@ -43,7 +43,7 @@ const PluginLibraryPage = () => {
                     Linux
                 </button>
             </div>
-            <div className="p-4 flex-grow">
+            <div className="p-4 flex-grow flex justify-center">
                 <PluginList selectedOS={selectedOS} />
             </div>
         </>

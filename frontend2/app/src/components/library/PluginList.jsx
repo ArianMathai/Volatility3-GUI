@@ -21,10 +21,6 @@ const PluginList = ({ selectedOS }) => {
         fetchAllPlugins();
     }, []);
 
-    useEffect(() => {
-        console.log("All plugins = ", allPlugins);
-    }, [allPlugins]);
-
     const filteredPlugins = allPlugins.filter(
         (plugin) =>
             plugin.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -51,19 +47,17 @@ const PluginList = ({ selectedOS }) => {
             {filteredPlugins.map((plugin, index) => (
                 <tr
                     key={index}
-                    className={`rounded-lg ${
-                        index % 2 === 0 ? "bg-themeBlue-darker" : "bg-themeBlue-dark"
-                    }`}
+                    className={`p-2 ${index % 2 === 0 ? "bg-darkerblue-important" : "bg-darkblue-important"}`}
                 >
-                    <td className="px-4 py-2 text-white">{plugin.name}</td>
-                    <td className="px-4 py-2 text-white relative group">
+                    <td className="p-3 text-white">{plugin.name}</td>
+                    <td className="p-3 text-white relative group">
                         <span>{plugin.description}</span>
                         <span className="ml-2 cursor-pointer relative">
-                ...
-                <span className="absolute hidden group-hover:block bg-black text-white text-sm rounded p-2 w-64 -top-10 left-1/2 transform -translate-x-1/2">
-                  {plugin.description2}
-                </span>
-              </span>
+                                More...
+                                <span className="absolute hidden group-hover:block bg-black text-white text-sm rounded p-2 w-64 -top-10 left-1/2 transform -translate-x-1/2">
+                                    {plugin.description2}
+                                </span>
+                            </span>
                     </td>
                     <td className="px-4 py-2">
                         <a
@@ -83,7 +77,7 @@ const PluginList = ({ selectedOS }) => {
     };
 
     return (
-        <div>
+        <div className="w-3/4 mx-auto">
             <div className="mb-4">
                 <input
                     type="text"
