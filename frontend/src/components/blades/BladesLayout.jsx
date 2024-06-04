@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
-import '../../css/AnalysisLayout.css';
 import BladesReportComponent from "./BladesReportComponent";
 
 export const BladesLayout = () => {
     const [navItems, setNavItems] = useState([]);
-    const { plugins, setPlugins, selectedProcess, setSelectedProcess } = useAppContext();
-    const navigate = useNavigate();
+    const {  selectedProcess} = useAppContext();
     const currentLocation = useLocation();
     const [prevPath, setPrevPath] = useState("");
 
@@ -22,23 +20,16 @@ export const BladesLayout = () => {
     }, [selectedProcess]);
 
     useEffect(() => {
-        // console.log("selected process:", selectedProcess);
-        // console.log("selected navItems:", navItems);
-    }, [selectedProcess, navItems]);
-
-    useEffect(() => {
-        // console.log("Current Path:", currentLocation.pathname);
-        // console.log("Previous Path:", prevPath);
         setPrevPath(currentLocation.pathname);
     }, [currentLocation]);
 
     return (
-        <div className="blades-layout-container">
-            <div className="tabs-container">
+        <div>
+            <div>
                 {navItems.map((item, index) => {
                     if (item?.isActive) {
                         return (
-                            <div key={index} className={`tab-item ${item.isActive ? 'active-tab' : 'inactive-tab'}`}>
+                            <div key={index} className="bg-themeBlue-dark text-themeText-light max-w-[100px]">
                                 <span>{item.data}</span>
                             </div>
                         )

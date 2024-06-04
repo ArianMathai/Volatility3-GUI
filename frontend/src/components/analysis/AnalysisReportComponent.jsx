@@ -4,8 +4,6 @@ import { useAppContext } from "../../context/Context";
 import DynamicReport from "./DynamicReport";
 import { BladesLayout } from "../blades/BladesLayout";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import BladesReportComponent from "../blades/BladesReportComponent";
-import '../../css/AnalysisReportComponent.css'; // Import custom CSS for additional styling
 
 export const AnalysisReportComponent = () => {
     const { processList, selectedProcess, setSelectedProcess } = useAppContext();
@@ -25,7 +23,6 @@ export const AnalysisReportComponent = () => {
         if (currentReport) {
             setReport(currentReport.processes);
 
-            // Extract headers from the first object in the report
             if (currentReport.processes.length > 0) {
                 setHeaders(Object.keys(currentReport.processes[0]));
             }
@@ -33,22 +30,22 @@ export const AnalysisReportComponent = () => {
             setReport([]);
             setHeaders([]);
         }
-    }, [processList, plugin]);  // Add plugin to the dependency array
+    }, [processList, plugin]);
 
 
     return (
         <div className="p-4">
-            <div className="report-layout">
+            <div>
                 <PanelGroup direction="horizontal">
                     <Panel defaultSize={25} order={1}>
-                        <div className="dynamic-report-container">
+                        <divs>
                             <DynamicReport report={report } searchQuery={searchQuery}/>
-                        </div>
+                        </divs>
                     </Panel>
                     {selectedProcess.length > 0 && <PanelResizeHandle />}
                     {selectedProcess.length > 0 && (
                         <Panel defaultSize={25} order={2}>
-                            <div className="blades-layout-container">
+                            <div>
                                 <BladesLayout report={report} />
                             </div>
                         </Panel >

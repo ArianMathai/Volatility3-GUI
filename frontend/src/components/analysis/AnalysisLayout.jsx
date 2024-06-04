@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
-import '../../css/AnalysisLayout.css';
 
 export const AnalysisLayout = () => {
     const { plugins, setPlugins, searchQuery } = useAppContext();
@@ -30,8 +29,8 @@ export const AnalysisLayout = () => {
 
     return (
 
-        <div className="analysis-layout-container">
-            <div className="tabs-container">
+        <div>
+            <div>
                 <div className="flex space-x-2 bg-gray-200 p-2 rounded-t-md shadow-md">
                     {navItems.map((item, index) => {
                         const isActive = currentLocation.pathname.includes(item);
@@ -39,7 +38,7 @@ export const AnalysisLayout = () => {
                             <div key={index} className={`tab-item ${isActive ? 'active-tab' : 'inactive-tab'}`}>
                                 <span onClick={() => navigate(`/analysis/${item}`)}>{item}</span>
                                 {isActive && (
-                                    <button className="close-button"
+                                    <button
                                             onClick={() => handleRemovePlugin(item)}>X</button>
                                 )}
                             </div>

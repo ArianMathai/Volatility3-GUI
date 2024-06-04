@@ -54,7 +54,7 @@ const AdditionalPluginBar = () => {
                         value={selectedPlugin}
                         onChange={handlePluginChange}
                     >
-                        <option value={"Select a plugin"}></option>
+                        <option value="" disabled selected>Select a plugin</option>
                         {pluginList.map((plugin, i) => (
                             <option key={i} value={plugin.name}>{plugin.name}</option>
                         ))}
