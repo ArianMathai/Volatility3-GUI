@@ -14,16 +14,17 @@ export const BladesLayout = () => {
     useEffect(() => {
         if (selectedProcess) {
             const updatedNavItems = selectedProcess.map(process => ({
+                ...process,
                 data: process.data.ImageFileName,
-                isActive: process.isActive
+                isActive: process.isActive,
             }));
             setNavItems(updatedNavItems);
         }
     }, [selectedProcess]);
 
     useEffect(() => {
-        // console.log("selected process:", selectedProcess);
-        // console.log("selected navItems:", navItems);
+        console.log("selected process:", selectedProcess);
+        console.log("selected navItems:", navItems);
     }, [selectedProcess, navItems]);
 
     useEffect(() => {
@@ -34,17 +35,25 @@ export const BladesLayout = () => {
 
     return (
         <div className="blades-layout-container">
-            <div className="tabs-container">
-                {navItems.map((item, index) => {
-                    if (item?.isActive) {
-                        return (
+            {navItems.map((item, index) => {
+                if (item?.isActive) {
+                    return (
+                        <div className="tabs-container">
                             <div key={index} className={`tab-item ${item.isActive ? 'active-tab' : 'inactive-tab'}`}>
                                 <span>{item.data}</span>
                             </div>
-                        )
-                    }
-                })}
-            </div>
+                            {item?.tabs?.length > 0 && item?.tabs?.map((item) => {
+                            return (
+                                <div key={index}
+                                     className={`tab-item ${item?.isActive ? 'active-tab' : 'inactive-tab'}`}>
+                                    <span>{item?.plugin}</span>
+                                </div>
+                            )})}
+                        </div>
+                    )
+                }})
+            }
+
             <div className="content-container">
                 <BladesReportComponent />
             </div>

@@ -110,14 +110,16 @@ const DynamicReport = ({ report, searchQuery }) => {
     const handleItemClick = (item) => {
         const updatedSelectedProcess = selectedProcess.map(process => ({
             ...process,
-            isActive: false
+            isActive: false,
         }));
 
-        const newItem = { isActive: true, data: item };
+
+        const newItem = { isActive: true, data: item, tabs: [] };
         const indexOfClickedItem = updatedSelectedProcess.findIndex(process => process.data.PID === item.PID);
 
         if (indexOfClickedItem !== -1) {
-            updatedSelectedProcess[indexOfClickedItem] = newItem;
+            updatedSelectedProcess[indexOfClickedItem].isActive = newItem.isActive;
+            updatedSelectedProcess[indexOfClickedItem].isActive = newItem.data;
         } else {
             updatedSelectedProcess.push(newItem);
         }
