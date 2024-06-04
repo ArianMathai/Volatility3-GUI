@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import {useParams, useLocation, useOutletContext} from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 import DynamicReport from "./DynamicReport";
+import { BladesLayout } from "../blades/BladesLayout";
+import BladesReportComponent from "../blades/BladesReportComponent";
+import '../../css/AnalysisReportComponent.css'; // Import custom CSS for additional styling
 
 export const AnalysisReportComponent = () => {
-    const { processList } = useAppContext();
+    const { processList, selectedProcess, setSelectedProcess } = useAppContext();
     const { plugin } = useParams();  // Get the last URL parameter
     const location = useLocation();  // Get the current location
     const [report, setReport] = useState([]);
@@ -18,7 +21,6 @@ export const AnalysisReportComponent = () => {
     useEffect(() => {
         console.log("Current Plugin:", plugin);
         console.log("processList:");
-        console.log(processList);
 
         const currentReport = processList.find((element) => element.plugin === plugin);
         if (currentReport) {
@@ -41,7 +43,16 @@ export const AnalysisReportComponent = () => {
 
     return (
         <div className="p-4">
-            <DynamicReport report={report} searchQuery={searchQuery}/> {/* Use the new DynamicReport component */}
+            <div className="report-layout">
+                <div className="dynamic-report-container">
+                    <DynamicReport report={report } searchQuery={searchQuery}/>
+                </div>
+                {selectedProcess.length > 0 && (
+                    <div className="blades-layout-container">
+                        <BladesLayout report={report} />
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

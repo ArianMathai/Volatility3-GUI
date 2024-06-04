@@ -22,6 +22,7 @@ function App() {
                         <Route path='/selectplugins' element={<SelectPluginsPage />} />
                         <Route path='/analysis' element={<AnalysisLayoutPage />}>
                             <Route path=':plugin' element={<AnalysisReportComponent />} />
+                            <Route path=':plugin/:process' element={<AnalysisReportComponent />} />
                         </Route>
                     </Routes>
                 </HashRouter>
