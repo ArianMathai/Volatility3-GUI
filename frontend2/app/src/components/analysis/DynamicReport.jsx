@@ -2,7 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 
 const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
-    const [sorted, setSorted] = useState(false);
     const [filteredReport, setFilteredReport] = useState([]);
     const [hoverIndex, setHoverIndex] = useState(null);
 
@@ -30,7 +29,7 @@ const DynamicReport = ({ report, searchQuery }) => {
 
     // Sorting logic
     const sortedAndFilteredReport = useMemo(() => {
-        if (!sorted || !sortKey) return filteredReport;
+        if (!sortKey) return filteredReport;
         let sortedItems = [...filteredReport];
 
         // Sorts as numbers or strings based on datatype
@@ -45,11 +44,10 @@ const DynamicReport = ({ report, searchQuery }) => {
             }
         });
         return sortedItems;
-    }, [filteredReport, sortKey, sorted]);
+    }, [filteredReport, sortKey]);
 
     const sortReport = (key) => {
-        setSortKey(key);
-        setSorted(!sorted); // Toggle sorted state to trigger re-sorting
+        setSortKey(key); // Set the sort key and always sort in ascending order
     };
 
     const headers = useMemo(() => {
@@ -63,7 +61,6 @@ const DynamicReport = ({ report, searchQuery }) => {
         textAlign: 'center',
     };
 
-    // HER MÅ FRONTEND HJELPE MEG FOR DET SER HELT JÆVELIG UT
     const hoverStyle = {
         backgroundColor: '#007bff',
         color: 'white',
@@ -72,7 +69,6 @@ const DynamicReport = ({ report, searchQuery }) => {
         transition: 'background-color 0.2s ease-in-out',
         outline: 'none',
     };
-
 
     const headerStyle = {
         textAlign: 'center',
