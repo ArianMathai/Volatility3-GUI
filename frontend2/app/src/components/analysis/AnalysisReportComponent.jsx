@@ -12,7 +12,7 @@ export const AnalysisReportComponent = () => {
     const location = useLocation();  // Get the current location
     const [report, setReport] = useState([]);
     const [headers, setHeaders] = useState([]);
-    const [searchQuery] = useOutletContext();
+    const [searchQuery] = useOutletContext() || [''];
 
     useEffect(() => {
         console.log("Current Path:", location.pathname);
