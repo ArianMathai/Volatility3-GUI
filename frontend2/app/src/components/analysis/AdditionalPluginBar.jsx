@@ -2,35 +2,38 @@ import { useAppContext } from "../../context/Context";
 import { useState } from "react";
 
 const AdditionalPluginBar = () => {
-    const { projectName, folderPath, osName, file, plugins, setProcessList, processList, setPlugins,pluginList } = useAppContext();
+    const { projectName, folderPath, osName, file, plugins, setProcessList, setPlugins,pluginList } = useAppContext();
     //const [selectedAdditionalPlugin, setSelectedAdditionalPlugin] = useState("");
-    const [selectedPlugin, setSelectedPlugin] = useState()
+    const [selectedPlugin, setSelectedPlugin] = useState("")
 
     const handlePluginChange = (e) => {
         if(e.target.value === "") return;
         setSelectedPlugin(e.target.value);
-        console.log("Handle plugin change: ", selectedPlugin);
+        console.log("Handle plugin change: ", e.target.value);
     };
 
     const fetchUpdatedProcessList = async () => {
         if (!selectedPlugin) return;
 
-        setPlugins((prevList) => [...prevList,selectedPlugin]);
+        setPlugins((prevList) => {
+            if (!prevList.includes(selectedPlugin)) {
+                return [...prevList, selectedPlugin];
+            }
+            return prevList;
+        });
         console.log("Pugins:", plugins);
         console.log("Selected plugin:", selectedPlugin);
 
-        const processList = [];
 
         try {
             const res = await window.electronAPI.fetchProcessList(file.path,osName.os,selectedPlugin);
-            processList.push({ selectedPlugin, processes: res.processes });
-            console.log("Updated processList: ", processList);
+            const newProcessList = { plugin:selectedPlugin, processes: res.processes };
+            console.log("Updated processList: ", newProcessList);
 
+            setProcessList((prev) => [...prev, newProcessList]);
         } catch (error) {
             console.error(`Error fetching process list for ${selectedPlugin}:`, error);
         }
-
-        setProcessList((prev) => [...prev, processList]);
 
     };
 
@@ -47,7 +50,7 @@ const AdditionalPluginBar = () => {
                 value={selectedPlugin}
                 onChange={handlePluginChange}
             >
-                <option value="Select a plugin"></option>
+                <option value={"Select a plugin"}></option>
                 {pluginList.map((plugin, i) => (
                     <option key={i} value={plugin.name}>{plugin.name}</option>
                 ))}
