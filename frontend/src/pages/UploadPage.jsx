@@ -3,7 +3,7 @@ import { Upload } from '../components/upload/Upload';
 import Logo from '../components/shared/Logo';
 import InfoBox from '../components/shared/InfoBox';
 import InfoVolatility3 from '../components/shared/InfoVolatility3';
-import Loader from '../components/Loader';
+import Loader from '../components/shared/Loader';
 import PluginLibraryPage from "./PluginLibraryPage";
 import LibraryButton from "../components/shared/LibraryButton";
 
