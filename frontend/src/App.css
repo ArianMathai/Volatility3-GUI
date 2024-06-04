@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   background-color: #053046;
   font-family: "JetBrains Mono", monospace;
@@ -5,9 +9,16 @@ body {
 
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("../public/fonts/JetBrainsMono-Regular.ttf") format("mono");
+  src: url("../public/fonts/JetBrainsMono-Regular.ttf") format("truetype");
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.bg-white-important {
+  background-color: #ffffff !important;
+}
+
+.bg-darkerblue-important {
+  background-color: #0A202C !important;
+}
+.bg-darkblue-important {
+  background-color: #0C2A3A !important;
+}

@@ -3,7 +3,7 @@ import { SelectPlugins } from '../components/plugin/SelectPlugins';
 import SystemInfo from '../components/shared/SystemInfo';
 import Logo from '../components/shared/Logo';
 import HomeButton from '../components/shared/HomeButton';
-import Loader from '../components/Loader';
+import Loader from '../components/shared/Loader';
 import ProjectName from "../components/shared/ProjectName";
 import ProjectFilePath from "../components/shared/ProjectFilePath";
 

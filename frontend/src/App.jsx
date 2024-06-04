@@ -9,8 +9,6 @@ import UploadPage from "./pages/UploadPage";
 import PluginLibraryPage from "./pages/PluginLibraryPage";
 
 function App() {
-    const [osName, setOsName] = useState("");
-    const [systemInfo, setSystemInfo] = useState([]);
 
     return (
         <div className="App">

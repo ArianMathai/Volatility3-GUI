@@ -106,7 +106,7 @@ function startPythonBackend(command) {
 function createWindow() {
 
     const startUrl = format({
-        pathname: path.join(__dirname,'./app/build/index.html'),
+        pathname: path.join(__dirname,'./build/index.html'),
         protocol:'file',
     })
 
