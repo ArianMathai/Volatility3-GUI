@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
-import '../../css/AnalysisLayout.css';
-import AdditionalPluginBar from "./AdditionalPluginBar"; // Import custom CSS
 
 export const AnalysisLayout = () => {
-    const { plugins, setPlugins } = useAppContext();
-    const { processList } = useAppContext();
+    const { plugins, setPlugins, searchQuery } = useAppContext();
     const [navItems, setNavItems] = useState([]);
     const navigate = useNavigate();
     const currentLocation = useLocation();
     const [prevPath, setPrevPath] = useState("");
-    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         if (plugins) {
@@ -24,8 +20,6 @@ export const AnalysisLayout = () => {
 
 
     useEffect(() => {
-        // console.log("Current Path:", currentLocation.pathname);
-        // console.log("Previous Path:", prevPath);
         setPrevPath(currentLocation.pathname);
     }, [currentLocation]);
 
@@ -35,38 +29,23 @@ export const AnalysisLayout = () => {
 
     return (
 
-        <div className="p-4">
-            <AdditionalPluginBar/>
-        <div className="analysis-layout-container">
-            <div className="mb-4">
-                <input
-                    type="text"
-                    placeholder="Search report..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="p-2 border rounded w-full"
-                />
-            </div>
-            <div className="tabs-container">
-                <div className="flex space-x-2 bg-gray-200 p-2 rounded-t-md shadow-md">
+        <div>
+            <div>
+                <div className="flex">
                     {navItems.map((item, index) => {
                         const isActive = currentLocation.pathname.includes(item);
                         return (
-                            <div key={index} className={`tab-item ${isActive ? 'active-tab' : 'inactive-tab'}`}>
+                            <div key={index} className={`tab-item ${isActive ? 'bg-themeBlue-dark' : 'bg-themeBlue-darkest'} text-themeText-light shadow rounded-t-md p-2 hover:cursor-pointer`}>
                                 <span onClick={() => navigate(`/analysis/${item}`)}>{item}</span>
-                                {isActive && (
-                                    <button className="close-button"
-                                            onClick={() => handleRemovePlugin(item)}>X</button>
-                                )}
+                                <button className="text-red-800 ms-3" onClick={() => handleRemovePlugin(item)}>x</button>
                             </div>
                         );
                     })}
                 </div>
             </div>
-                <div className="p-4 bg-white shadow-md rounded-b-md">
+                <div>
                     <Outlet context={[searchQuery]}/>
                 </div>
-        </div>
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import './App.css';
 import { HashRouter, Route, Routes } from "react-router-dom";
 import SelectPluginsPage from "./pages/SelectPluginsPage";
-import React, { useState } from "react";
+import React from "react";
 import { AppProvider } from "./context/Context";
 import AnalysisLayoutPage from "./pages/AnalysisLayoutPage";
 import {AnalysisReportComponent} from "./components/analysis/AnalysisReportComponent"; // Ensure you import this correctly
