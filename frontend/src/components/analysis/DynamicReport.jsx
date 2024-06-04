@@ -87,7 +87,7 @@ const DynamicReport = ({ report, searchQuery }) => {
             <thead className="bg-themeBlue-default">
             <tr>
                 {headers.map((header, index) => (
-                    <th key={header} className="font-bold">
+                    <th key={header} className="font-bold text-left">
                         <button
                             onMouseEnter={() => setHoverIndex(index)}
                             onMouseLeave={() => setHoverIndex(null)}

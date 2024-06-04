@@ -29,15 +29,16 @@ export const BladesLayout = () => {
                 {navItems.map((item, index) => {
                     if (item?.isActive) {
                         return (
-                            <div key={index} className="bg-themeBlue-dark text-themeText-light max-w-[100px]">
-                                <span>{item.data}</span>
+                            <div key={index} className="bg-themeBlue-darkest text-themeText-light shadow rounded-t-md p-2 hover:cursor-pointer flex items-center">
+                                <span className="flex-grow">{item.data}</span>
+                                <button className="text-red-800 ms-3 flex-shrink-0">x</button>
                             </div>
                         )
                     }
                 })}
             </div>
-            <div className="content-container">
-                <BladesReportComponent />
+            <div>
+                <BladesReportComponent/>
             </div>
         </div>
     );

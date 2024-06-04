@@ -17,6 +17,7 @@ module.exports = {
           default: "#053046",
           dark: "#0C2A3A",
           darker: "#0B2B3C",
+          darkest: "#0A202C",
         },
         themeText: {
           light: "#DBD5C3",

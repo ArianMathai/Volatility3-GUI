@@ -34,24 +34,20 @@ export const AnalysisReportComponent = () => {
 
 
     return (
-        <div className="p-4">
-            <div>
+        <div className="m-4 mt-1 bg-themeBlue-dark">
                 <PanelGroup direction="horizontal">
-                    <Panel defaultSize={25} order={1}>
+                    <Panel defaultSize={25} order={1} className="border-l-3">
                         <divs>
                             <DynamicReport report={report } searchQuery={searchQuery}/>
                         </divs>
                     </Panel>
                     {selectedProcess.length > 0 && <PanelResizeHandle />}
                     {selectedProcess.length > 0 && (
-                        <Panel defaultSize={25} order={2}>
-                            <div>
+                        <Panel defaultSize={25} order={2} className="border-l-4 border-themeBlue-darkest">
                                 <BladesLayout report={report} />
-                            </div>
                         </Panel >
                     )}
                 </PanelGroup>
-            </div>
         </div>
     );
 };

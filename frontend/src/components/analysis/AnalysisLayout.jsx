@@ -31,16 +31,13 @@ export const AnalysisLayout = () => {
 
         <div>
             <div>
-                <div className="flex space-x-2 bg-gray-200 p-2 rounded-t-md shadow-md">
+                <div className="flex">
                     {navItems.map((item, index) => {
                         const isActive = currentLocation.pathname.includes(item);
                         return (
-                            <div key={index} className={`tab-item ${isActive ? 'active-tab' : 'inactive-tab'}`}>
+                            <div key={index} className={`tab-item ${isActive ? 'bg-themeBlue-dark' : 'bg-themeBlue-darkest'} text-themeText-light shadow rounded-t-md p-2 hover:cursor-pointer`}>
                                 <span onClick={() => navigate(`/analysis/${item}`)}>{item}</span>
-                                {isActive && (
-                                    <button
-                                            onClick={() => handleRemovePlugin(item)}>X</button>
-                                )}
+                                <button className="text-red-800 ms-3" onClick={() => handleRemovePlugin(item)}>x</button>
                             </div>
                         );
                     })}
