@@ -3,6 +3,7 @@ import {useParams, useLocation, useOutletContext} from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 import DynamicReport from "./DynamicReport";
 import { BladesLayout } from "../blades/BladesLayout";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import BladesReportComponent from "../blades/BladesReportComponent";
 import '../../css/AnalysisReportComponent.css'; // Import custom CSS for additional styling
 
@@ -38,14 +39,21 @@ export const AnalysisReportComponent = () => {
     return (
         <div className="p-4">
             <div className="report-layout">
-                <div className="dynamic-report-container">
-                    <DynamicReport report={report } searchQuery={searchQuery}/>
-                </div>
-                {selectedProcess.length > 0 && (
-                    <div className="blades-layout-container">
-                        <BladesLayout report={report} />
-                    </div>
-                )}
+                <PanelGroup direction="horizontal">
+                    <Panel defaultSize={25} order={1}>
+                        <div className="dynamic-report-container">
+                            <DynamicReport report={report } searchQuery={searchQuery}/>
+                        </div>
+                    </Panel>
+                    {selectedProcess.length > 0 && <PanelResizeHandle />}
+                    {selectedProcess.length > 0 && (
+                        <Panel defaultSize={25} order={2}>
+                            <div className="blades-layout-container">
+                                <BladesLayout report={report} />
+                            </div>
+                        </Panel >
+                    )}
+                </PanelGroup>
             </div>
         </div>
     );

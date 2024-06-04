@@ -15,17 +15,16 @@ export const AnalysisLayout = () => {
     useEffect(() => {
         if (plugins) {
             setNavItems(plugins);
+            console.log("hallo fra check")
         }
+        console.log("navitems: ", navItems)
+        console.log("selected plugins: ", plugins);
     }, [plugins]);
 
-    useEffect(() => {
-        console.log("processList:");
-        console.log(processList);
-    }, [processList]);
 
     useEffect(() => {
-        console.log("Current Path:", currentLocation.pathname);
-        console.log("Previous Path:", prevPath);
+        // console.log("Current Path:", currentLocation.pathname);
+        // console.log("Previous Path:", prevPath);
         setPrevPath(currentLocation.pathname);
     }, [currentLocation]);
 
@@ -45,27 +44,25 @@ export const AnalysisLayout = () => {
                 />
             </div>
             <div className="tabs-container">
-                <div className="p-4">
-                    <div className="flex space-x-2 bg-gray-200 p-2 rounded-t-md shadow-md">
-                        {navItems.map((item, index) => {
-                            const isActive = currentLocation.pathname.includes(item);
-                            return (
-                                <div key={index} className={`tab-item ${isActive ? 'active-tab' : 'inactive-tab'}`}>
-                                    <span onClick={() => navigate(`/analysis/${item}`)}>{item}</span>
-                                    {isActive && (
-                                        <button className="close-button"
-                                                onClick={() => handleRemovePlugin(item)}>X</button>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </div>
+                <div className="flex space-x-2 bg-gray-200 p-2 rounded-t-md shadow-md">
+                    {navItems.map((item, index) => {
+                        const isActive = currentLocation.pathname.includes(item);
+                        return (
+                            <div key={index} className={`tab-item ${isActive ? 'active-tab' : 'inactive-tab'}`}>
+                                <span onClick={() => navigate(`/analysis/${item}`)}>{item}</span>
+                                {isActive && (
+                                    <button className="close-button"
+                                            onClick={() => handleRemovePlugin(item)}>X</button>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
-                <div className="content-container">
-                    <Outlet/>
-                    <div className="p-4 bg-white shadow-md rounded-b-md">
-                        <Outlet context={[searchQuery]}/>
-                    </div>
+            </div>
+            <div className="content-container">
+                <Outlet/>
+                <div className="p-4 bg-white shadow-md rounded-b-md">
+                    <Outlet context={[searchQuery]}/>
                 </div>
             </div>
         </div>

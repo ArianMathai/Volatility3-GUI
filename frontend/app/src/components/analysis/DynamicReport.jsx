@@ -10,13 +10,13 @@ const DynamicReport = ({ report, searchQuery }) => {
     const [hoveredRow, setHoveredRow] = useState(null);
 
     useEffect(() => {
-        console.log("Within DynamicReport component:", searchQuery);
-        console.log("Report Data:", report);
+        // console.log("Within DynamicReport component:", searchQuery);
+        // console.log("Report Data:", report);
     }, [searchQuery, report]);
 
     // Filter logic
     useEffect(() => {
-        console.log("Filtering report with searchQuery:", searchQuery);
+        // console.log("Filtering report with searchQuery:", searchQuery);
         if (!report || report.length === 0) {
             console.log("Report is empty or undefined");
             setFilteredReport([]);
@@ -24,7 +24,7 @@ const DynamicReport = ({ report, searchQuery }) => {
         }
 
         if (!searchQuery) {
-            console.log("Search query is empty, setting filtered report to full report");
+            // console.log("Search query is empty, setting filtered report to full report");
             setFilteredReport(report);
             return;
         }
@@ -32,11 +32,11 @@ const DynamicReport = ({ report, searchQuery }) => {
         const filteredData = report.filter(item => {
             const itemValues = Object.values(item).join(' ').toLowerCase();
             const query = searchQuery.toLowerCase();
-            console.log("Filtering item:", itemValues, "with query:", query);
+            // console.log("Filtering item:", itemValues, "with query:", query);
             return itemValues.includes(query);
         });
 
-        console.log("Filtered Data:", filteredData);
+        // console.log("Filtered Data:", filteredData);
         setFilteredReport(filteredData);
     }, [report, searchQuery]);
 
