@@ -10,7 +10,7 @@ const HomeButton = () => {
 
     return (
         <>
-            <img alt={"logo"} className="m-3 w-1/2 mb-10 cursor-pointer" onClick={returnHome} src="HomeButton.jsx"/>
+            <img alt={"logo"} className="m-3 w-1/2 mb-10 cursor-pointer" onClick={returnHome} src="../public/img/homeicon.png"/>
         </>
     )
 }
