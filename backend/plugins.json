@@ -10,7 +10,7 @@
 
         "description2": "This plugin displays a list of large page pools in a Windows memory image by identifying memory allocations that use large pages. It provides insights into how the operating system manages large memory segments, which can be useful for performance analysis and detecting abnormal memory usage patterns.",
 
-        "category": "System Info ",
+        "category": "System Info",
 
         "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.bigpools.html"
 
@@ -730,7 +730,7 @@
 
         "description2": "This plugin reads output from the strings command within a Windows memory image and indicates which process(es) each string belongs to. The strings command extracts human-readable text from binary data, and by associating strings with processes.",
 
-        "category": "System Acitivty",
+        "category": "System Activity",
 
         "link": "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.strings.html"
 
