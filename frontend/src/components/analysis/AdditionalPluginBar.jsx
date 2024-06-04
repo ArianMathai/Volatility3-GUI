@@ -38,13 +38,16 @@ const AdditionalPluginBar = () => {
     };
 
     return (
-        <div className="w-1/2 flex justify-between p-4">
-            <div className="p-1 ps-3 pe-3 max-w-[150px] italic truncate rounded shadow bg-themeGray-default">
-                <p>{projectName}</p>
+        <div className="w-1/2 flex justify-between p-4 flex-col">
+            <div className="flex flex-row">
+            <div className="p-1 ps-3 pe-3 italic rounded shadow bg-themeGray-default">
+                <p>Project Name: {projectName}</p>
             </div>
-            <div className="p-1 ps-3 pe-3 max-w-[150px] italic truncate rounded shadow bg-themeGray-default">
-                <p>{folderPath}</p>
+            <div className="p-1 ps-3 pe-3 italic rounded shadow bg-themeGray-default">
+                <p> Working Directory: {folderPath}</p>
             </div>
+            </div>
+            <div className="flex flex-row">
             <select
                 className="rounded shadow"
                 value={selectedPlugin}
@@ -58,6 +61,7 @@ const AdditionalPluginBar = () => {
             <button onClick={fetchUpdatedProcessList} className="p-1 ps-3 pe-3 bg-themeYellow-default shadow rounded">
                 Run
             </button>
+            </div>
         </div>
     );
 }
