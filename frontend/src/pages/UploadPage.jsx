@@ -4,7 +4,7 @@ import InfoBox from '../components/shared/InfoBox';
 import InfoVolatility3 from '../components/shared/InfoVolatility3';
 import Loader from '../components/shared/Loader';
 import LibraryButton from "../components/shared/LibraryButton";
-import { AppContext } from '../context/Context';
+import {useAppContext} from '../context/Context';
 import HomeButton from "../components/shared/HomeButton";
 
 
@@ -22,8 +22,6 @@ const UploadPage = () => {
             setStep2Completed(true);
         }
     };
-
-    const {error} = useAppContext();
 
     return (
         <main className="flex justify-center">

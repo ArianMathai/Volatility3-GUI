@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 
 
-export const Upload = ({setIsLoading}) => {
+export const Upload = ({setIsLoading, onFileUpload}) => {
 
     const { setOsName, setSystemInfo, file, setFile, projectName, setError,error, setProjectName,setFolderPath } = useAppContext();
     const navigate = useNavigate();
