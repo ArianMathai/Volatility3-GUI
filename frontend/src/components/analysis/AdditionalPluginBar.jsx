@@ -25,7 +25,7 @@ const AdditionalPluginBar = () => {
         }
 
         try {
-            const res = await window.electronAPI.fetchProcessList(file.path, osName.os, selectedPlugin);
+            const res = await window.electronAPI.fetchProcessList(file.path, osName, selectedPlugin);
             if (res?.processes) {
                 const newProcessList = { plugin: selectedPlugin, processes: res.processes };
                 console.log("Updated processList: ", newProcessList);
