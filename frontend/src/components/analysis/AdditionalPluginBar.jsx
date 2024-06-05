@@ -39,7 +39,7 @@ const AdditionalPluginBar = () => {
                     return prevList;
                 });
 
-                navigate(`analysis/${selectedPlugin}`)
+                navigate(`/analysis/${selectedPlugin}`)
 
             } else {
                 console.error(`Error fetching process list for ${selectedPlugin}`);

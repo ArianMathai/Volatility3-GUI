@@ -1,3 +1,6 @@
+import re
+
+
 def parse_process_output(output):
     # We split the output into lines based on the end of the line character '\n'
     lines = output.strip().split('\n')
@@ -5,8 +8,12 @@ def parse_process_output(output):
     headers = lines[2].split()
     # Initialize a list to hold the process entries
     processes = []
+
     # Iterate over the lines starting from the fourth line, since headers are third
     for line in lines[3:]:
+        # Preprocess line to handle "* <number>" as a single value
+        line = re.sub(r'\*\s(\d+)', r'*\1', line)
+        print(line)
         # Split the line by whitespace
         values = line.split()
         # Skip empty lines

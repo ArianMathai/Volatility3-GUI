@@ -99,7 +99,7 @@ const BladesReportComponent = () => {
                 <button className="rounded shadow ms-3 ps-3 pe-3 bg-themeYellow-default" onClick={handleAddTab}>Run</button>
             </div>
             <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-2 text-themeText-light">
-                {Object.entries(selectedData).map(([key, value]) => (
+                {Object?.entries(selectedData)?.map(([key, value]) => (
                     <React.Fragment key={key}>
                         <div className="font-sm font-bold">{key}:</div>
                         <div className="font-sm">{value}</div>
