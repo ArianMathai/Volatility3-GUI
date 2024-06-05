@@ -2,11 +2,14 @@ import { useAppContext } from "../../context/Context";
 import React, { useState } from "react";
 import Loader from "../shared/Loader";
 import ProjectInfo from "../shared/ProjectInfo";
+import {useNavigate} from "react-router-dom";
 
 const AdditionalPluginBar = () => {
     const { projectName, folderPath, osName, file, plugins, setProcessList, setPlugins, pluginList, searchQuery, setSearchQuery } = useAppContext();
     const [selectedPlugin, setSelectedPlugin] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     const handlePluginChange = (e) => {
         if (e.target.value === "") return;
@@ -35,6 +38,8 @@ const AdditionalPluginBar = () => {
                     }
                     return prevList;
                 });
+
+                navigate(`analysis/${selectedPlugin}`)
             } else {
                 console.error(`Error fetching process list for ${selectedPlugin}`);
             }

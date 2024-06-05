@@ -31,7 +31,11 @@ export const AnalysisLayout = () => {
                 if (processList.length === 1) {
                     navigate(`/analysis/${processList[0].plugin}`)
                 } else {
-                    navigate(`/analysis/${processList[index - 1].plugin}`)
+                    if (index === 0){
+                        navigate(`/analysis/${processList[index + 1].plugin}`)
+                    }else {
+                        navigate(`/analysis/${processList[index - 1].plugin}`)
+                    }
                 }
             }
         })
