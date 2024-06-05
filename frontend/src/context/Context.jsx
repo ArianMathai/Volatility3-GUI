@@ -23,7 +23,7 @@ export const AppContext = createContext({
     searchQuery: "",
     setSearchQuery: () => {},
     error:"",
-    setError: () => {}
+    setError: () => {},
     step1Completed: false,
     step2Completed: false,
     setStep1Completed: () => {},
