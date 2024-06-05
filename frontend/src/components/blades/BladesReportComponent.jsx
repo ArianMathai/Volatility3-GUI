@@ -89,7 +89,7 @@ const BladesReportComponent = () => {
                 >
                     <option value="" disabled selected>Add another plugin</option>
                     {pluginList.map((plugin, i) => {
-                        if (plugin.name === "CmdLine") {
+                        if (plugin.name === "CmdLine" || plugin.name === "Envars" || plugin.name === "DllList") {
                             return (
                                 <option key={i} value={plugin.name}>{plugin.name}</option>
                             )

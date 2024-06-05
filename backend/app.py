@@ -153,7 +153,7 @@ def run_plugin_with_pid():
         print(f"Running Volatility command with PID {pid} on {filepath}")
         try:
             result = subprocess.run(
-                ['python3', volatility_script, '-f', filepath, f"{operating_system}.cmdline", '--pid', pid],
+                ['python3', volatility_script, '-f', filepath, f"{operating_system}.{plugin}", '--pid', pid],
                 capture_output=True, text=True, check=True
             )
         except subprocess.CalledProcessError as e:
