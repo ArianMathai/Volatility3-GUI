@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 import BladesReportComponent from "./BladesReportComponent";
 
@@ -7,6 +7,7 @@ export const BladesLayout = () => {
     const [navItems, setNavItems] = useState([]);
     const { selectedProcess } = useAppContext();
     const currentLocation = useLocation();
+    const navigate = useNavigate();
     const [prevPath, setPrevPath] = useState("");
 
     useEffect(() => {
@@ -18,6 +19,7 @@ export const BladesLayout = () => {
             }));
             setNavItems(updatedNavItems);
         }
+        console.log(navItems);
     }, [selectedProcess]);
 
     useEffect(() => {
@@ -31,9 +33,14 @@ export const BladesLayout = () => {
                     if (item?.isActive) {
                         return (
                             <div key={index} className=" flex items-center">
+                                <div key={index} className="bg-themeBlue-darkest text-themeText-light shadow rounded-tr-md p-2 hover:cursor-pointer">
+                                    <span>{item?.data}</span>
+                                    <button className="text-red-800 ms-3 flex-shrink-0">x</button>
+                                </div>
                                 {item?.tabs?.length > 0 &&
                                     item.tabs.map((tab, tabIndex) => (
-                                        <div key={tabIndex} className="bg-themeBlue-darkest text-themeText-light shadow rounded-tr-md p-2 hover:cursor-pointer">
+                                        <div key={tabIndex}
+                                             className="bg-themeBlue-darkest text-themeText-light shadow rounded-tr-md p-2 hover:cursor-pointer">
                                             <span>{tab?.plugin}</span>
                                             <button className="text-red-800 ms-3 flex-shrink-0">x</button>
                                         </div>
@@ -46,7 +53,7 @@ export const BladesLayout = () => {
             </div>
 
             <div>
-                <BladesReportComponent />
+                <BladesReportComponent/>
             </div>
         </div>
     );
