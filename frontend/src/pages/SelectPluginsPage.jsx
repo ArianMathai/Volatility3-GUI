@@ -4,7 +4,7 @@ import SystemInfo from '../components/shared/SystemInfo';
 import Logo from '../components/shared/Logo';
 import HomeButton from '../components/shared/HomeButton';
 import Loader from '../components/shared/Loader';
-import ProjectInfo from "../components/plugin/ProjectInfo";
+import ProjectInfo from "../components/shared/ProjectInfo";
 
 const SelectPluginsPage = () => {
     const [isLoading, setIsLoading] = useState(false);
