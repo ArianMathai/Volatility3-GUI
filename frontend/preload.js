@@ -3,6 +3,7 @@ const { contextBridge, ipcRenderer } = require('electron/renderer');
 contextBridge.exposeInMainWorld('electronAPI', {
     fetchSystemInfo: (filepath) => ipcRenderer.invoke("fetch-system-info", filepath),
     fetchProcessList: (filepath, operatingSystem, plugin) => ipcRenderer.invoke("fetch-process-list", filepath, operatingSystem, plugin),
+    fetchProcessPluginResult: (filepath, operatingSystem, plugin, pid) => ipcRenderer.invoke("fetch-process-plugin-result", filepath, operatingSystem, plugin, pid),
     fetchPlugins:(os) => ipcRenderer.invoke("get-plugin-list",os),
     fetchAllPlugins: () => ipcRenderer.invoke('get-all-plugins'),
     showDialog: (options) => ipcRenderer.invoke('show-dialog', options)

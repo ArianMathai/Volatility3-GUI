@@ -134,6 +134,46 @@ def auto_detect_os():
 
     return jsonify({'error': 'Could not detect OS. Failed to retrieve system info. Wrong format, corrupt file or something went wrong.'}), 500
 
+@app.route('/api/runpluginwithpid', methods=['POST'])
+def run_plugin_with_pid():
+    data = request.get_json()
+    filepath = data.get('filepath')
+    operating_system = data.get('os')
+    plugin = data.get('plugin').lower()  # Convert plugin name to lowercase
+    pid = data.get('pid')
+
+    backend_dir = os.path.dirname(os.path.abspath(__file__))
+    volatility_script = 'vol.py'  # Remove the leading './'
+    volatility_script = os.path.join(backend_dir, "../volatility3/", volatility_script)
+
+    if not filepath or not os.path.isfile(filepath) or not pid:
+        return jsonify({'error': 'Invalid file path or PID'}), 400
+
+    try:
+        print(f"Running Volatility command with PID {pid} on {filepath}")
+        try:
+            result = subprocess.run(
+                ['python3', volatility_script, '-f', filepath, f"{operating_system}.cmdline", '--pid', pid],
+                capture_output=True, text=True, check=True
+            )
+        except subprocess.CalledProcessError as e:
+            print(f"Error running command with python3: {e}")
+            result = subprocess.run(
+                ['python', volatility_script, '-f', filepath, f"{operating_system}.cmdline", '--pid', pid],
+                capture_output=True, text=True, check=True
+            )
+
+        output = result.stdout.strip()
+        data = create_processes_object(output)
+        json_data = jsonify(data)
+
+        return json_data
+    except subprocess.CalledProcessError as e:
+        print(f"Command failed with error: {str(e)}")
+        print(f"Command output: {e.output}")
+        return jsonify({'error': str(e), 'output': e.output}), 500
+
+
 
 @app.route('/api/get-all-plugins', methods=['GET'])
 def get_all_plugins():

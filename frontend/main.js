@@ -69,6 +69,18 @@ async function handleSubmitFileInfo(filePath, operatingSystem, plugin) {
     return response;
 }
 
+async function handleSubmitProcessInfo(filePath, operatingSystem, plugin, pid) {
+    const response = await axios.post('http://localhost:8000/api/runpluginwithpid',
+    {
+        "filepath": filePath,
+        "os": operatingSystem,
+        "plugin": plugin,
+        "pid": pid
+        }
+    );
+    return response;
+}
+
 function startPythonBackend(command) {
     const process = spawn(command, [pythonScriptPath]);
 
@@ -175,6 +187,19 @@ app.whenReady().then( async () => {
         console.log(filePath + " |  " + operatingSystem + " | " + plugin)
         try {
             const response = await handleSubmitFileInfo(filePath, operatingSystem, plugin);
+            return response.data;
+        } catch (error) {
+            console.error('Error sending file info to backend:', error);
+            throw new Error('Failed to send file info to backend');
+        }
+    });
+
+
+
+    ipcMain.handle('fetch-process-plugin-result', async (event, filePath, operatingSystem, plugin, pid) => {
+        console.log(filePath + " |  " + operatingSystem + " | " + plugin + " | " + pid)
+        try {
+            const response = await handleSubmitProcessInfo(filePath, operatingSystem, plugin, pid);
             return response.data;
         } catch (error) {
             console.error('Error sending file info to backend:', error);

@@ -5,7 +5,7 @@ import BladesReportComponent from "./BladesReportComponent";
 
 export const BladesLayout = () => {
     const [navItems, setNavItems] = useState([]);
-    const { selectedProcess } = useAppContext();
+    const { selectedProcess, setSelectedProcess } = useAppContext();
     const currentLocation = useLocation();
     const navigate = useNavigate();
     const [prevPath, setPrevPath] = useState("");
@@ -15,45 +15,163 @@ export const BladesLayout = () => {
             const updatedNavItems = selectedProcess.map((process) => ({
                 ...process,
                 data: process.data.ImageFileName,
-                isActive: process.isActive,
+                isActive: process.isActive || false,
+                tabs: process.tabs ? process.tabs.map((tab) => ({
+                    ...tab,
+                    isActive: tab.isActive || false
+                })) : []
             }));
             setNavItems(updatedNavItems);
         }
-        console.log(navItems);
     }, [selectedProcess]);
 
     useEffect(() => {
         setPrevPath(currentLocation.pathname);
     }, [currentLocation]);
 
+    const handleNavItemClick = (index) => {
+        const updatedNavItems = navItems.map((item, idx) => {
+            if (idx === index) {
+                return {
+                    ...item,
+                    isActive: true,
+                    tabs: item.tabs.map((tab) => ({
+                        ...tab,
+                        isActive: false
+                    }))
+                };
+            } else {
+                return {
+                    ...item,
+                    isActive: false,
+                    tabs: item.tabs.map((tab) => ({
+                        ...tab,
+                        isActive: false
+                    }))
+                };
+            }
+        });
+        setNavItems(updatedNavItems);
+
+        const updatedSelectedProcess = selectedProcess.map((item, idx) => {
+            return idx === index ? { ...item, isActive: true, tabs: item.tabs.map(tab => ({ ...tab, isActive: false })) } : { ...item, isActive: false };
+        });
+        setSelectedProcess(updatedSelectedProcess);
+    };
+
+
+    const handleTabClick = (processIndex, tabIndex) => {
+    const updatedNavItems = navItems.map((item, idx) => {
+        if (idx === processIndex) {
+            return {
+                ...item,
+                isActive: true, // Ensuring the parent item is also active
+                tabs: item.tabs.map((tab, tIdx) => ({
+                    ...tab,
+                    isActive: tIdx === tabIndex
+                }))
+            };
+        } else {
+            return {
+                ...item,
+                isActive: false, // Deactivate other process tabs
+                tabs: item.tabs.map((tab) => ({
+                    ...tab,
+                    isActive: false // Deactivate all tabs within other processes
+                }))
+            };
+        }
+    });
+    setNavItems(updatedNavItems);
+    const updatedSelectedProcess = selectedProcess.map((item, idx) => {
+        if (idx === processIndex) {
+            return {
+                ...item,
+                tabs: item.tabs.map((tab, tIdx) => ({
+                    ...tab,
+                    isActive: tIdx === tabIndex
+                }))
+            };
+        } else {
+            return item;
+        }
+    });
+    setSelectedProcess(updatedSelectedProcess);
+};
+
+
+
+
+    const handleRemoveTab = (processIndex, tabIndex) => {
+        const updatedNavItems = navItems.map((item, idx) => {
+            if (idx === processIndex) {
+                const updatedTabs = item.tabs.filter((_, tIdx) => tIdx !== tabIndex);
+                return {
+                    ...item,
+                    tabs: updatedTabs
+                };
+            } else {
+                return item;
+            }
+        });
+        setNavItems(updatedNavItems);
+        const updatedSelectedProcess = selectedProcess.map((item, idx) => {
+            if (idx === processIndex) {
+                const updatedTabs = item.tabs.filter((_, tIdx) => tIdx !== tabIndex);
+                return {
+                    ...item,
+                    tabs: updatedTabs
+                };
+            } else {
+                return item;
+            }
+        });
+        setSelectedProcess(updatedSelectedProcess);
+    };
+
+    const activeItem = navItems.find(item => item.isActive);
+
     return (
         <div>
-            <div>
-                {navItems.map((item, index) => {
-                    if (item?.isActive) {
-                        return (
-                            <div key={index} className=" flex items-center">
-                                <div key={index} className="bg-themeBlue-darkest text-themeText-light shadow rounded-tr-md p-2 hover:cursor-pointer">
-                                    <span>{item?.data}</span>
-                                    <button className="text-red-800 ms-3 flex-shrink-0">x</button>
-                                </div>
-                                {item?.tabs?.length > 0 &&
-                                    item.tabs.map((tab, tabIndex) => (
-                                        <div key={tabIndex}
-                                             className="bg-themeBlue-darkest text-themeText-light shadow rounded-tr-md p-2 hover:cursor-pointer">
-                                            <span>{tab?.plugin}</span>
-                                            <button className="text-red-800 ms-3 flex-shrink-0">x</button>
-                                        </div>
-                                    ))}
-                            </div>
-                        );
-                    }
-                    return null;
-                })}
-            </div>
+            {activeItem && (
+                <div className="flex items-center mt-2">
+                    <div
+                        className={`p-2 shadow rounded-tr-md hover:cursor-pointer ${
+                            activeItem.isActive
+                                ? "bg-themeBlue-dark text-themeText-light"
+                                : "bg-themeBlue-lightest text-themeText-light"
+                        }`}
+                        onClick={() => handleNavItemClick(navItems.indexOf(activeItem))}
+                    >
+                        <span>{activeItem?.data}</span>
+                    </div>
+                    {activeItem.tabs.map((tab, tabIndex) => (
+                        <div
+                            key={tabIndex}
+                            className={`p-2 shadow rounded-tr-md hover:cursor-pointer ml-2 ${
+                                tab.isActive
+                                    ? "bg-themeBlue-dark text-themeText-light"
+                                    : "bg-themeBlue-lighter text-themeText-light"
+                            }`}
+                            onClick={() => handleTabClick(navItems.indexOf(activeItem), tabIndex)}
+                        >
+                            <span>{tab?.plugin}</span>
+                            <button
+                                className="text-red-800 ms-3 flex-shrink-0"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleRemoveTab(navItems.indexOf(activeItem), tabIndex);
+                                }}
+                            >
+                                x
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             <div>
-                <BladesReportComponent/>
+                <BladesReportComponent />
             </div>
         </div>
     );
