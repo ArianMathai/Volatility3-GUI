@@ -68,7 +68,7 @@ const MyTreeComponent = ({ processTree, onNodeClick }) => {
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
       <Tree
         data={{
-          name: 'All Trees',
+          name: 'Process Tree',
           PID: '',
           PPID: '',
           Handles: '',

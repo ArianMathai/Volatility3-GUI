@@ -240,7 +240,7 @@ const DynamicReport = ({ report, searchQuery }) => {
             </button>}
 
             {plugin === "PsTree" && isTreeView ? (
-                <div style={{width: '100vw', height: '75vh', position: 'relative'}}>
+                <div style={{width: '100vw', height: '70vh', position: 'relative'}}>
                     <MyTreeComponent processTree={processTree} onNodeClick={handleNodeClick}/>
                 </div>
             ) : (
