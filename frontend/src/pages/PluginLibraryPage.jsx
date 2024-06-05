@@ -13,13 +13,13 @@ const PluginLibraryPage = () => {
     return (
         <div className="flex flex-col h-screen">
             <div className="relative flex flex-row justify-center items-center p-4 text-white">
-                <div className="absolute left-4">
+                <div className="absolute left-3">
                     <Logo />
                 </div>
                 <div className="text-center">
                     <h1 className="text-3xl font-bold">Plugin Library</h1>
                 </div>
-                <div className="absolute right-4">
+                <div className="absolute right-3 top-1">
                     <HomeButton />
                 </div>
             </div>

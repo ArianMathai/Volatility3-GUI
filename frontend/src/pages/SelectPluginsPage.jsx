@@ -4,8 +4,7 @@ import SystemInfo from '../components/shared/SystemInfo';
 import Logo from '../components/shared/Logo';
 import HomeButton from '../components/shared/HomeButton';
 import Loader from '../components/shared/Loader';
-import ProjectName from "../components/shared/ProjectName";
-import ProjectFilePath from "../components/shared/ProjectFilePath";
+import ProjectInfo from "../components/shared/ProjectInfo";
 
 const SelectPluginsPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -21,11 +20,12 @@ const SelectPluginsPage = () => {
                 </div>
             </div>
             <div>
+                <div className="m-5 ms-3">
+                    <ProjectInfo/>
+                </div>
                 <div className="grid grid-cols-6 gap-10">
                     <div className="col-span-1">
-                        <div className="w-40 ms-5">
-                            <ProjectName/>
-                            <ProjectFilePath/>
+                        <div className="w-40 ms-5 mt-[94px]">
                             <SystemInfo />
                         </div>
                     </div>

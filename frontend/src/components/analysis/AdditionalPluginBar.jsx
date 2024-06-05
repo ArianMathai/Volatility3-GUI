@@ -1,6 +1,7 @@
 import { useAppContext } from "../../context/Context";
 import React, { useState } from "react";
 import Loader from "../shared/Loader";
+import ProjectInfo from "../shared/ProjectInfo";
 
 const AdditionalPluginBar = () => {
     const { projectName, folderPath, osName, file, plugins, setProcessList, setPlugins, pluginList, searchQuery, setSearchQuery } = useAppContext();
@@ -46,17 +47,10 @@ const AdditionalPluginBar = () => {
 
     return (
         <div className="gap-3 flex-col p-3">
-            <div className="gap-3">
-                <p className="text-themeText-light text-sm">
-                    Project Name: <span className="italic">{projectName}</span>
-                </p>
-                <p className="text-themeText-light text-sm">
-                    Working Directory: <span className="italic">{folderPath}</span>
-                </p>
-            </div>
+            <ProjectInfo/>
             <div className="flex flex-row gap-8 mt-3 mb-3 w-full">
                 <div className="w-2/3 flex flex-row">
-                    <select
+                <select
                         className="rounded p-1 shadow"
                         value={selectedPlugin}
                         onChange={handlePluginChange}
