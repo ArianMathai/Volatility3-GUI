@@ -8,9 +8,18 @@ const HomeButton = () => {
     const location = useLocation();
 
     const returnHome = async () => {
+
+        if (location.pathname === "/pluginlibrary" || location.pathname === "/uploadfile") {
+            setStep1Completed(false);
+            setStep2Completed(false);
+            navigate("/");
+            return;
+        }
+
         if (location.pathname === "/") {
             return;
         }
+
         const response = await window.electronAPI.showDialog({
             type: 'warning',
             buttons: ['Cancel', 'Yes'],
@@ -19,10 +28,9 @@ const HomeButton = () => {
             message: 'All progress will be lost. Do you want to continue?',
         });
 
-        if (response === 1) { // User clicked 'Yes'
+        if (response === 1) {
             setStep1Completed(false);
             setStep2Completed(false);
-            setPlugins([]);
             navigate("/");
         }
     };
