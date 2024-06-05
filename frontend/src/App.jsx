@@ -16,8 +16,8 @@ function App() {
             <AppProvider>
                 <HashRouter>
                     <Routes>
-                        <Route path='/uploadfile' element={<UploadPage />} />
                         <Route path='/' element={<HomePage />} />
+                        <Route path='/uploadfile' element={<UploadPage />} />
                         <Route path='/pluginlibrary' element={<PluginLibraryPage />} />
                         <Route path='/selectplugins' element={<SelectPluginsPage />} />
                         <Route path='/analysis' element={<AnalysisLayoutPage />}>
