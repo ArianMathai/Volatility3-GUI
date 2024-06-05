@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Upload } from '../components/upload/Upload';
-import Logo from '../components/shared/Logo';
 import InfoBox from '../components/shared/InfoBox';
 import InfoVolatility3 from '../components/shared/InfoVolatility3';
 import Loader from '../components/shared/Loader';
-import PluginLibraryPage from "./PluginLibraryPage";
 import LibraryButton from "../components/shared/LibraryButton";
+import { AppContext } from '../context/Context';
 
 const UploadPage = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const { setStep1Completed, setStep2Completed } = useContext(AppContext);
+
+    useEffect(() => {
+        // Mark step 1 as completed when the user navigates to the upload page
+        setStep1Completed(true);
+    }, [setStep1Completed]);
+
+    const handleFileUpload = (file) => {
+        if (file) {
+            setStep2Completed(true);
+        }
+    };
 
     return (
         <main className="flex justify-center">
@@ -25,7 +36,7 @@ const UploadPage = () => {
                     </div>
                 </div>
                 <div className="mt-10 mb-10 flex flex-col items-center gap-3">
-                    <Upload setIsLoading={setIsLoading} />
+                    <Upload setIsLoading={setIsLoading} onFileUpload={handleFileUpload} />
                     <Loader isLoading={isLoading} />
                 </div>
                 <LibraryButton/>

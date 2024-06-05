@@ -1,24 +1,22 @@
 import React from "react";
-import {useNavigate} from "react-router-dom";
-import {useAppContext} from "../../context/Context";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../context/Context";
 
-export const Upload = ({setIsLoading}) => {
-
-    const { setOsName, setSystemInfo, file, setFile, projectName, setProjectName,setFolderPath } = useAppContext();
+export const Upload = ({ setIsLoading, onFileUpload }) => {
+    const { setOsName, setSystemInfo, file, setFile, projectName, setProjectName, setFolderPath } = useAppContext();
     const navigate = useNavigate();
 
     const fetchSystemInfo = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         if (!file) return;
-        console.log("filepath ", file.path)
+        console.log("filepath ", file.path);
         try {
             const res = await window.electronAPI.fetchSystemInfo(file.path);
-            console.log(res)
+            console.log(res);
             setOsName(res[0]);
             setSystemInfo(res[1]);
-            console.log("navigate next")
-
+            console.log("navigate next");
         } catch (error) {
             console.error('Error fetching system info:', error);
         }
@@ -28,17 +26,17 @@ export const Upload = ({setIsLoading}) => {
     };
 
     const createProjectFolder = async () => {
-        const result = await window.fileAPI.createProjectFolder(projectName)
-        if(result.projectName !== projectName){
+        const result = await window.fileAPI.createProjectFolder(projectName);
+        if (result.projectName !== projectName) {
             setProjectName(result.projectName);
         }
         setFolderPath(result.projectPath);
-    }
-
+    };
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files?.[0] || null;
         setFile(selectedFile);
+        onFileUpload(selectedFile); // Notify parent component about the file upload
     };
 
     const handleProjectNameChange = (e) => {
@@ -47,7 +45,7 @@ export const Upload = ({setIsLoading}) => {
         if (validProjectName.test(userInput)) {
             setProjectName(userInput);
         } else {
-            setProjectName("")
+            setProjectName("");
         }
     };
 
@@ -85,4 +83,3 @@ export const Upload = ({setIsLoading}) => {
         </form>
     );
 };
-
