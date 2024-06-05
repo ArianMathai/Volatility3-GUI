@@ -200,6 +200,11 @@ app.whenReady().then( async () => {
         }
     })
 
+    ipcMain.handle('show-dialog', async (event, options) => {
+        const response = await dialog.showMessageBox(options);
+        return response.response;
+    });
+
     createWindow();
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
