@@ -36,7 +36,7 @@ def runPlugin():
     data = request.get_json()
     filepath = data.get('filepath')
     operatingSystem = data.get('os')
-    plugin = data.get('plugin')
+    plugin = data.get('plugin').lower()  # Convert plugin name to lowercase
 
     backend_dir = os.path.dirname(os.path.abspath(__file__))
     volatility_script = 'vol.py'  # Remove the leading './'
@@ -99,7 +99,6 @@ def get_plugins():
     except Exception as e:
         print(f"Error in get_plugins: {str(e)}")
         return jsonify({"error": str(e)}), 500
-
 
 @app.route('/api/detectos', methods=['POST'])
 def auto_detect_os():

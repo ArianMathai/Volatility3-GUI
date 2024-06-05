@@ -12,8 +12,9 @@ export const BladesLayout = () => {
     useEffect(() => {
         if (selectedProcess) {
             const updatedNavItems = selectedProcess.map(process => ({
+                ...process,
                 data: process.data.ImageFileName,
-                isActive: process.isActive
+                isActive: process.isActive,
             }));
             setNavItems(updatedNavItems);
         }
@@ -33,10 +34,19 @@ export const BladesLayout = () => {
                                 <span className="flex-grow">{item.data}</span>
                                 <button className="text-red-800 ms-3 flex-shrink-0">x</button>
                             </div>
-                        )
-                    }
-                })}
-            </div>
+                            {item?.tabs?.length > 0 && item?.tabs?.map((item) => {
+                            return (
+                                <div key={index}
+                                     className="text-red-800 ms-3 flex-shrink-0">
+                                    <span>{item?.plugin}</span>
+                                </div>
+                            )})}
+                        </div>
+                    )
+                }})
+            }
+
+
             <div>
                 <BladesReportComponent/>
             </div>

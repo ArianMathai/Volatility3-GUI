@@ -22,17 +22,21 @@ const AdditionalPluginBar = () => {
 
         try {
             const res = await window.electronAPI.fetchProcessList(file.path, osName.os, selectedPlugin);
-            const newProcessList = { plugin: selectedPlugin, processes: res.processes };
-            console.log("Updated processList: ", newProcessList);
+            if (res?.processes) {
+                const newProcessList = { plugin: selectedPlugin, processes: res.processes };
+                console.log("Updated processList: ", newProcessList);
 
-            setProcessList((prev) => [...prev, newProcessList]);
+                setProcessList((prev) => [...prev, newProcessList]);
 
-            setPlugins((prevList) => {
-                if (!prevList.includes(selectedPlugin)) {
-                    return [...prevList, selectedPlugin];
-                }
-                return prevList;
-            });
+                setPlugins((prevList) => {
+                    if (!prevList.includes(selectedPlugin)) {
+                        return [...prevList, selectedPlugin];
+                    }
+                    return prevList;
+                });
+            } else {
+                console.error(`Error fetching process list for ${selectedPlugin}`);
+            }
         } catch (error) {
             console.error(`Error fetching process list for ${selectedPlugin}:`, error);
         } finally {
