@@ -4,7 +4,7 @@ import { useAppContext } from "../../context/Context";
 const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
     const [filteredReport, setFilteredReport] = useState([]);
-    const { selectedProcess, setSelectedProcess } = useAppContext();
+    const { selectedProcess, setSelectedProcess, processList } = useAppContext();
     const [hoverIndex, setHoverIndex] = useState(null);
     const [hoveredRow, setHoveredRow] = useState(null);
 
@@ -81,7 +81,8 @@ const DynamicReport = ({ report, searchQuery }) => {
     };
 
     if (!report || report.length === 0) {
-        return <div>No data available for this plugin.</div>;
+        return processList.length === 0 ? <div>There are no currently selected plugins to display. Please select and run a plugin to display.</div>  :
+            <div>No data available for this plugin.</div>;
     }
 
     return (
