@@ -6,7 +6,6 @@ const DynamicReport = ({ report, searchQuery }) => {
     const [sortDirection, setSortDirection] = useState('ascending');
     const [filteredReport, setFilteredReport] = useState([]);
     const { selectedProcess, setSelectedProcess, processList } = useAppContext();
-    const [hoverIndex, setHoverIndex] = useState(null);
     const [hoveredRow, setHoveredRow] = useState(null);
     const [clickedItem, setClickedItem] = useState(null);
 
@@ -32,16 +31,16 @@ const DynamicReport = ({ report, searchQuery }) => {
     }, [report, searchQuery]);
 
     useEffect(() => {
-    console.log('Report prop updated:', report);
-}, [report]);
+        console.log('Report prop updated:', report);
+    }, [report]);
 
     const sortedAndFilteredReport = useMemo(() => {
         if (!sortKey) return filteredReport;
         let sortedItems = [...filteredReport];
 
         sortedItems.sort((a, b) => {
-            const valA = isNaN(Number(a[sortKey])) ? a[sortKey] : Number(a[sortKey]);
-            const valB = isNaN(Number(b[sortKey])) ? b[sortKey] : Number(b[sortKey]);
+            const valA = a[sortKey] !== undefined ? (isNaN(Number(a[sortKey])) ? a[sortKey] : Number(a[sortKey])) : '';
+            const valB = b[sortKey] !== undefined ? (isNaN(Number(b[sortKey])) ? b[sortKey] : Number(b[sortKey])) : '';
             console.log("Comparing values:", valA, valB);
             if (typeof valA === 'number' && typeof valB === 'number') {
                 return sortDirection === 'ascending' ? valA - valB : valB - valA;
@@ -83,13 +82,12 @@ const DynamicReport = ({ report, searchQuery }) => {
             isActive: false,
         }));
 
-
         const newItem = { isActive: true, data: item, tabs: [] };
         const indexOfClickedItem = updatedSelectedProcess.findIndex(process => process.data.PID === item.PID);
 
         if (indexOfClickedItem !== -1) {
             updatedSelectedProcess[indexOfClickedItem].isActive = newItem.isActive;
-            updatedSelectedProcess[indexOfClickedItem].isActive = newItem.data;
+            updatedSelectedProcess[indexOfClickedItem].data = newItem.data;
         } else {
             updatedSelectedProcess.push(newItem);
         }
@@ -100,66 +98,64 @@ const DynamicReport = ({ report, searchQuery }) => {
 
     if (processList.length === 0) {
         return (
-        <tr>
-            <td colSpan={headers.length} className="text-center">There are no currently selected plugins to display. Please select and run a plugin to display.</td>
-        </tr>
+            <tr>
+                <td colSpan={headers.length} className="text-center">There are no currently selected plugins to display. Please select and run a plugin to display.</td>
+            </tr>
         )
     }
 
-    const columnWidth = `${100 / headers.length}%`;
-
     return (
-        <div className="overflow-x-auto">
-            <table className="min-w-full text-themeText-light text-sm">
-                <thead className="bg-themeBlue-default">
-                <tr>
-                    {headers.map((header) => (
-                        <th key={header} className="font-bold text-left px-4" style={{ maxWidth: columnWidth }}>
-                            <button
-                                onClick={() => sortReport(header)}
-                                className="flex items-center"
-                            >
-                                {header}
-                                <img className="inline-block w-4 ml-2" src={getSortIcon(header)} alt="sortingIcon" />
-                            </button>
-                        </th>
-                    ))}
-                </tr>
-                </thead>
-                <tbody>
-                {sortedAndFilteredReport.length > 0 ? (
-                    sortedAndFilteredReport.map((item, index) => {
-                        const isClicked = item === clickedItem;
-                        const isHovered = index === hoveredRow;
-                        const rowClassName = isClicked
-                            ? 'bg-themeYellow-default text-black'
-                            : index % 2 === 0
-                                ? 'bg-themeBlue-default'
-                                : 'bg-themeBlue-dark';
-                        const textClassName = isClicked ? 'text-black' : 'text-themeText-light';
+        <table className="min-w-full text-themeText-light text-xs"> {/* Added text-xs class for smaller text */}
+            <thead className="bg-themeBlue-default">
+            <tr>
+                {headers.map((header) => (
+                    <th key={header} className="font-bold text-left px-4 text-xs"> {/* Added text-xs class for smaller text */}
+                        <button
+                            onClick={() => sortReport(header)}
+                            className="flex items-center"
+                        >
+                            {header}
+                            <img className="inline-block w-4 ml-2" src={getSortIcon(header)} alt="sortingIcon" />
+                        </button>
+                    </th>
+                ))}
+            </tr>
+            </thead>
+            <tbody>
+            {sortedAndFilteredReport.length > 0 ? (
+                sortedAndFilteredReport.map((item, index) => {
+                    const isClicked = item === clickedItem;
+                    const isHovered = index === hoveredRow;
+                    const rowClassName = isClicked
+                        ? 'bg-themeYellow-default text-black'
+                        : index % 2 === 0
+                            ? 'bg-themeBlue-default'
+                            : 'bg-themeBlue-dark';
+                    const textClassName = isClicked ? 'text-black' : 'text-themeText-light';
 
-                        return (
-                            <tr
-                                key={index}
-                                onMouseEnter={() => handleRowHover(index)}
-                                onMouseLeave={() => handleRowHover(null)}
-                                onClick={() => handleItemClick(item)}
-                                className={`${rowClassName} ${isHovered && !isClicked ? 'hover:bg-themeHover' : ''}`}
-                            >
-                                {headers.map((header) => (
-                                    <td className={`p-2 ${textClassName}`} key={header} style={{ maxWidth: columnWidth }}>{item[header]}</td>
-                                ))}
-                            </tr>
-                        );
-                    })
-                ) : (
-                    <tr>
-                        <td colSpan={headers.length} className="text-center">No data available for this plugin.</td>
-                    </tr>
-                )}
-                </tbody>
-            </table>
-        </div>
+                    return (
+                        <tr
+                            key={index}
+                            onMouseEnter={() => handleRowHover(index)}
+                            onMouseLeave={() => handleRowHover(null)}
+                            onClick={() => handleItemClick(item)}
+                            className={`${rowClassName} ${isHovered && !isClicked ? 'hover:bg-themeHover' : ''}`}
+                        >
+                            {headers.map((header) => (
+                                <td className={`p-2 ${textClassName} text-xs`} key={header}> {/* Added text-xs class for smaller text */}
+                                    {item[header]}
+                                </td>
+                            ))}
+                        </tr>
+                    );
+                })
+            ) : (
+                <tr>
+                    <td colSpan={headers.length} className="text-center">No data available for this plugin.</td>
+                </tr>
+            )}
+            </tbody>
+        </table>
     );
 };
 
