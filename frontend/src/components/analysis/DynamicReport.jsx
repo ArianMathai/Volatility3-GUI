@@ -3,8 +3,9 @@ import { useAppContext } from "../../context/Context";
 
 const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
+    const [sortDirection, setSortDirection] = useState('ascending');
     const [filteredReport, setFilteredReport] = useState([]);
-    const { selectedProcess, setSelectedProcess, processList} = useAppContext();
+    const { selectedProcess, setSelectedProcess, processList } = useAppContext();
     const [hoverIndex, setHoverIndex] = useState(null);
     const [hoveredRow, setHoveredRow] = useState(null);
     const [clickedItem, setClickedItem] = useState(null);
@@ -43,17 +44,29 @@ const DynamicReport = ({ report, searchQuery }) => {
             const valB = isNaN(Number(b[sortKey])) ? b[sortKey] : Number(b[sortKey]);
             console.log("Comparing values:", valA, valB);
             if (typeof valA === 'number' && typeof valB === 'number') {
-                return valA - valB;
+                return sortDirection === 'ascending' ? valA - valB : valB - valA;
             } else {
-                return valA.toString().localeCompare(valB.toString());
+                return sortDirection === 'ascending' ? valA.toString().localeCompare(valB.toString()) : valB.toString().localeCompare(valA.toString());
             }
         });
         console.log("Sorted Items:", sortedItems);
         return sortedItems;
-    }, [filteredReport, sortKey]);
+    }, [filteredReport, sortKey, sortDirection]);
 
     const sortReport = (key) => {
+        let direction = 'ascending';
+        if (sortKey === key && sortDirection === 'ascending') {
+            direction = 'descending';
+        }
         setSortKey(key);
+        setSortDirection(direction);
+    };
+
+    const getSortIcon = (key) => {
+        if (sortKey === key) {
+            return sortDirection === 'ascending' ? '../public/img/sortDown.png' : '../public/img/sortUp.png';
+        }
+        return '../public/img/sortDown.png'; // Default icon
     };
 
     const headers = useMemo(() => {
@@ -93,54 +106,60 @@ const DynamicReport = ({ report, searchQuery }) => {
         )
     }
 
-    return (
-        <table className="min-w-full text-themeText-light">
-            <thead className="bg-themeBlue-default">
-            <tr>
-                {headers.map((header) => (
-                    <th key={header} className="font-bold text-left">
-                        <button
-                            onClick={() => sortReport(header)}
-                        >
-                            {header}
-                        </button>
-                    </th>
-                ))}
-            </tr>
-            </thead>
-            <tbody>
-            {sortedAndFilteredReport.length > 0 ? (
-                sortedAndFilteredReport.map((item, index) => {
-                    const isClicked = item === clickedItem;
-                    const isHovered = index === hoveredRow;
-                    const rowClassName = isClicked
-                        ? 'bg-themeYellow-default text-black'
-                        : index % 2 === 0
-                            ? 'bg-themeBlue-default'
-                            : 'bg-themeBlue-dark';
-                    const textClassName = isClicked ? 'text-black' : 'text-themeText-light';
+    const columnWidth = `${100 / headers.length}%`;
 
-                    return (
-                        <tr
-                            key={index}
-                            onMouseEnter={() => handleRowHover(index)}
-                            onMouseLeave={() => handleRowHover(null)}
-                            onClick={() => handleItemClick(item)}
-                            className={`${rowClassName} ${isHovered && !isClicked ? 'hover:bg-themeHover' : ''}`}
-                        >
-                            {headers.map((header) => (
-                                <td className={`p-2 ${textClassName}`} key={header}>{item[header]}</td>
-                            ))}
-                        </tr>
-                    );
-                })
-            ) : (
+    return (
+        <div className="overflow-x-auto">
+            <table className="min-w-full text-themeText-light text-sm">
+                <thead className="bg-themeBlue-default">
                 <tr>
-                    <td colSpan={headers.length} className="text-center">No data available for this plugin.</td>
+                    {headers.map((header) => (
+                        <th key={header} className="font-bold text-left px-4" style={{ maxWidth: columnWidth }}>
+                            <button
+                                onClick={() => sortReport(header)}
+                                className="flex items-center"
+                            >
+                                {header}
+                                <img className="inline-block w-4 ml-2" src={getSortIcon(header)} alt="sortingIcon" />
+                            </button>
+                        </th>
+                    ))}
                 </tr>
-            )}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {sortedAndFilteredReport.length > 0 ? (
+                    sortedAndFilteredReport.map((item, index) => {
+                        const isClicked = item === clickedItem;
+                        const isHovered = index === hoveredRow;
+                        const rowClassName = isClicked
+                            ? 'bg-themeYellow-default text-black'
+                            : index % 2 === 0
+                                ? 'bg-themeBlue-default'
+                                : 'bg-themeBlue-dark';
+                        const textClassName = isClicked ? 'text-black' : 'text-themeText-light';
+
+                        return (
+                            <tr
+                                key={index}
+                                onMouseEnter={() => handleRowHover(index)}
+                                onMouseLeave={() => handleRowHover(null)}
+                                onClick={() => handleItemClick(item)}
+                                className={`${rowClassName} ${isHovered && !isClicked ? 'hover:bg-themeHover' : ''}`}
+                            >
+                                {headers.map((header) => (
+                                    <td className={`p-2 ${textClassName}`} key={header} style={{ maxWidth: columnWidth }}>{item[header]}</td>
+                                ))}
+                            </tr>
+                        );
+                    })
+                ) : (
+                    <tr>
+                        <td colSpan={headers.length} className="text-center">No data available for this plugin.</td>
+                    </tr>
+                )}
+                </tbody>
+            </table>
+        </div>
     );
 };
 
