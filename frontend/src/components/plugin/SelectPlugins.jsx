@@ -7,12 +7,9 @@ export const SelectPlugins = ({ setIsLoading }) => {
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [hoveredPlugin, setHoveredPlugin] = useState(null);
     const [pluginQuery, setPluginQuery] = useState("");
+    const [filteredPlugins, setFilteredPlugins] = useState([]);
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        console.log("OS Name:", osName);
-    }, [osName]);
 
     const fetchPlugins = async () => {
         setIsLoading(true);
@@ -22,7 +19,7 @@ export const SelectPlugins = ({ setIsLoading }) => {
         }
 
         try {
-            const data = await window.electronAPI.fetchPlugins(osName.os);
+            const data = await window.electronAPI.fetchPlugins(osName);
             setPluginList(data);
         } catch (error) {
             console.error('Error fetching plugins:', error);
@@ -48,7 +45,7 @@ export const SelectPlugins = ({ setIsLoading }) => {
         const processList = [];
         for (const plugin of plugins) {
             try {
-                const res = await window.electronAPI.fetchProcessList(file.path, osName.os, plugin);
+                const res = await window.electronAPI.fetchProcessList(file.path, osName, plugin);
                 processList.push({ plugin, processes: res.processes });
             } catch (error) {
                 console.error(`Error fetching process list for ${plugin}:`, error);
@@ -71,9 +68,12 @@ export const SelectPlugins = ({ setIsLoading }) => {
         console.log("Selected Plugins:", plugins);
     };
 
-    const filteredPlugins = pluginList.filter(plugin =>
-        plugin.name.toLowerCase().includes(pluginQuery.toLowerCase())
-    );
+    useEffect(() => {
+
+        setFilteredPlugins(pluginList.filter((plugin) => plugin.name.toLowerCase().includes(pluginQuery.toLowerCase())))
+
+    }, [pluginQuery, pluginList]);
+
 
     return (
         <div className="flex flex-col m-auto p-5">

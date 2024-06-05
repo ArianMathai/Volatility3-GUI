@@ -4,28 +4,41 @@ import {useAppContext} from "../../context/Context";
 
 export const Upload = ({setIsLoading}) => {
 
-    const { setOsName, setSystemInfo, file, setFile, projectName, setProjectName,setFolderPath } = useAppContext();
+    const { setOsName, setSystemInfo, file, setFile, projectName, setError,error, setProjectName,setFolderPath } = useAppContext();
     const navigate = useNavigate();
 
     const fetchSystemInfo = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        if (!file) return;
-        console.log("filepath ", file.path)
+
+        if (!file){
+            setIsLoading(false);
+            return;
+        }
+
+        let res;
+
         try {
-            const res = await window.electronAPI.fetchSystemInfo(file.path);
-            console.log(res)
-            setOsName(res[0]);
-            setSystemInfo(res[1]);
-            console.log("navigate next")
+            res = await window.electronAPI.fetchSystemInfo(file.path);
+
+            if (res.error) {
+                setFile(null);
+                setError(res.error);
+            } else {
+                setError("");
+                setOsName(res.os);
+                setSystemInfo(res.data.processes);
+                await createProjectFolder();
+                navigate("/selectplugins");
+            }
 
         } catch (error) {
-            console.error('Error fetching system info:', error);
+            setError(res.error);
+        } finally {
+            setIsLoading(false);
         }
-        await createProjectFolder();
-        setIsLoading(false);
-        navigate("/selectplugins");
     };
+
 
     const createProjectFolder = async () => {
         const result = await window.fileAPI.createProjectFolder(projectName)

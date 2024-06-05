@@ -5,17 +5,13 @@ const SystemInfo = () => {
 
     const {osName, systemInfo} = useAppContext();
 
-    const filteredProcesses = systemInfo.processes.filter(item =>
-        ["Kernel", "Is64Bit", "SystemTime", "NtSystemRoot", "NtMajorVersion", "NtMinorVersion", "CurrentLoggedUser"].includes(item.Variable)
-    );
-
     return (
         <div className="p-3 bg-gray-200 rounded-md shadow-md text-themeText-light bg-themeBlue-darker">
             <h4>Systeminfo</h4>
             <div className="text-left text-xs mt-2">
-                <p><strong>OS:</strong> {osName.os}</p>
+                <p><strong>OS:</strong> {osName}</p>
                 <ul>
-                    {filteredProcesses.map((item, index) => (
+                    {systemInfo.map((item, index) => (
                         <li key={index} className="break-words whitespace-normal">
                             <p><strong>{item.Variable}:</strong> {item.Value}</p>
                         </li>

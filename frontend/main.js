@@ -146,15 +146,30 @@ app.whenReady().then( async () => {
         });
 
     ipcMain.handle('fetch-system-info', async (event, filePath) => {
-        console.log("in main func file = ", filePath)
+
+        let response;
+
         try {
-            const response = await handleSubmitFilePath(filePath);
-            return response.data;
+            const axiosResponse = await handleSubmitFilePath(filePath);
+
+            response = axiosResponse.data;
+
+            if (response.data) {
+                console.log('System info retrieved successfully:', response.data);
+                return response;
+            }
+
         } catch (error) {
-            console.error('Error sending file path to backend:', error);
-            throw new Error('Failed to send file path to backend');
+            console.error('Error when fetching system info', error);
+            if(error.response.status === 400){
+                return { error: 'Bad Request. Invalid file path.' };
+            } else {
+                return { error: 'Internal Server Error. Make sure file is compatible.' };
+            }
         }
     });
+
+
 
     ipcMain.handle('fetch-process-list', async (event, filePath, operatingSystem, plugin) => {
         console.log(filePath + " |  " + operatingSystem + " | " + plugin)

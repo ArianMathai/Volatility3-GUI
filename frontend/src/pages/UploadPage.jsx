@@ -6,9 +6,12 @@ import InfoVolatility3 from '../components/shared/InfoVolatility3';
 import Loader from '../components/shared/Loader';
 import PluginLibraryPage from "./PluginLibraryPage";
 import LibraryButton from "../components/shared/LibraryButton";
+import {useAppContext} from "../context/Context";
 
 const UploadPage = () => {
     const [isLoading, setIsLoading] = useState(false);
+
+    const {error} = useAppContext();
 
     return (
         <main className="flex justify-center">
@@ -26,6 +29,7 @@ const UploadPage = () => {
                 </div>
                 <div className="mt-10 mb-10 flex flex-col items-center gap-3">
                     <Upload setIsLoading={setIsLoading} />
+                    {error && <span>{error}</span>}
                     <Loader isLoading={isLoading} />
                 </div>
                 <LibraryButton/>
