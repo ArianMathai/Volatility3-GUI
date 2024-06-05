@@ -1,11 +1,15 @@
 import { useAppContext } from "../../context/Context";
 import React, { useState } from "react";
 import Loader from "../shared/Loader";
+import ProjectInfo from "../shared/ProjectInfo";
+import {useNavigate} from "react-router-dom";
 
 const AdditionalPluginBar = () => {
     const { projectName, folderPath, osName, file, plugins, setProcessList, setPlugins, pluginList, searchQuery, setSearchQuery } = useAppContext();
     const [selectedPlugin, setSelectedPlugin] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     const handlePluginChange = (e) => {
         if (e.target.value === "") return;
@@ -34,6 +38,8 @@ const AdditionalPluginBar = () => {
                     }
                     return prevList;
                 });
+
+                navigate(`analysis/${selectedPlugin}`)
             } else {
                 console.error(`Error fetching process list for ${selectedPlugin}`);
             }
@@ -46,17 +52,10 @@ const AdditionalPluginBar = () => {
 
     return (
         <div className="gap-3 flex-col p-3">
-            <div className="gap-3">
-                <p className="text-themeText-light text-sm">
-                    Project Name: <span className="italic">{projectName}</span>
-                </p>
-                <p className="text-themeText-light text-sm">
-                    Working Directory: <span className="italic">{folderPath}</span>
-                </p>
-            </div>
+            <ProjectInfo/>
             <div className="flex flex-row gap-8 mt-3 mb-3 w-full">
                 <div className="w-2/3 flex flex-row">
-                    <select
+                <select
                         className="rounded p-1 shadow"
                         value={selectedPlugin}
                         onChange={handlePluginChange}

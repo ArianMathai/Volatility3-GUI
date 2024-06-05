@@ -26,7 +26,10 @@ const PluginList = ({ selectedOS }) => {
 
     const filteredPlugins = allPlugins.filter(
         (plugin) =>
-            plugin.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+            (plugin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                plugin.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                plugin.description2.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                plugin.category.toLowerCase().includes(searchQuery.toLowerCase())) &&
             plugin.platform.toLowerCase() === selectedOS.toLowerCase()
     );
 

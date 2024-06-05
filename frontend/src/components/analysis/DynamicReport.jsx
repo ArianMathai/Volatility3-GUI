@@ -7,6 +7,7 @@ const DynamicReport = ({ report, searchQuery }) => {
     const { selectedProcess, setSelectedProcess, processList } = useAppContext();
     const [hoverIndex, setHoverIndex] = useState(null);
     const [hoveredRow, setHoveredRow] = useState(null);
+    const [clickedItem, setClickedItem] = useState(null);
 
     useEffect(() => {
         if (!report || report.length === 0) {
@@ -28,7 +29,6 @@ const DynamicReport = ({ report, searchQuery }) => {
 
         setFilteredReport(filteredData);
     }, [report, searchQuery]);
-
 
     const sortedAndFilteredReport = useMemo(() => {
         if (!sortKey) return filteredReport;
@@ -78,6 +78,7 @@ const DynamicReport = ({ report, searchQuery }) => {
         }
 
         setSelectedProcess(updatedSelectedProcess);
+        setClickedItem(item);
     };
 
     if (!report || report.length === 0) {
@@ -89,7 +90,7 @@ const DynamicReport = ({ report, searchQuery }) => {
         <table className="min-w-full text-themeText-light">
             <thead className="bg-themeBlue-default">
             <tr>
-                {headers.map((header, index) => (
+                {headers.map((header) => (
                     <th key={header} className="font-bold text-left">
                         <button
                             onClick={() => sortReport(header)}
@@ -102,16 +103,30 @@ const DynamicReport = ({ report, searchQuery }) => {
             </thead>
             <tbody>
             {sortedAndFilteredReport.length > 0 ? (
-                sortedAndFilteredReport.map((item, index) => (
-                    <tr key={index}
-                        onMouseEnter={() => handleRowHover(index)}
-                        onMouseLeave={() => handleRowHover(null)}
-                        onClick={() => handleItemClick(item)}>
-                        {headers.map((header) => (
-                            <td className={`p-2 text-themeText-light ${index % 2 === 0 ? 'bg-themeBlue-default' : 'bg-themeBlue-dark'}`} key={header}>{item[header]}</td>
-                        ))}
-                    </tr>
-                ))
+                sortedAndFilteredReport.map((item, index) => {
+                    const isClicked = item === clickedItem;
+                    const isHovered = index === hoveredRow;
+                    const rowClassName = isClicked
+                        ? 'bg-themeYellow-default text-black'
+                        : index % 2 === 0
+                            ? 'bg-themeBlue-default'
+                            : 'bg-themeBlue-dark';
+                    const textClassName = isClicked ? 'text-black' : 'text-themeText-light';
+
+                    return (
+                        <tr
+                            key={index}
+                            onMouseEnter={() => handleRowHover(index)}
+                            onMouseLeave={() => handleRowHover(null)}
+                            onClick={() => handleItemClick(item)}
+                            className={`${rowClassName} ${isHovered && !isClicked ? 'hover:bg-themeHover' : ''}`}
+                        >
+                            {headers.map((header) => (
+                                <td className={`p-2 ${textClassName}`} key={header}>{item[header]}</td>
+                            ))}
+                        </tr>
+                    );
+                })
             ) : (
                 <tr>
                     <td colSpan={headers.length} className="text-center">No data available for this plugin.</td>

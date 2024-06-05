@@ -24,6 +24,11 @@ export const AppContext = createContext({
     setSearchQuery: () => {},
     error:"",
     setError: () => {}
+    step1Completed: false,
+    step2Completed: false,
+    setStep1Completed: () => {},
+    setStep2Completed: () => {},
+
 
 });
 
@@ -42,9 +47,13 @@ export const AppProvider = ({ children }) => {
     const [selectedProcess, setSelectedProcess] = useState([]);
     const [searchQuery, setSearchQuery] = useState();
     const [error, setError] = useState("");
+    const [step1Completed, setStep1Completed] = useState(false);
+    const [step2Completed, setStep2Completed] = useState(false);
+
 
     return (
-        <AppContext.Provider value={{ osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList, plugins, setPlugins, projectName, setProjectName, folderPath, setFolderPath, allPlugins, setAllPlugins, pluginList, setPluginList, selectedProcess, setSelectedProcess, searchQuery, setSearchQuery, error,setError }}>
+        <AppContext.Provider value={{ error,setError,osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList, plugins, setPlugins, projectName, setProjectName, folderPath, setFolderPath, allPlugins, setAllPlugins, pluginList, setPluginList, selectedProcess, setSelectedProcess, searchQuery, setSearchQuery, step1Completed, setStep1Completed,
+            step2Completed, setStep2Completed }}>
             {children}
         </AppContext.Provider>
     );

@@ -31,7 +31,11 @@ export const AnalysisLayout = () => {
                 if (processList.length === 1) {
                     navigate(`/analysis/${processList[0].plugin}`)
                 } else {
-                    navigate(`/analysis/${processList[index - 1].plugin}`)
+                    if (index === 0){
+                        navigate(`/analysis/${processList[index + 1].plugin}`)
+                    }else {
+                        navigate(`/analysis/${processList[index - 1].plugin}`)
+                    }
                 }
             }
         })
@@ -44,11 +48,12 @@ export const AnalysisLayout = () => {
 
         <div>
             <div>
-                <div className="flex">
-                    {navItems?.map((item, index) => {
+                <div className="flex ms-3">
+                    {navItems.map((item, index) => {
+
                         const isActive = currentLocation.pathname.includes(item);
                         return (
-                            <div key={index} className={`tab-item ${isActive ? 'bg-themeBlue-dark' : 'bg-themeBlue-darkest'} text-themeText-light shadow rounded-t-md p-2 hover:cursor-pointer`}>
+                            <div key={index} className={`tab-item ${isActive ? 'bg-themeBlue-darkest' : 'bg-themeBlue-dark'} text-themeText-light shadow rounded-t-md p-2 hover:cursor-pointer`}>
                                 <span onClick={() => navigate(`/analysis/${item}`)}>{item}</span>
                                 <button className="text-red-800 ms-3" onClick={() => handleRemovePlugin(item)}>x</button>
                             </div>

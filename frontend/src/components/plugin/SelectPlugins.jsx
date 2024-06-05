@@ -31,12 +31,15 @@ export const SelectPlugins = ({ setIsLoading }) => {
     useEffect(() => {
         if (!osName) return;
         fetchPlugins();
-    }, []);
+    }, [osName]);
 
     useEffect(() => {
         console.log("Plugin List:", pluginList);
     }, [pluginList]);
 
+    useEffect(() => {
+        setButtonDisabled(plugins.length === 0);
+    }, [plugins]);
 
     const fetchProcessLists = async () => {
         setIsLoading(true);
@@ -58,14 +61,10 @@ export const SelectPlugins = ({ setIsLoading }) => {
 
     const handleCheckboxChange = (e) => {
         const { value, checked } = e.target;
-        if (checked) {
-            setPlugins(prevPlugins => [...prevPlugins, value]);
-            setButtonDisabled(false);
-        } else {
-            setPlugins(prevPlugins => prevPlugins.filter(plugin => plugin !== value));
-            setButtonDisabled(plugins.length === 1);
-        }
-        console.log("Selected Plugins:", plugins);
+        setPlugins(prevPlugins => {
+            const updatedPlugins = checked ? [...prevPlugins, value] : prevPlugins.filter(plugin => plugin !== value);
+            return updatedPlugins;
+        });
     };
 
     useEffect(() => {
@@ -88,38 +87,39 @@ export const SelectPlugins = ({ setIsLoading }) => {
                 />
             </div>
             <div className="rounded shadow bg-themeBlue-darker max-h-80 min-h-80 overflow-y-auto">
-            {filteredPlugins.length > 0 && (
-                <div
-                    className="p-5 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-32 relative">
-                    {filteredPlugins.map((plugin, index) => (
-                        <div className="p-1 relative flex items-center" key={index}>
-                            <input
-                                type="checkbox"
-                                value={plugin.name}
-                                id={`plugin${index}-checkbox`}
-                                onChange={handleCheckboxChange}
-                                className="align-middle me-2"
-                            />
-                            <label
-                                htmlFor={`plugin${index}-checkbox`}
-                                className="text-themeText-light hover:underline whitespace-nowrap"
-                                onMouseEnter={(e) => setHoveredPlugin(plugin)}
-                                onMouseLeave={() => setHoveredPlugin(null)}
-                            >
-                                {plugin.name}
-                            </label>
-                            {hoveredPlugin === plugin && (
-                                <div
-                                    className="bg-white-important absolute p-2 rounded w-50 shadow-lg z-20 max-w-xs break-words"
-                                    style={{ top: '100%', left: '0'}}
+                {filteredPlugins.length > 0 && (
+                    <div
+                        className="p-5 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-32 relative">
+                        {filteredPlugins.map((plugin, index) => (
+                            <div className="p-1 relative flex items-center" key={index}>
+                                <input
+                                    type="checkbox"
+                                    value={plugin.name}
+                                    id={`plugin${index}-checkbox`}
+                                    onChange={handleCheckboxChange}
+                                    checked={plugins.includes(plugin.name)}
+                                    className="align-middle me-2"
+                                />
+                                <label
+                                    htmlFor={`plugin${index}-checkbox`}
+                                    className="text-themeText-light hover:underline whitespace-nowrap"
+                                    onMouseEnter={(e) => setHoveredPlugin(plugin)}
+                                    onMouseLeave={() => setHoveredPlugin(null)}
                                 >
-                                    <p>{plugin.description}</p>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            )}
+                                    {plugin.name}
+                                </label>
+                                {hoveredPlugin === plugin && (
+                                    <div
+                                        className="bg-white-important absolute p-2 rounded w-50 shadow-lg z-20 max-w-xs break-words"
+                                        style={{ top: '100%', left: '0'}}
+                                    >
+                                        <p>{plugin.description}</p>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
             <div className="flex justify-end mt-5">
                 <button

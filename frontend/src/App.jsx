@@ -7,6 +7,7 @@ import AnalysisLayoutPage from "./pages/AnalysisLayoutPage";
 import {AnalysisReportComponent} from "./components/analysis/AnalysisReportComponent"; // Ensure you import this correctly
 import UploadPage from "./pages/UploadPage";
 import PluginLibraryPage from "./pages/PluginLibraryPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
 
@@ -15,12 +16,14 @@ function App() {
             <AppProvider>
                 <HashRouter>
                     <Routes>
-                        <Route path='/' element={<UploadPage />} />
+                        <Route path='/' element={<HomePage />} />
+                        <Route path='/uploadfile' element={<UploadPage />} />
                         <Route path='/pluginlibrary' element={<PluginLibraryPage />} />
                         <Route path='/selectplugins' element={<SelectPluginsPage />} />
                         <Route path='/analysis' element={<AnalysisLayoutPage />}>
                             <Route path=':plugin' element={<AnalysisReportComponent />} />
                             <Route path=':plugin/:process' element={<AnalysisReportComponent />} />
+                            <Route path=':plugin/:process/:plugin' element={<AnalysisReportComponent />} />
                         </Route>
                     </Routes>
                 </HashRouter>
