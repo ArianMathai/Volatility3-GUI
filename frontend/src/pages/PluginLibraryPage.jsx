@@ -19,7 +19,7 @@ const PluginLibraryPage = () => {
                 <div className="text-center">
                     <h1 className="text-3xl font-bold">Plugin Library</h1>
                 </div>
-                <div className="absolute right-3 top-1">
+                <div className="absolute right-0 top-0">
                     <HomeButton />
                 </div>
             </div>

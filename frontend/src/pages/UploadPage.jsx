@@ -5,6 +5,7 @@ import InfoVolatility3 from '../components/shared/InfoVolatility3';
 import Loader from '../components/shared/Loader';
 import LibraryButton from "../components/shared/LibraryButton";
 import { AppContext } from '../context/Context';
+import HomeButton from "../components/shared/HomeButton";
 
 const UploadPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +28,9 @@ const UploadPage = () => {
                 <div className="m-5">
                     <img src="../public/img/v3logo.png" alt="v3logo"/>
                 </div>
+                <div className="absolute right-0 top-0">
+                    <HomeButton/>
+                </div>
                 <div className="flex justify-center gap-20">
                     <div className="w-1/3">
                         <InfoBox />
@@ -39,7 +43,6 @@ const UploadPage = () => {
                     <Upload setIsLoading={setIsLoading} onFileUpload={handleFileUpload} />
                     <Loader isLoading={isLoading} />
                 </div>
-                <LibraryButton/>
             </div>
         </main>
     );
