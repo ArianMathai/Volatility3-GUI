@@ -8,6 +8,7 @@ import ProjectInfo from "../components/shared/ProjectInfo";
 
 const SelectPluginsPage = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
 
     return (
         <main className="overflow-clip">
@@ -36,6 +37,9 @@ const SelectPluginsPage = () => {
                     <div className="col-span-1">
                         {/* Placeholder div for å skape plass */}
                     </div>
+                </div>
+                <div>
+                    {error?`<span>${error}</span>`: ""}
                 </div>
                 <div className="flex justify-center mt-10">
                     <Loader isLoading={isLoading} />

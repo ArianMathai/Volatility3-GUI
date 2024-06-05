@@ -7,9 +7,10 @@ import LibraryButton from "../components/shared/LibraryButton";
 import { AppContext } from '../context/Context';
 import HomeButton from "../components/shared/HomeButton";
 
+
 const UploadPage = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const { setStep1Completed, setStep2Completed } = useContext(AppContext);
+    const { setStep1Completed, setStep2Completed,error } = useAppContext();
 
     useEffect(() => {
         // Mark step 1 as completed when the user navigates to the upload page
@@ -21,6 +22,8 @@ const UploadPage = () => {
             setStep2Completed(true);
         }
     };
+
+    const {error} = useAppContext();
 
     return (
         <main className="flex justify-center">
@@ -41,6 +44,7 @@ const UploadPage = () => {
                 </div>
                 <div className="mt-10 mb-10 flex flex-col items-center gap-3">
                     <Upload setIsLoading={setIsLoading} onFileUpload={handleFileUpload} />
+                     {error && <span>{error}</span>}
                     <Loader isLoading={isLoading} />
                 </div>
             </div>

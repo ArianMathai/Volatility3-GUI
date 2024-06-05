@@ -79,7 +79,6 @@ def runPlugin():
 def get_plugins():
     try:
         data = request.get_json()
-        print(f"Received data for get_plugins: {data}")
         platform = data.get('os')
 
         if not platform:
@@ -93,12 +92,12 @@ def get_plugins():
                 if plugin['platform'] == platform:
                     plugin_list.append(plugin)
 
-        print(plugin_list)
         return jsonify({"plugins": plugin_list}), 200
 
     except Exception as e:
         print(f"Error in get_plugins: {str(e)}")
         return jsonify({"error": str(e)}), 500
+
 
 @app.route('/api/detectos', methods=['POST'])
 def auto_detect_os():
@@ -130,21 +129,18 @@ def auto_detect_os():
         output = result.stdout.strip()
         if output:
             data = create_processes_object(output)
-            return jsonify({"os": file_os}, data), 200
+            print(f"OS", file_os)
+            return jsonify({"os": file_os, "data": data}), 200
 
-    print("Could not detect OS.")
-    return jsonify({'error': 'Could not detect OS'}), 500
-
+    return jsonify({'error': 'Could not detect OS. Failed to retrieve system info. Wrong format, corrupt file or something went wrong.'}), 500
 
 
 @app.route('/api/get-all-plugins', methods=['GET'])
 def get_all_plugins():
-    print("getting all plugins")
     try:
         file_path = os.path.join(os.path.dirname(__file__), "plugins.json")
         with open(file_path) as file:
             plugins = json.load(file)
-        print("Plugins:", plugins)
         return jsonify({"plugins": plugins}), 200
 
     except Exception as e:

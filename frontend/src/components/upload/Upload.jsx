@@ -2,28 +2,44 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 
-export const Upload = ({ setIsLoading, onFileUpload }) => {
-    const { setOsName, setSystemInfo, file, setFile, projectName, setProjectName, setFolderPath } = useAppContext();
+
+export const Upload = ({setIsLoading}) => {
+
+    const { setOsName, setSystemInfo, file, setFile, projectName, setError,error, setProjectName,setFolderPath } = useAppContext();
     const navigate = useNavigate();
 
     const fetchSystemInfo = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        if (!file) return;
-        console.log("filepath ", file.path);
-        try {
-            const res = await window.electronAPI.fetchSystemInfo(file.path);
-            console.log(res);
-            setOsName(res[0]);
-            setSystemInfo(res[1]);
-            console.log("navigate next");
-        } catch (error) {
-            console.error('Error fetching system info:', error);
+
+        if (!file){
+            setIsLoading(false);
+            return;
         }
-        await createProjectFolder();
-        setIsLoading(false);
-        navigate("/selectplugins");
+
+        let res;
+
+        try {
+            res = await window.electronAPI.fetchSystemInfo(file.path);
+
+            if (res.error) {
+                setFile(null);
+                setError(res.error);
+            } else {
+                setError("");
+                setOsName(res.os);
+                setSystemInfo(res.data.processes);
+                await createProjectFolder();
+                navigate("/selectplugins");
+            }
+
+        } catch (error) {
+            setError(res.error);
+        } finally {
+            setIsLoading(false);
+        }
     };
+
 
     const createProjectFolder = async () => {
         const result = await window.fileAPI.createProjectFolder(projectName);
