@@ -6,7 +6,7 @@ const SystemInfo = () => {
     const {osName, systemInfo} = useAppContext();
 
     return (
-        <div className="p-3 bg-gray-200 rounded-md shadow-md text-themeText-light bg-themeBlue-darker">
+        <div className="p-3 mb-5 bg-gray-200 rounded-md shadow-md text-themeText-light bg-themeBlue-darker">
             <h4>Systeminfo</h4>
             <div className="text-left text-xs mt-2">
                 <p><strong>OS:</strong> {osName}</p>
