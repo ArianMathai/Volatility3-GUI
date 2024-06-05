@@ -4,7 +4,7 @@ import { useAppContext } from "../../context/Context";
 const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
     const [filteredReport, setFilteredReport] = useState([]);
-    const { selectedProcess, setSelectedProcess, processList } = useAppContext();
+    const { selectedProcess, setSelectedProcess, processList} = useAppContext();
     const [hoverIndex, setHoverIndex] = useState(null);
     const [hoveredRow, setHoveredRow] = useState(null);
     const [clickedItem, setClickedItem] = useState(null);
@@ -29,6 +29,10 @@ const DynamicReport = ({ report, searchQuery }) => {
 
         setFilteredReport(filteredData);
     }, [report, searchQuery]);
+
+    useEffect(() => {
+    console.log('Report prop updated:', report);
+}, [report]);
 
     const sortedAndFilteredReport = useMemo(() => {
         if (!sortKey) return filteredReport;
@@ -81,9 +85,12 @@ const DynamicReport = ({ report, searchQuery }) => {
         setClickedItem(item);
     };
 
-    if (!report || report.length === 0) {
-        return processList.length === 0 ? <div>There are no currently selected plugins to display. Please select and run a plugin to display.</div>  :
-            <div>No data available for this plugin.</div>;
+    if (processList.length === 0) {
+        return (
+        <tr>
+            <td colSpan={headers.length} className="text-center">There are no currently selected plugins to display. Please select and run a plugin to display.</td>
+        </tr>
+        )
     }
 
     return (

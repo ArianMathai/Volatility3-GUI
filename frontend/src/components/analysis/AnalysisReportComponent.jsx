@@ -7,8 +7,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 export const AnalysisReportComponent = () => {
     const { processList, selectedProcess, setSelectedProcess } = useAppContext();
-    const { plugin } = useParams();  // Get the last URL parameter
-    const location = useLocation();  // Get the current location
+    const { plugin } = useParams();
     const [report, setReport] = useState([]);
     const [headers, setHeaders] = useState([]);
     const [searchQuery] = useOutletContext() || [''];
@@ -38,7 +37,7 @@ export const AnalysisReportComponent = () => {
                 <PanelGroup direction="horizontal">
                     <Panel defaultSize={25} order={1}>
                         <div className="m-3 mt-0">
-                            <DynamicReport report={report } searchQuery={searchQuery}/>
+                            <DynamicReport report={report} searchQuery={searchQuery}/>
                         </div>
                     </Panel>
                     {selectedProcess.length > 0 && <PanelResizeHandle />}
