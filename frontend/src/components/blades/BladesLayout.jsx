@@ -26,12 +26,13 @@ export const BladesLayout = () => {
 
     return (
         <div>
-             {navItems.map((item, index) => {
-                if (item?.isActive) {
-                    return (
-                        <div key={index} className="bg-themeBlue-darkest text-themeText-light shadow rounded-t-md p-2 hover:cursor-pointer flex items-center">
-                            <div className="flex-grow">
-                                <span>{item.data}</span>
+            <div>
+                {navItems.map((item, index) => {
+                    if (item?.isActive) {
+                        return (
+                            <div key={index} className="bg-themeBlue-darkest text-themeText-light shadow rounded-tr-md p-2 hover:cursor-pointer flex items-center">
+                                <span className="flex-grow">{item.data}</span>
+                                <button className="text-red-800 ms-3 flex-shrink-0">x</button>
                             </div>
                             {item?.tabs?.length > 0 && item?.tabs?.map((item) => {
                             return (

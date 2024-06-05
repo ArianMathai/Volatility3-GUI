@@ -19,6 +19,17 @@ body {
 .bg-darkerblue-important {
   background-color: #0A202C !important;
 }
+
 .bg-darkblue-important {
   background-color: #0C2A3A !important;
+}
+
+.text-black-important {
+  color: #000000 !important;
+}
+
+
+.hover\:bg-themeHover:hover {
+  background-color: #334d4d; /* Replace with the desired hover background color */
+  color: black; /* Replace with the desired hover text color */
 }
