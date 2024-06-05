@@ -182,6 +182,13 @@ const DynamicReport = ({ report, searchQuery }) => {
         setHoveredRow(index);
     };
 
+   const handleNodeClick = (nodeDatum) => {
+        const { children, __rd3t, ...nodeDataWithoutChildren } = nodeDatum;
+        console.log('Clicked node data:', nodeDataWithoutChildren);
+        handleItemClick(nodeDataWithoutChildren);
+    };
+
+
     const handleItemClick = (item) => {
         const updatedSelectedProcess = selectedProcess.map(process => ({
             ...process,
@@ -214,6 +221,8 @@ const DynamicReport = ({ report, searchQuery }) => {
         setIsTreeView(!isTreeView);
     };
 
+
+
     return (
         <div>
             {/* Button to toggle between tree and list view */}
@@ -232,7 +241,7 @@ const DynamicReport = ({ report, searchQuery }) => {
 
             {plugin === "PsTree" && isTreeView ? (
                 <div style={{width: '100vw', height: '75vh', position: 'relative'}}>
-                    <MyTreeComponent processTree={processTree} handleNodeClick={() => console.log("hello")}/>
+                    <MyTreeComponent processTree={processTree} onNodeClick={handleNodeClick}/>
                 </div>
             ) : (
                 <div>

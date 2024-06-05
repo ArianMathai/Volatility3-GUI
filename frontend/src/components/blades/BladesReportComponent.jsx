@@ -56,8 +56,10 @@ const BladesReportComponent = () => {
 
             // console.log("formdata: ", formData);
 
+            const cleanedPID = pid.substring(pid.lastIndexOf('*') + 1)
+
             try {
-                const res = await window.electronAPI.fetchProcessPluginResult(file.path, osName, selectedPlugin, pid);
+                const res = await window.electronAPI.fetchProcessPluginResult(file.path, osName, selectedPlugin, cleanedPID);
                 const data = await res.processes;
 
                 const newTab = { plugin: selectedPlugin, data: data, isActive: true };
