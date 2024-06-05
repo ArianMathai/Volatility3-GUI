@@ -5,13 +5,13 @@ import BladesReportComponent from "./BladesReportComponent";
 
 export const BladesLayout = () => {
     const [navItems, setNavItems] = useState([]);
-    const {  selectedProcess} = useAppContext();
+    const { selectedProcess } = useAppContext();
     const currentLocation = useLocation();
     const [prevPath, setPrevPath] = useState("");
 
     useEffect(() => {
         if (selectedProcess) {
-            const updatedNavItems = selectedProcess.map(process => ({
+            const updatedNavItems = selectedProcess.map((process) => ({
                 ...process,
                 data: process.data.ImageFileName,
                 isActive: process.isActive,
@@ -33,22 +33,21 @@ export const BladesLayout = () => {
                             <div key={index} className="bg-themeBlue-darkest text-themeText-light shadow rounded-tr-md p-2 hover:cursor-pointer flex items-center">
                                 <span className="flex-grow">{item.data}</span>
                                 <button className="text-red-800 ms-3 flex-shrink-0">x</button>
+                                {item?.tabs?.length > 0 &&
+                                    item.tabs.map((tab, tabIndex) => (
+                                        <div key={tabIndex} className="text-red-800 ms-3 flex-shrink-0">
+                                            <span>{tab?.plugin}</span>
+                                        </div>
+                                    ))}
                             </div>
-                            {item?.tabs?.length > 0 && item?.tabs?.map((item) => {
-                            return (
-                                <div key={index}
-                                     className="text-red-800 ms-3 flex-shrink-0">
-                                    <span>{item?.plugin}</span>
-                                </div>
-                            )})}
-                        </div>
-                    )
-                }})
-            }
-
+                        );
+                    }
+                    return null;
+                })}
+            </div>
 
             <div>
-                <BladesReportComponent/>
+                <BladesReportComponent />
             </div>
         </div>
     );
