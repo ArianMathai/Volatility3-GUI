@@ -41,8 +41,8 @@ const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
     const [sortDirection, setSortDirection] = useState('ascending');
     const [filteredReport, setFilteredReport] = useState([]);
-    const { selectedProcess, setSelectedProcess, processList } = useAppContext();
-    const { plugin } = useParams();
+    const {selectedProcess, setSelectedProcess, processList} = useAppContext();
+    const {plugin} = useParams();
     const [hoveredRow, setHoveredRow] = useState(null);
     const [clickedItem, setClickedItem] = useState(null);
     const [hierarchicalList, setHierarchicalList] = useState(null); // State to store hierarchical list
@@ -126,7 +126,7 @@ const DynamicReport = ({ report, searchQuery }) => {
         const levelStack = []; // Stack to keep track of last processes at each level
 
         processes.forEach(process => {
-            const { PID, PPID, ImageFileName } = process;
+            const {PID, PPID, ImageFileName} = process;
             const level = (PID.match(/\*/g) || []).length; // Calculate the nesting level
 
             // Preprocess PID to remove asterisks
@@ -136,7 +136,7 @@ const DynamicReport = ({ report, searchQuery }) => {
             const name = `${ImageFileName}`;
 
             // Add process to pidMap
-            pidMap[cleanedPID] = { ...process, PID: cleanedPID, name, children: [] };
+            pidMap[cleanedPID] = {...process, PID: cleanedPID, name, children: []};
 
             if (level === 0) {
                 // If level is 0, this is the root process
@@ -169,7 +169,7 @@ const DynamicReport = ({ report, searchQuery }) => {
         return rootProcesses;
     };
 
-    const ProcessTree = ({ process }) => {
+    const ProcessTree = ({process}) => {
         return (
             <div className="tree-node">
                 <div className="tree-node-content" onClick={() => handleItemClick(process)}>
@@ -178,7 +178,7 @@ const DynamicReport = ({ report, searchQuery }) => {
                 {process.children.length > 0 && (
                     <div className="tree-children">
                         {process.children.map(child => (
-                            <ProcessTree key={child.PID} process={child} />
+                            <ProcessTree key={child.PID} process={child}/>
                         ))}
                     </div>
                 )}
@@ -197,8 +197,8 @@ const DynamicReport = ({ report, searchQuery }) => {
         setHoveredRow(index);
     };
 
-   const handleNodeClick = (nodeDatum) => {
-        const { children, __rd3t, ...nodeDataWithoutChildren } = nodeDatum;
+    const handleNodeClick = (nodeDatum) => {
+        const {children, __rd3t, ...nodeDataWithoutChildren} = nodeDatum;
         console.log('Clicked node data:', nodeDataWithoutChildren);
         handleItemClick(nodeDataWithoutChildren);
     };
@@ -210,7 +210,7 @@ const DynamicReport = ({ report, searchQuery }) => {
             isActive: false,
         }));
 
-        const newItem = { isActive: true, data: item, tabs: [] };
+        const newItem = {isActive: true, data: item, tabs: []};
         const indexOfClickedItem = updatedSelectedProcess.findIndex(process => process.data.PID === item.PID);
 
         if (indexOfClickedItem !== -1) {
@@ -227,7 +227,9 @@ const DynamicReport = ({ report, searchQuery }) => {
     if (processList.length === 0) {
         return (
             <tr>
-                <td colSpan={headers.length} className="text-center">There are no currently selected plugins to display. Please select and run a plugin to display.</td>
+                <td colSpan={headers.length} className="text-center">There are no currently selected plugins to display.
+                    Please select and run a plugin to display.
+                </td>
             </tr>
         )
     }
@@ -237,12 +239,11 @@ const DynamicReport = ({ report, searchQuery }) => {
     };
 
 
-
     return (
-
-        <div>
-            {/* Button to toggle between tree and list view */}
-            { plugin === "PsTree" && <button
+    <div>
+        {/* Button to toggle between tree and list view */}
+        {plugin === "PsTree" && (
+            <button
                 onClick={toggleView}
                 style={{
                     border: '1px solid #ccc',
@@ -253,109 +254,70 @@ const DynamicReport = ({ report, searchQuery }) => {
                 }}
             >
                 {isTreeView ? 'Switch to List View' : 'Switch to Tree View'}
-            </button>}
+            </button>
+        )}
 
-            {plugin === "PsTree" && isTreeView ? (
-                <div style={{width: '100vw', height: '70vh', position: 'relative'}}>
-                    <MyTreeComponent processTree={processTree} onNodeClick={handleNodeClick}/>
-                </div>
+        {plugin === "PsTree" && isTreeView ? (
+            <div style={{ width: '100vw', height: '70vh', position: 'relative' }}>
+                <MyTreeComponent processTree={processTree} onNodeClick={handleNodeClick} />
+            </div>
+        ) : (
+            <table className="min-w-full text-themeText-light text-xs"> {/* Added text-xs class for smaller text */}
+                <thead className="bg-themeBlue-default">
+                    <tr>
+                        {headers.map((header) => (
+                            <th key={header} className="font-bold text-left px-4 text-xs"> {/* Added text-xs class for smaller text */}
+                                <button
+                                    onClick={() => sortReport(header)}
+                                    className="flex items-center"
+                                >
+                                    {header}
+                                    <img className="inline-block w-4 ml-2" src={getSortIcon(header)} alt="sortingIcon" />
+                                </button>
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {sortedAndFilteredReport.length > 0 ? (
+                        sortedAndFilteredReport.map((item, index) => {
+                            const isClicked = item === clickedItem;
+                            const isHovered = index === hoveredRow;
+                            const rowClassName = isClicked
+                                ? 'bg-themeYellow-default text-black'
+                                : index % 2 === 0
+                                    ? 'bg-themeBlue-default'
+                                    : 'bg-themeBlue-dark';
+                            const textClassName = isClicked ? 'text-black' : 'text-themeText-light';
 
-        <table className="min-w-full text-themeText-light text-xs"> {/* Added text-xs class for smaller text */}
-            <thead className="bg-themeBlue-default">
-            <tr>
-                {headers.map((header) => (
-                    <th key={header} className="font-bold text-left px-4 text-xs"> {/* Added text-xs class for smaller text */}
-                        <button
-                            onClick={() => sortReport(header)}
-                            className="flex items-center"
-                        >
-                            {header}
-                            <img className="inline-block w-4 ml-2" src={getSortIcon(header)} alt="sortingIcon" />
-                        </button>
-                    </th>
-                ))}
-            </tr>
-            </thead>
-            <tbody>
-            {sortedAndFilteredReport.length > 0 ? (
-                sortedAndFilteredReport.map((item, index) => {
-                    const isClicked = item === clickedItem;
-                    const isHovered = index === hoveredRow;
-                    const rowClassName = isClicked
-                        ? 'bg-themeYellow-default text-black'
-                        : index % 2 === 0
-                            ? 'bg-themeBlue-default'
-                            : 'bg-themeBlue-dark';
-                    const textClassName = isClicked ? 'text-black' : 'text-themeText-light';
-
-                    return (
-                        <tr
-                            key={index}
-                            onMouseEnter={() => handleRowHover(index)}
-                            onMouseLeave={() => handleRowHover(null)}
-                            onClick={() => handleItemClick(item)}
-                            className={`${rowClassName} ${isHovered && !isClicked ? 'hover:bg-themeHover' : ''}`}
-                        >
-                            {headers.map((header) => (
-                                <td className={`p-2 ${textClassName} text-xs`} key={header}> {/* Added text-xs class for smaller text */}
-                                    {item[header]}
-                                </td>
-                            ))}
-                        </tr>
-                    );
-                })
-
-            ) : (
-                <div>
-                    <table className="min-w-full text-themeText-light">
-                        <thead className="bg-themeBlue-default">
-                            <tr>
-                                {headers.map((header) => (
-                                    <th key={header} className="font-bold text-left">
-                                        <button onClick={() => sortReport(header)}>
-                                            {header}
-                                        </button>
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {sortedAndFilteredReport.length > 0 ? (
-                                sortedAndFilteredReport.map((item, index) => {
-                                    const isClicked = item === clickedItem;
-                                    const isHovered = index === hoveredRow;
-                                    const rowClassName = isClicked
-                                        ? 'bg-themeYellow-default text-black'
-                                        : index % 2 === 0
-                                            ? 'bg-themeBlue-default'
-                                            : 'bg-themeBlue-dark';
-                                    const textClassName = isClicked ? 'text-black' : 'text-themeText-light';
-
-                                    return (
-                                        <tr
-                                            key={index}
-                                            onMouseEnter={() => handleRowHover(index)}
-                                            onMouseLeave={() => handleRowHover(null)}
-                                            onClick={() => handleItemClick(item)}
-                                            className={`${rowClassName} ${isHovered && !isClicked ? 'hover:bg-themeHover' : ''}`}
-                                        >
-                                            {headers.map((header) => (
-                                                <td className={`p-2 ${textClassName}`} key={header}>{item[header]}</td>
-                                            ))}
-                                        </tr>
-                                    );
-                                })
-                            ) : (
-                                <tr>
-                                    <td colSpan={headers.length} className="text-center">No data available for this plugin.</td>
+                            return (
+                                <tr
+                                    key={index}
+                                    onMouseEnter={() => handleRowHover(index)}
+                                    onMouseLeave={() => handleRowHover(null)}
+                                    onClick={() => handleItemClick(item)}
+                                    className={`${rowClassName} ${isHovered && !isClicked ? 'hover:bg-themeHover' : ''}`}
+                                >
+                                    {headers.map((header) => (
+                                        <td className={`p-2 ${textClassName} text-xs`} key={header}> {/* Added text-xs class for smaller text */}
+                                            {item[header]}
+                                        </td>
+                                    ))}
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-            )}
-        </div>
-    );
-};
+                            );
+                        })
+                    ) : (
+                        <tr>
+                            <td colSpan={headers.length} className="text-center">No data available for this plugin.</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        )}
+    </div>
+);
+
+}
+
 
 export default DynamicReport;
