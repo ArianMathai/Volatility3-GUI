@@ -194,7 +194,7 @@ const DynamicReport = ({ report, searchQuery }) => {
         if (sortedAndFilteredReport.length > 0 && plugin === "PsTree") {
             return buildProcessTree(sortedAndFilteredReport);
         }
-        return null; // Return null if no data available
+        return null;
     }, [sortedAndFilteredReport, plugin]);
 
     const handleRowHover = (index) => {
@@ -234,11 +234,11 @@ const DynamicReport = ({ report, searchQuery }) => {
         return (
             currentPluginError ? (
                 <tr>
-                    <td colSpan={headers.length} className="text-center">{currentPluginError.error}</td>
+                    <td colSpan={headers.length} className="text-center text-themeText-light m-auto">{currentPluginError.error}</td>
                 </tr>
             ) : (
                 <tr>
-                    <td colSpan={headers.length} className="text-center">
+                    <td colSpan={headers.length} className="text-center text-themeText-light m-auto">
                         There are no currently selected plugins to display.
                         Please select and run a plugin to display.
                     </td>
@@ -254,17 +254,10 @@ const DynamicReport = ({ report, searchQuery }) => {
 
     return (
     <div>
-        {/* Button to toggle between tree and list view */}
         {plugin === "PsTree" && (
             <button
                 onClick={toggleView}
-                style={{
-                    border: '1px solid #ccc',
-                    borderRadius: '4px',
-                    padding: '8px 16px',
-                    backgroundColor: '#f0f0f0',
-                    cursor: 'pointer'
-                }}
+                className=" mt-3 mb-3 border rounded shadow p-1 cursor-pointer bg-themeGray-default text-black"
             >
                 {isTreeView ? 'Switch to List View' : 'Switch to Tree View'}
             </button>
@@ -321,7 +314,7 @@ const DynamicReport = ({ report, searchQuery }) => {
                         })
                     ) : (
                             <tr>
-                                <td colSpan={headers.length} className="text-center">No data available for this
+                                <td colSpan={headers.length} className="text-center text-themeText-light">No data available for this
                                     plugin.
                                 </td>
                             </tr>
