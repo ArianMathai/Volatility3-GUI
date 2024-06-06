@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 import BladesReportComponent from "./BladesReportComponent";
 
@@ -7,8 +7,6 @@ export const BladesLayout = () => {
     const [navItems, setNavItems] = useState([]);
     const { selectedProcess, setSelectedProcess } = useAppContext();
     const currentLocation = useLocation();
-    const navigate = useNavigate();
-    const [prevPath, setPrevPath] = useState("");
 
     useEffect(() => {
         if (selectedProcess) {
@@ -24,10 +22,6 @@ export const BladesLayout = () => {
             setNavItems(updatedNavItems);
         }
     }, [selectedProcess]);
-
-    useEffect(() => {
-        setPrevPath(currentLocation.pathname);
-    }, [currentLocation]);
 
     const handleNavItemClick = (index) => {
         const updatedNavItems = navItems.map((item, idx) => {
@@ -59,48 +53,45 @@ export const BladesLayout = () => {
         setSelectedProcess(updatedSelectedProcess);
     };
 
-
     const handleTabClick = (processIndex, tabIndex) => {
-    const updatedNavItems = navItems.map((item, idx) => {
-        if (idx === processIndex) {
-            return {
-                ...item,
-                isActive: true, // Ensuring the parent item is also active
-                tabs: item.tabs.map((tab, tIdx) => ({
-                    ...tab,
-                    isActive: tIdx === tabIndex
-                }))
-            };
-        } else {
-            return {
-                ...item,
-                isActive: false, // Deactivate other process tabs
-                tabs: item.tabs.map((tab) => ({
-                    ...tab,
-                    isActive: false // Deactivate all tabs within other processes
-                }))
-            };
-        }
-    });
-    setNavItems(updatedNavItems);
-    const updatedSelectedProcess = selectedProcess.map((item, idx) => {
-        if (idx === processIndex) {
-            return {
-                ...item,
-                tabs: item.tabs.map((tab, tIdx) => ({
-                    ...tab,
-                    isActive: tIdx === tabIndex
-                }))
-            };
-        } else {
-            return item;
-        }
-    });
-    setSelectedProcess(updatedSelectedProcess);
-};
+        const updatedNavItems = navItems.map((item, idx) => {
+            if (idx === processIndex) {
+                return {
+                    ...item,
+                    isActive: true,
+                    tabs: item.tabs.map((tab, tIdx) => ({
+                        ...tab,
+                        isActive: tIdx === tabIndex
+                    }))
+                };
+            } else {
+                return {
+                    ...item,
+                    isActive: false,
+                    tabs: item.tabs.map((tab) => ({
+                        ...tab,
+                        isActive: false
+                    }))
+                };
+            }
+        });
+        setNavItems(updatedNavItems);
 
-
-
+        const updatedSelectedProcess = selectedProcess.map((item, idx) => {
+            if (idx === processIndex) {
+                return {
+                    ...item,
+                    tabs: item.tabs.map((tab, tIdx) => ({
+                        ...tab,
+                        isActive: tIdx === tabIndex
+                    }))
+                };
+            } else {
+                return item;
+            }
+        });
+        setSelectedProcess(updatedSelectedProcess);
+    };
 
     const handleRemoveTab = (processIndex, tabIndex) => {
         const updatedNavItems = navItems.map((item, idx) => {
@@ -115,6 +106,7 @@ export const BladesLayout = () => {
             }
         });
         setNavItems(updatedNavItems);
+
         const updatedSelectedProcess = selectedProcess.map((item, idx) => {
             if (idx === processIndex) {
                 const updatedTabs = item.tabs.filter((_, tIdx) => tIdx !== tabIndex);
@@ -130,28 +122,10 @@ export const BladesLayout = () => {
     };
 
     const handleRemoveMainTab = (processIndex) => {
-        const updatedNavItems = navItems.map((item, idx) => {
-            if (idx === processIndex) {
-
-                return {
-                    ...item,
-                    isActive: false
-                };
-            } else {
-                return item;
-            }
-        });
+        const updatedNavItems = navItems.filter((_, idx) => idx !== processIndex);
         setNavItems(updatedNavItems);
-        const updatedSelectedProcess = selectedProcess.map((item, idx) => {
-            if (idx === processIndex) {
-                return {
-                    ...item,
-                    isActive: false
-                };
-            } else {
-                return item;
-            }
-        });
+
+        const updatedSelectedProcess = selectedProcess.filter((_, idx) => idx !== processIndex);
         setSelectedProcess(updatedSelectedProcess);
     };
 
@@ -164,7 +138,7 @@ export const BladesLayout = () => {
                     <div
                         className={`p-2 shadow rounded-tr-md hover:cursor-pointer ${
                             activeItem.isActive
-                                ? activeItem.tabs.find(item => item.isActive) ? "bg-themeBlue-default text-themeText-light"
+                                ? activeItem.tabs.some(tab => tab.isActive) ? "bg-themeBlue-default text-themeText-light"
                                     : "bg-themeBlue-dark text-themeText-light"
                                 : "bg-themeBlue-default text-themeText-light"
                         }`}
@@ -174,9 +148,9 @@ export const BladesLayout = () => {
                         <button
                             className="text-red-800 ms-3 flex-shrink-0"
                             onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleRemoveMainTab(navItems.indexOf(activeItem));
-                                }}
+                                e.stopPropagation();
+                                handleRemoveMainTab(navItems.indexOf(activeItem));
+                            }}
                         >
                             x
                         </button>
@@ -205,7 +179,6 @@ export const BladesLayout = () => {
                     ))}
                 </div>
             )}
-
             <div>
                 <BladesReportComponent />
             </div>

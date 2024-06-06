@@ -253,76 +253,81 @@ const DynamicReport = ({ report, searchQuery }) => {
 
 
     return (
-    <div>
-        {plugin === "PsTree" && (
-            <button
-                onClick={toggleView}
-                className=" mt-3 mb-3 border rounded shadow p-1 cursor-pointer bg-themeGray-default text-black"
-            >
-                {isTreeView ? 'Switch to List View' : 'Switch to Tree View'}
-            </button>
-        )}
+        <div>
+            {plugin === "PsTree" && (
+                <button
+                    onClick={toggleView}
+                    className=" mt-3 mb-3 border rounded shadow p-1 cursor-pointer bg-themeGray-default text-black"
+                >
+                    {isTreeView ? 'Switch to List View' : 'Switch to Tree View'}
+                </button>
+            )}
 
-        {plugin === "PsTree" && isTreeView ? (
-            <div style={{ width: '100vw', height: '70vh', position: 'relative' }}>
-                <MyTreeComponent processTree={processTree} onNodeClick={handleNodeClick} />
-            </div>
-        ) : (
-            <table className="min-w-full text-themeText-light text-xs"> {/* Added text-xs class for smaller text */}
-                <thead className="bg-themeBlue-default">
-                    <tr>
-                        {headers.map((header) => (
-                            <th key={header} className="font-bold text-left px-4 text-xs"> {/* Added text-xs class for smaller text */}
-                                <button
-                                    onClick={() => sortReport(header)}
-                                    className="flex items-center"
-                                >
-                                    {header}
-                                    <img className="inline-block w-4 ml-2" src={getSortIcon(header)} alt="sortingIcon" />
-                                </button>
-                            </th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {sortedAndFilteredReport.length > 0 ? (
-                        sortedAndFilteredReport.map((item, index) => {
-                            const isClicked = item === clickedItem;
-                            const isHovered = index === hoveredRow;
-                            const rowClassName = isClicked
-                                ? 'bg-themeYellow-default text-black'
-                                : index % 2 === 0
-                                    ? 'bg-themeBlue-default'
-                                    : 'bg-themeBlue-dark';
-                            const textClassName = isClicked ? 'text-black' : 'text-themeText-light';
+            {plugin === "PsTree" && isTreeView ? (
+                <div style={{width: '100vw', height: '70vh', position: 'relative'}}>
+                    <MyTreeComponent processTree={processTree} onNodeClick={handleNodeClick}/>
+                </div>
+            ) : (
+                <div>
+                    <table className="table-auto w-full text-themeText-light text-xs">
+                        <thead className="bg-themeBlue-default"
+                               style={{position: 'sticky', top: 0}}>
+                        <tr>
+                            {headers.map((header) => (
+                                <th key={header} className="font-bold py-3 text-left px-4 text-xs">
+                                    <button
+                                        onClick={() => sortReport(header)}
+                                        className="flex items-center"
+                                    >
+                                        {header}
+                                        <img className="inline-block w-4 ml-2" src={getSortIcon(header)}
+                                             alt="sortingIcon"/>
+                                    </button>
+                                </th>
+                            ))}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {sortedAndFilteredReport.length > 0 ? (
+                            sortedAndFilteredReport.map((item, index) => {
+                                const isClicked = item === clickedItem;
+                                const isHovered = index === hoveredRow;
+                                const rowClassName = isClicked
+                                    ? 'bg-themeYellow-default text-black'
+                                    : index % 2 === 0
+                                        ? 'bg-themeBlue-default'
+                                        : 'bg-themeBlue-dark';
+                                const textClassName = isClicked ? 'text-black' : 'text-themeText-light';
 
-                            return (
-                                <tr
-                                    key={index}
-                                    onMouseEnter={() => handleRowHover(index)}
-                                    onMouseLeave={() => handleRowHover(null)}
-                                    onClick={() => handleItemClick(item)}
-                                    className={`${rowClassName} ${isHovered && !isClicked ? 'hover:bg-themeHover' : ''}`}
-                                >
-                                    {headers.map((header) => (
-                                        <td className={`p-2 ${textClassName} text-xs`} key={header}> {/* Added text-xs class for smaller text */}
-                                            {item[header]}
-                                        </td>
-                                    ))}
-                                </tr>
-                            );
-                        })
-                    ) : (
+                                return (
+                                    <tr
+                                        key={index}
+                                        onMouseEnter={() => handleRowHover(index)}
+                                        onMouseLeave={() => handleRowHover(null)}
+                                        onClick={() => handleItemClick(item)}
+                                        className={`${rowClassName} ${isHovered && !isClicked ? 'hover:bg-themeHover' : ''}`}
+                                    >
+                                        {headers.map((header) => (
+                                            <td className={`p-2 ${textClassName} text-xs`} key={header}>
+                                                {item[header]}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                );
+                            })
+                        ) : (
                             <tr>
-                                <td colSpan={headers.length} className="text-center text-themeText-light">No data available for this
+                                <td colSpan={headers.length} className="text-center text-themeText-light">No data
+                                    available for this
                                     plugin.
                                 </td>
                             </tr>
-                    )}
-                </tbody>
-            </table>
-        )}
-    </div>
+                        )}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+        </div>
     );
 
 }
