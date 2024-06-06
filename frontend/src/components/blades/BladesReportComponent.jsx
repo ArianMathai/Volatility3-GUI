@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 
 const BladesReportComponent = () => {
-    const { selectedProcess, pluginList, file, osName, setSelectedProcess } = useAppContext();
+    const { selectedProcess, pluginList, processList, file, osName, setSelectedProcess } = useAppContext();
     const [headers, setHeaders] = useState([]);
     const [dropdownValue, setDropdownValue] = useState('');
     const navigate = useNavigate();
@@ -47,15 +47,6 @@ const BladesReportComponent = () => {
                 return;
             }
 
-            // const formData = {
-            //     filepath: file.path,
-            //     os: osName.os,
-            //     plugin: selectedPlugin.toLowerCase(),
-            //     pid: pid
-            // };
-
-            // console.log("formdata: ", formData);
-
             const cleanedPID = pid.substring(pid.lastIndexOf('*') + 1)
 
             try {
@@ -78,6 +69,43 @@ const BladesReportComponent = () => {
         }
     };
 
+   const goToParentProcess = () => {
+    const activeItemIndex = selectedProcess.findIndex(item => item?.isActive);
+    if (activeItemIndex !== -1) {
+        const parentPID = selectedProcess[activeItemIndex]?.data?.PPID;
+        if (!parentPID) {
+            console.error('Parent PID is missing.');
+            return;
+        }
+
+        console.log("PPID", parentPID);
+
+        // Search for the parent process in processList
+        const parentProcess = processList[0]?.processes?.find(item => item?.PID === parentPID);
+        console.log(parentProcess)
+        if (parentProcess) {
+            const updatedProcess = [...selectedProcess];
+
+            // Check if the parent process is already in selectedProcess array
+            const parentIndex = updatedProcess.findIndex(item => item?.data?.PID === parentPID);
+            if (parentIndex === -1) {
+                // Add the parent process to selectedProcess array
+                updatedProcess.push({ data: parentProcess, isActive: true, tabs: [] });
+            } else {
+                // Update isActive to true for the existing parent process
+                updatedProcess[parentIndex].isActive = true;
+            }
+
+            // Set isActive to false for the current selected process
+            updatedProcess[activeItemIndex].isActive = false;
+
+            setSelectedProcess(updatedProcess);
+        } else {
+            console.error('Parent process not found.');
+        }
+    }
+};
+
 
     if (!selectedProcess || selectedProcess.length === 0) return <div>No data available for this plugin.</div>;
 
@@ -99,6 +127,7 @@ const BladesReportComponent = () => {
                     })}
                 </select>
                 <button className="rounded shadow ms-3 ps-3 pe-3 bg-themeYellow-default" onClick={handleAddTab}>Run</button>
+                <button className="rounded shadow ms-3 ps-3 pe-3 bg-themeYellow-default" onClick={goToParentProcess}>Go to Parent</button>
             </div>
             <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-2 text-themeText-light">
                 {Object?.entries(selectedData)?.map(([key, value]) => (
