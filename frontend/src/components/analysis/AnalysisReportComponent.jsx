@@ -61,7 +61,7 @@ export const AnalysisReportComponent = () => {
 
     return (
         <div className="mt-1">
-                <PanelGroup direction="horizontal">branch
+                <PanelGroup direction="horizontal">
                     <Panel defaultSize={25} order={1}>
                         <div className="m-3 mt-0">
                             <DynamicReport report={report} searchQuery={searchQuery}/>
