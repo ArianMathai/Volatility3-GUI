@@ -3,7 +3,7 @@ import { useAppContext } from "../../context/Context";
 import { useNavigate } from "react-router-dom";
 
 export const SelectPlugins = ({ setIsLoading }) => {
-    const { osName, file, setProcessList, setPlugins, plugins, pluginList, setPluginList } = useAppContext();
+    const { osName, file, setProcessList, setPlugins, plugins, pluginList, setPluginList, setProcessError } = useAppContext();
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [hoveredPlugin, setHoveredPlugin] = useState(null);
     const [pluginQuery, setPluginQuery] = useState("");
@@ -51,6 +51,8 @@ export const SelectPlugins = ({ setIsLoading }) => {
                 const res = await window.electronAPI.fetchProcessList(file.path, osName, plugin);
                 processList.push({ plugin, processes: res.processes });
             } catch (error) {
+                const processErr = {"plugin": plugin, "error": `error running plugin ${plugin}`}
+                setProcessError((prev) => [...prev, processErr]);
                 console.error(`Error fetching process list for ${plugin}:`, error);
             }
         }

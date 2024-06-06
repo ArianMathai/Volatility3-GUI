@@ -153,7 +153,7 @@ def run_plugin_with_pid():
         print(f"Running Volatility command with PID {pid} on {filepath}")
         try:
             result = subprocess.run(
-                ['python3', volatility_script, '-f', filepath, f"{operating_system}.cmdline", '--pid', pid],
+                ['python3', volatility_script, '-f', filepath, f"{operating_system}.{plugin}", '--pid', pid],
                 capture_output=True, text=True, check=True
             )
         except subprocess.CalledProcessError as e:
@@ -172,6 +172,101 @@ def run_plugin_with_pid():
         print(f"Command failed with error: {str(e)}")
         print(f"Command output: {e.output}")
         return jsonify({'error': str(e), 'output': e.output}), 500
+
+
+@app.route('/api/dump-with-pid', methods=['POST'])
+def run_plugin_with_dump_and_pid():
+    data = request.get_json()
+    filepath = data.get('filepath')
+    operating_system = data.get('os')
+    plugin = data.get('plugin').lower()  # Convert plugin name to lowercase
+    outputDir = data.get('outputDir')
+    pid = data.get('pid')
+
+    backend_dir = os.path.dirname(os.path.abspath(__file__))
+    volatility_script = 'vol.py'  # Remove the leading './'
+    volatility_script = os.path.join(backend_dir, "../volatility3/", volatility_script)
+
+    print(filepath)
+    print(outputDir)
+
+    if not filepath or not os.path.isfile(filepath):
+        return jsonify({'error': 'Invalid file path or PID'}), 400
+
+    command = [
+        'python3', volatility_script, '-f', filepath,
+        f"--output-dir={outputDir}", f"{operating_system}.{plugin}",
+        f"--pid", pid, "--dump"
+    ]
+    command2 = [
+        'python', volatility_script, '-f', filepath,
+        f"--output-dir={outputDir}", f"{operating_system}.{plugin}",
+        f"--pid", pid, "--dump"
+    ]
+
+    try:
+        try:
+            result = subprocess.run(
+                command,
+                capture_output=True, text=True, check=True
+            )
+        except subprocess.CalledProcessError as e:
+            print(f"Error running command with python3: {e}")
+            result = subprocess.run(
+                command2,
+                capture_output=True, text=True, check=True
+            )
+
+        return jsonify({'data': f'dump successful to {outputDir}'}), 200
+    except subprocess.CalledProcessError as e:
+        return jsonify({'error': f'Failed to dump file to {outputDir}'}), 500
+
+
+@app.route('/api/dump', methods=['POST'])
+def run_plugin_with_dump():
+    data = request.get_json()
+    filepath = data.get('filepath')
+    operating_system = data.get('os')
+    plugin = data.get('plugin').lower()  # Convert plugin name to lowercase
+    outputDir = data.get('outputDir')
+
+    backend_dir = os.path.dirname(os.path.abspath(__file__))
+    volatility_script = 'vol.py'  # Remove the leading './'
+    volatility_script = os.path.join(backend_dir, "../volatility3/", volatility_script)
+
+    print(filepath)
+    print(outputDir)
+
+    if not filepath or not os.path.isfile(filepath):
+        return jsonify({'error': 'Invalid file path or PID'}), 400
+
+    command = [
+        'python3', volatility_script, '-f', filepath,
+        f"--output-dir={outputDir}", f"{operating_system}.{plugin}",
+        "--dump"
+    ]
+    command2 = [
+        'python', volatility_script, '-f', filepath,
+        f"--output-dir={outputDir}", f"{operating_system}.{plugin}",
+        "--dump"
+    ]
+
+    try:
+        try:
+            result = subprocess.run(
+                command,
+                capture_output=True, text=True, check=True
+            )
+        except subprocess.CalledProcessError as e:
+            print(f"Error running command with python3: {e}")
+            result = subprocess.run(
+                command2,
+                capture_output=True, text=True, check=True
+            )
+
+        return jsonify({'data': f'dump successful to {outputDir}'}), 200
+    except subprocess.CalledProcessError as e:
+        return jsonify({'error': f'Failed to dump file to {outputDir}'}), 500
 
 
 

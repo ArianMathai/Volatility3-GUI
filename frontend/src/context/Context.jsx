@@ -28,8 +28,10 @@ export const AppContext = createContext({
     step2Completed: false,
     setStep1Completed: () => {},
     setStep2Completed: () => {},
-
-
+    isLoading: false,
+    setIsLoading: () => {},
+    processError: [],
+    setProcessError: () => {},
 });
 
 export const useAppContext = () => useContext(AppContext);
@@ -49,10 +51,12 @@ export const AppProvider = ({ children }) => {
     const [error, setError] = useState("");
     const [step1Completed, setStep1Completed] = useState(false);
     const [step2Completed, setStep2Completed] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [processError, setProcessError] = useState([])
 
 
     return (
-        <AppContext.Provider value={{ error,setError,osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList, plugins, setPlugins, projectName, setProjectName, folderPath, setFolderPath, allPlugins, setAllPlugins, pluginList, setPluginList, selectedProcess, setSelectedProcess, searchQuery, setSearchQuery, step1Completed, setStep1Completed,
+        <AppContext.Provider value={{processError, setProcessError,isLoading, setIsLoading, error,setError,osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList, plugins, setPlugins, projectName, setProjectName, folderPath, setFolderPath, allPlugins, setAllPlugins, pluginList, setPluginList, selectedProcess, setSelectedProcess, searchQuery, setSearchQuery, step1Completed, setStep1Completed,
             step2Completed, setStep2Completed }}>
             {children}
         </AppContext.Provider>

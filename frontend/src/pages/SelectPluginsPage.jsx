@@ -24,14 +24,13 @@ const SelectPluginsPage = () => {
                 <div className="m-5 ms-3">
                     <ProjectInfo/>
                 </div>
-                <div className="grid grid-cols-6 gap-10">
-                    <div className="col-span-1">
-                        <div className="w-40 ms-5 mt-3">
+                <div className="grid grid-cols-12 gap-10">
+                    <div className="col-span-3">
+                        <div className="w-full ms-5 mt-3 rounded-r-lg mt-10">
                             <SystemInfo />
                         </div>
                     </div>
-                    <div className="col-span-4">
-                        <h1 className="text-xl text-center font-bold text-themeText-light">Select plugins</h1>
+                    <div className="col-span-8 p-5">
                         <SelectPlugins setIsLoading={setIsLoading} />
                         <div className="flex justify-center">
                             <Loader isLoading={isLoading} />
@@ -41,7 +40,7 @@ const SelectPluginsPage = () => {
                         {/* Placeholder div for å skape plass */}
                     </div>
                 </div>
-                <div>
+                <div className="text-red-800">
                     {error?`<span>${error}</span>`: ""}
                 </div>
             </div>
