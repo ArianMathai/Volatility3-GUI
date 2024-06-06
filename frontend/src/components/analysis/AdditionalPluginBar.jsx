@@ -69,7 +69,7 @@ const AdditionalPluginBar = () => {
                         ))}
                     </select>
                     <button onClick={fetchUpdatedProcessList}
-                            className="p-1 ms-3 w-32 bg-themeYellow-default shadow rounded">
+                            className={`rounded shadow ms-3 p-1 ps-3 pe-3 ${selectedPlugin ? 'bg-themeYellow-default hover:bg-themeYellow-light' : 'bg-themeGray-default hover:bg-themeGray-default'}`} >
                         Run
                     </button>
                     <div className="relative ml-8">
