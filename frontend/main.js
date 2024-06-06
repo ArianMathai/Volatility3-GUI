@@ -195,33 +195,33 @@ app.whenReady().then( async () => {
         }
     });
 
-    ipcMain.handle('dump-file-pid', async (event,filePath, os,plugin,pid) => {
+    ipcMain.handle('dump-file-pid', async (event, filePath, os, plugin, pid) => {
+    let dumpPath;
 
-        let dumpPath;
-
-        try{
-            dumpPath = path.join(resultPath,"dump",plugin);
-            console.log("Path: ", dumpPath);
-            console.log("Plugin: ", plugin);
-            fs.mkdirSync(dumpPath);
-        } catch (error){
-            console.error("Error creating directory");
-            return {"error":"Error creating folder"};
+    try {
+        dumpPath = path.join(projectPath, "dump", plugin);
+        console.log("Path: ", dumpPath);
+        console.log("Plugin: ", plugin);
+        if (!fs.existsSync(dumpPath)) {
+            fs.mkdirSync(dumpPath, { recursive: true });
         }
+    } catch (error) {
+        console.error("Error creating directory", error);
+        return { "error": "Error creating folder" };
+    }
 
-        try{
+    try {
+        const axiosResponse = await axios.post('http://localhost:8000/api/dump-with-pid', {
+            "filepath": filePath, "os": os, "plugin": plugin, "outputDir": dumpPath, "pid": pid
+        });
 
-            const axiosResponse = await axios.post('http://localhost:8000/api/dump-with-pid', {
-                "filepath":filePath,"os":os,"plugin":plugin,"outputDir":dumpPath,"pid":pid
-            });
+        return axiosResponse.data;
 
-            return axiosResponse.data;
-
-        } catch (error){
-            console.error("Error when running dump", error);
-            return {"error":"Error when sending dump"};
-        }
-    })
+    } catch (error) {
+        console.error("Error when running dump", error);
+        return { "error": "Error when sending dump" };
+    }
+});
 
 
 
