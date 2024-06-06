@@ -174,7 +174,7 @@ def run_plugin_with_pid():
         return jsonify({'error': str(e), 'output': e.output}), 500
 
 
-@app.route('/api/runpluginwithdumpandpid', methods=['POST'])
+@app.route('/api/dump-with-pid', methods=['POST'])
 def run_plugin_with_dump_and_pid():
     data = request.get_json()
     filepath = data.get('filepath')
@@ -222,7 +222,7 @@ def run_plugin_with_dump_and_pid():
         return jsonify({'error': f'Failed to dump file to {outputDir}'}), 500
 
 
-@app.route('/api/runpluginwithdump', methods=['POST'])
+@app.route('/api/dump', methods=['POST'])
 def run_plugin_with_dump():
     data = request.get_json()
     filepath = data.get('filepath')
