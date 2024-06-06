@@ -27,6 +27,7 @@ const SystemInfo = () => {
                 <p className={`mb-2 text-l p-1 bg-darkerblue-important rounded-lg break-words`}>
                     <span className="font-bold text-l">OS:</span> {osName}
                 </p>
+
                 <ul>
                     {filteredSystemInfo.map((item, index) => (
                         <li
