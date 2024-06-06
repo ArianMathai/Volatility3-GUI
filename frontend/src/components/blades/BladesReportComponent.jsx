@@ -120,7 +120,7 @@ const BladesReportComponent = () => {
       <div className="mt-4">
           <div className="mb-4">
               <select
-                  className="rounded p-1 shadow"
+                  className="rounded p-1 ms-3 shadow"
                   value={selectedPlugin}
                   onChange={handlePluginChange}
               >
@@ -133,7 +133,7 @@ const BladesReportComponent = () => {
                       }
                   })}
               </select>
-              <button className="rounded shadow ms-3 ps-3 pe-3 bg-themeYellow-default" onClick={handleAddTab}>Run
+              <button className="rounded shadow ms-3 p-1 ps-3 pe-3 bg-themeYellow-default" onClick={handleAddTab}>Run
               </button>
           </div>
           <div className="relative">
@@ -147,7 +147,7 @@ const BladesReportComponent = () => {
               </div>
 
           </div>
-          <button className="rounded shadow ps-3 pe-3 bg-themeYellow-default" onClick={goToParentProcess}>Go to
+          <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default" onClick={goToParentProcess}>Go to
               Parent
           </button>
       </div>

@@ -76,7 +76,7 @@ const AdditionalPluginBar = () => {
                         <div className="absolute inset-0 flex items-center justify-center">
                             <Loader isLoading={isLoading}/>
                         </div>
-                        {error ? <p>{error}</p> : ""}
+                        {error ? <p className="text-themeText-light">{error}</p> : ""}
                     </div>
                 </div>
                 <div className="w-1/3 relative">

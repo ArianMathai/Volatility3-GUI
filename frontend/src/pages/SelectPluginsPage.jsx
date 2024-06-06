@@ -40,7 +40,7 @@ const SelectPluginsPage = () => {
                         {/* Placeholder div for å skape plass */}
                     </div>
                 </div>
-                <div>
+                <div className="text-red-800">
                     {error?`<span>${error}</span>`: ""}
                 </div>
             </div>
