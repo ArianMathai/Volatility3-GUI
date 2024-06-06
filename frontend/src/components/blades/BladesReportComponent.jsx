@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
+import {acceptedPlugins} from "./acceptedProcessPlugins"
 
 const BladesReportComponent = () => {
     const { selectedProcess, pluginList, processList, file, osName, setSelectedProcess } = useAppContext();
@@ -9,6 +10,7 @@ const BladesReportComponent = () => {
     const navigate = useNavigate();
     const [selectedPlugin, setSelectedPlugin] = useState("");
     const [selectedData, setSelectedData] = useState({});
+    const [acceptedProcessPlugins, setAcceptedProcessPlugins] = useState([]);
     const currentLocation = useLocation();
 
     useEffect(() => {
@@ -26,9 +28,16 @@ const BladesReportComponent = () => {
                 setSelectedData(activeItem.data);
             }
         }
-        console.log("current location:", currentLocation);
-        console.log("selected process:", selectedProcess);
+        // console.log("current location:", currentLocation);
+        // console.log("selected process:", selectedProcess);
+        console.log(acceptedProcessPlugins);
+        console.log(acceptedPlugins[osName]);
+        // console.log(acceptedProcessPlugins);
     }, [selectedProcess]);
+
+    useEffect(() => {
+        setAcceptedProcessPlugins(acceptedPlugins[osName]);
+    }, []);
 
     const handlePluginChange = (e) => {
         if (e.target.value === "") return;
@@ -116,7 +125,7 @@ const BladesReportComponent = () => {
 
     if (!selectedProcess || selectedProcess.length === 0) return <div>No data available for this plugin.</div>;
 
-  return (
+return (
       <div className="mt-4">
           <div className="mb-4">
               <select
@@ -124,13 +133,11 @@ const BladesReportComponent = () => {
                   value={selectedPlugin}
                   onChange={handlePluginChange}
               >
-                  <option value="" disabled selected>Add another plugin</option>
-                  {pluginList.map((plugin, i) => {
-                      if (plugin.name === "CmdLine" || plugin.name === "Envars" || plugin.name === "DllList") {
+                  <option value="" disabled selected>Select Plugin</option>
+                  {acceptedProcessPlugins?.map((plugin, i) => {
                           return (
-                              <option key={i} value={plugin.name}>{plugin.name}</option>
-                          )
-                      }
+                              <option key={i} value={plugin}>{plugin}</option>
+                        )
                   })}
               </select>
               <button className="rounded shadow ms-3 p-1 ps-3 pe-3 bg-themeYellow-default" onClick={handleAddTab}>Run
@@ -151,7 +158,7 @@ const BladesReportComponent = () => {
               Parent
           </button>
       </div>
-  );
+    );
 };
 
 export default BladesReportComponent;
