@@ -19,8 +19,62 @@ export const acceptedPlugins = {
     "cmdline", "dlllist", "dumpfiles", "envars",   "getsids",
     "handles", "ldrmodules", "malfind",  "memmap", "privileges",
     "psList", "psscan", "pstree", "sessions",
-  ]
+  ],
+
 };
+
+ // test: {
+ //    general: [
+ //      {"cmdline": "cmdline"},
+ //      {"dlllist": "dlllist"},
+ //      {"dumpfiles": "dumpfiles"},
+ //      {"envars": "envars"},
+ //      {"getsids": "getsids"}
+ //    ],
+ //      dump: [
+ //      {pslist: "pslist"},
+ //      ]
+ //    },
+ //    dump: [
+ //      PsScan
+ //      PsList
+ //      Memmap
+ //      Malfind
+ //      Dll List
+ //      VadInfo (generer maange filer)
+ //    ] }
+
+// windows: {
+//     general: [
+//       {"cmdline": "cmdline"},
+//       {"dlllist": "dlllist"},
+//       {"dumpfiles": "dumpfiles"},
+//       {"envars": "envars"},
+//       {"getsids": "getsids"},
+//       dump: [
+//       {pslist: "pslist"},
+//       ]
+//     },
+//     dump: [
+//       PsScan
+//       PsList
+//       Memmap
+//       Malfind
+//       Dll List
+//       VadInfo (generer maange filer)
+//     ] }
+//     cmdline: {
+//       name: "cmdline",
+//       flags: ["PID", "dump", ""]
+//     },
+//     pslist: {
+//       name: "pslist",
+//       flags: ["PID", "dump"]
+//     },
+//   }
+//
+//   "python3 vol.py -f path/to/file.raw [os].[plugin] --pid 123 --dump"
+
 
 
 
