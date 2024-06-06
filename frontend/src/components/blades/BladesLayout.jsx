@@ -134,13 +134,13 @@ export const BladesLayout = () => {
     return (
         <div>
             {activeItem && (
-                <div className="flex items-center mt-2">
+                <div className="flex items-center">
                     <div
                         className={`p-2 shadow rounded-tr-md hover:cursor-pointer ${
                             activeItem.isActive
-                                ? activeItem.tabs.some(tab => tab.isActive) ? "bg-themeBlue-default text-themeText-light"
-                                    : "bg-themeBlue-dark text-themeText-light"
-                                : "bg-themeBlue-default text-themeText-light"
+                                ? activeItem.tabs.some(tab => tab.isActive) ? "bg-themeBlue-dark text-themeText-light"
+                                    : "bg-themeBlue-darkest text-themeText-light"
+                                : "bg-themeBlue-dark text-themeText-light"
                         }`}
                         onClick={() => handleNavItemClick(navItems.indexOf(activeItem))}
                     >
@@ -160,8 +160,8 @@ export const BladesLayout = () => {
                             key={tabIndex}
                             className={`p-2 shadow rounded-tr-md hover:cursor-pointer ml-2 ${
                                 tab.isActive
-                                    ? "bg-themeBlue-dark text-themeText-light"
-                                    : "bg-themeBlue-default text-themeText-light"
+                                    ? "bg-themeBlue-darkest text-themeText-light"
+                                    : "bg-themeBlue-dark text-themeText-light"
                             }`}
                             onClick={() => handleTabClick(navItems.indexOf(activeItem), tabIndex)}
                         >
