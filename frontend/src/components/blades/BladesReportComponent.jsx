@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
+import {useNavigate, useLocation, useParams} from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 import { acceptedPlugins } from "./acceptedProcessPlugins";
 
 const BladesReportComponent = () => {
-    const { selectedProcess, pluginList, processList, file, osName, setSelectedProcess } = useAppContext();
+    const { selectedProcess, pluginList, processList, file, osName, setSelectedProcess, setError,error } = useAppContext();
     const [headers, setHeaders] = useState([]);
     const [dropdownValue, setDropdownValue] = useState('');
     const navigate = useNavigate();
@@ -12,6 +12,7 @@ const BladesReportComponent = () => {
     const [selectedData, setSelectedData] = useState({});
     const [acceptedProcessPlugins, setAcceptedProcessPlugins] = useState([]);
     const currentLocation = useLocation();
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         const activeItem = selectedProcess?.find(item => item?.isActive);
@@ -111,9 +112,26 @@ const BladesReportComponent = () => {
         }
     };
 
-    const handleDumpClick = (process) => {
-        console.log('hello');
-        console.log('Dump button clicked for process:', process);
+    const removeMessage = () => {
+        setTimeout(() => {
+            setMessage("");
+        }, 2000);
+    }
+
+    const handleDumpClick = async (process, plugin) => {
+
+        try{
+
+            const res = await window.fileAPI.dumpFilePid(file.path,osName,plugin,process.data.pid);
+
+            setMessage(res.data);
+            removeMessage();
+            setError("");
+
+        } catch (error){
+            setError('Failed to dump file');
+        }
+
     };
 
     const renderDumpButton = () => {
@@ -130,9 +148,9 @@ const BladesReportComponent = () => {
             return (
                 <button
                     className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default"
-                    onClick={() => handleDumpClick(activeItem)}
+                    onClick={() => handleDumpClick(activeItem,activeTab.plugin)}
                 >
-                    dump
+                    Dump
                 </button>
             );
         }
