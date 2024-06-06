@@ -3,7 +3,7 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 
 export const AnalysisLayout = () => {
-    const { plugins, setPlugins, searchQuery, processList, setProcessList } = useAppContext();
+    const { plugins, setPlugins, searchQuery, processList, setProcessList, setProcessError } = useAppContext();
     const [navItems, setNavItems] = useState([]);
     const navigate = useNavigate();
     const currentLocation = useLocation();
@@ -24,6 +24,9 @@ export const AnalysisLayout = () => {
     }, [currentLocation]);
 
     const handleRemovePlugin = (pluginToRemove) => {
+
+        setProcessError((prevErrors) => prevErrors.filter((err) => err.plugin !== pluginToRemove));
+
         setPlugins((prevPlugins) => prevPlugins.filter(plugin => plugin !== pluginToRemove));
         processList?.map((item, index) => {
             if (item.plugin === pluginToRemove) {
