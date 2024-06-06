@@ -200,7 +200,9 @@ app.whenReady().then( async () => {
         let dumpPath;
 
         try{
-            dumpPath = path.join(projectPath,"dump",plugin);
+            dumpPath = path.join(resultPath,"dump",plugin);
+            console.log("Path: ", dumpPath);
+            console.log("Plugin: ", plugin);
             fs.mkdirSync(dumpPath);
         } catch (error){
             console.error("Error creating directory");
