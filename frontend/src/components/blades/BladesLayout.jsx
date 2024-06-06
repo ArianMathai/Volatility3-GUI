@@ -129,6 +129,32 @@ export const BladesLayout = () => {
         setSelectedProcess(updatedSelectedProcess);
     };
 
+    const handleRemoveMainTab = (processIndex) => {
+        const updatedNavItems = navItems.map((item, idx) => {
+            if (idx === processIndex) {
+
+                return {
+                    ...item,
+                    isActive: false
+                };
+            } else {
+                return item;
+            }
+        });
+        setNavItems(updatedNavItems);
+        const updatedSelectedProcess = selectedProcess.map((item, idx) => {
+            if (idx === processIndex) {
+                return {
+                    ...item,
+                    isActive: false
+                };
+            } else {
+                return item;
+            }
+        });
+        setSelectedProcess(updatedSelectedProcess);
+    };
+
     const activeItem = navItems.find(item => item.isActive);
 
     return (
@@ -138,12 +164,22 @@ export const BladesLayout = () => {
                     <div
                         className={`p-2 shadow rounded-tr-md hover:cursor-pointer ${
                             activeItem.isActive
-                                ? "bg-themeBlue-dark text-themeText-light"
-                                : "bg-themeBlue-lightest text-themeText-light"
+                                ? activeItem.tabs.find(item => item.isActive) ? "bg-themeBlue-default text-themeText-light"
+                                    : "bg-themeBlue-dark text-themeText-light"
+                                : "bg-themeBlue-default text-themeText-light"
                         }`}
                         onClick={() => handleNavItemClick(navItems.indexOf(activeItem))}
                     >
                         <span>{activeItem?.data}</span>
+                        <button
+                            className="text-red-800 ms-3 flex-shrink-0"
+                            onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleRemoveMainTab(navItems.indexOf(activeItem));
+                                }}
+                        >
+                            x
+                        </button>
                     </div>
                     {activeItem.tabs.map((tab, tabIndex) => (
                         <div
@@ -151,7 +187,7 @@ export const BladesLayout = () => {
                             className={`p-2 shadow rounded-tr-md hover:cursor-pointer ml-2 ${
                                 tab.isActive
                                     ? "bg-themeBlue-dark text-themeText-light"
-                                    : "bg-themeBlue-lighter text-themeText-light"
+                                    : "bg-themeBlue-default text-themeText-light"
                             }`}
                             onClick={() => handleTabClick(navItems.indexOf(activeItem), tabIndex)}
                         >
