@@ -26,7 +26,7 @@ const SelectPluginsPage = () => {
                 </div>
                 <div className="grid grid-cols-12 gap-10">
                     <div className="col-span-3">
-                        <div className="w-full ms-5 mt-3 rounded-r-lg">
+                        <div className="w-full ms-5 mt-3 rounded-r-lg mt-10">
                             <SystemInfo />
                         </div>
                     </div>
