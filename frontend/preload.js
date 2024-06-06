@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron/renderer');
+const {ipcMain} = require("electron");
 
 contextBridge.exposeInMainWorld('electronAPI', {
     fetchSystemInfo: (filepath) => ipcRenderer.invoke("fetch-system-info", filepath),
@@ -12,4 +13,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
 contextBridge.exposeInMainWorld('fileAPI', {
     createProjectFolder: (projectName) => ipcRenderer.invoke('create-project-folder', projectName),
     saveCSV: (folderPath,projectName,csvContent) => ipcRenderer.invoke('save-csv', folderPath,projectName,csvContent),
+    dumpFilePid:(filePath, os, plugin, pid ) => ipcRenderer.invoke('dump-file-pid', filePath,os,plugin,pid),
 })
