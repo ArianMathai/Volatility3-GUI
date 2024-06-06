@@ -253,7 +253,7 @@ const DynamicReport = ({ report, searchQuery }) => {
 
 
     return (
-    <div>
+    <div style={{ maxHeight: '70vh', maxWidth: "100vw", overflowY: 'auto' }} className="bg-themeBlue-dark">
         {plugin === "PsTree" && (
             <button
                 onClick={toggleView}
@@ -268,11 +268,11 @@ const DynamicReport = ({ report, searchQuery }) => {
                 <MyTreeComponent processTree={processTree} onNodeClick={handleNodeClick} />
             </div>
         ) : (
-            <table className="min-w-full text-themeText-light text-xs"> {/* Added text-xs class for smaller text */}
+            <table className="min-w-full h-full overflow-y-auto text-themeText-light text-xs">
                 <thead className="bg-themeBlue-default">
                     <tr>
                         {headers.map((header) => (
-                            <th key={header} className="font-bold text-left px-4 text-xs"> {/* Added text-xs class for smaller text */}
+                            <th key={header} className="font-bold text-left px-4 text-xs">
                                 <button
                                     onClick={() => sortReport(header)}
                                     className="flex items-center"
@@ -314,7 +314,7 @@ const DynamicReport = ({ report, searchQuery }) => {
                         })
                     ) : (
                             <tr>
-                                <td colSpan={headers.length} className="text-center text-themeText-light">No data available for this
+                                <td colSpan={headers.length} className="text-xl text-center text-themeText-light">No data available for this
                                     plugin.
                                 </td>
                             </tr>
