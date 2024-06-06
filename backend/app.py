@@ -217,7 +217,7 @@ def run_plugin_with_dump_and_pid():
                 capture_output=True, text=True, check=True
             )
 
-        return jsonify({'Data': f'dump successful to {outputDir}'}), 200
+        return jsonify({'data': f'dump successful to {outputDir}'}), 200
     except subprocess.CalledProcessError as e:
         return jsonify({'error': f'Failed to dump file to {outputDir}'}), 500
 
@@ -264,7 +264,7 @@ def run_plugin_with_dump():
                 capture_output=True, text=True, check=True
             )
 
-        return jsonify({'Data': f'dump successful to {outputDir}'}), 200
+        return jsonify({'data': f'dump successful to {outputDir}'}), 200
     except subprocess.CalledProcessError as e:
         return jsonify({'error': f'Failed to dump file to {outputDir}'}), 500
 
