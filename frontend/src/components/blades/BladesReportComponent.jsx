@@ -147,7 +147,7 @@ const BladesReportComponent = () => {
         if (pluginWithDumpFlag) {
             return (
                 <button
-                    className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default"
+                    className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
                     onClick={() => handleDumpClick(activeItem,activeTab.plugin)}
                 >
                     Dump
@@ -173,7 +173,7 @@ const BladesReportComponent = () => {
                         <option key={i} value={plugin.name}>{plugin.name}</option>
                     ))}
                 </select>
-                <button className="rounded shadow ms-3 p-1 ps-3 pe-3 bg-themeYellow-default" onClick={handleAddTab}>Run</button>
+                <button className={`rounded shadow ms-3 p-1 ps-3 pe-3 ${selectedPlugin ? 'bg-themeYellow-default hover:bg-themeYellow-light' : 'bg-themeGray-default hover:bg-themeGray-default'}`}  onClick={handleAddTab}>Run</button>
             </div>
             <div className="relative">
                 <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-2 text-themeText-light">
@@ -186,7 +186,7 @@ const BladesReportComponent = () => {
                 </div>
             </div>
             {renderDumpButton()}
-            <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default" onClick={goToParentProcess}>Go to Parent</button>
+            <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light" onClick={goToParentProcess}>Go to Parent</button>
         </div>
     );
 };

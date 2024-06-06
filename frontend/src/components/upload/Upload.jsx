@@ -67,7 +67,7 @@ export const Upload = ({setIsLoading, onFileUpload}) => {
 
     const isFormValid = file && projectName;
     const isProjectNameValid = projectName !== "";
-    const colorOfBtnClass = isFormValid && isProjectNameValid ? 'bg-themeYellow-default' : 'bg-themeGray-dark';
+    const colorOfBtnClass = isFormValid && isProjectNameValid ? 'bg-themeYellow-default hover:bg-themeYellow-light' : 'bg-themeGray-dark hover:none';
 
     return (
         <form onSubmit={fetchSystemInfo} className="m-auto">

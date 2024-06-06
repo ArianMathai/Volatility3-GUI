@@ -125,7 +125,7 @@ export const SelectPlugins = ({ setIsLoading }) => {
             </div>
             <div className="flex justify-end mt-5">
                 <button
-                    className="btn p-2 w-32 rounded shadow bg-themeYellow-default hover:bg-themeYellow-light"
+                    className={`btn p-2 w-32 rounded shadow ${buttonDisabled ? 'bg-themeGray-default hover:none' : 'bg-themeYellow-default hover:bg-themeYellow-light'}`}
                     disabled={buttonDisabled}
                     onClick={fetchProcessLists}
                 >
