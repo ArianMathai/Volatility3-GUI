@@ -57,9 +57,9 @@ export const acceptedPlugins = {
     { name: "VFSevents", flags: ["PID"] }
   ],
   windows: [
-    { name: "cmdline", flags: ["PID", "dump"] },
+    { name: "cmdline", flags: ["PID"] },
     { name: "dlllist", flags: ["PID", "dump"] },
-    { name: "dumpfiles", flags: ["PID", "dump"] },
+    { name: "dumpfiles", flags: ["PID"] },
     { name: "envars", flags: ["PID"] },
     { name: "getsids", flags: ["PID"] },
     { name: "handles", flags: ["PID"] },
@@ -67,7 +67,7 @@ export const acceptedPlugins = {
     { name: "malfind", flags: ["PID", "dump"] },
     { name: "memmap", flags: ["PID", "dump"] },
     { name: "privileges", flags: ["PID"] },
-    { name: "psList", flags: ["PID", "dump"] },
+    { name: "pslist", flags: ["PID", "dump"] },
     { name: "psscan", flags: ["PID", "dump"] },
     { name: "pstree", flags: ["PID"] },
     { name: "sessions", flags: ["PID"] }

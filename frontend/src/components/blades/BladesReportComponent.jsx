@@ -122,7 +122,7 @@ const BladesReportComponent = () => {
 
         try{
 
-            const res = await window.fileAPI.dumpFilePid(file.path,osName,plugin,process.data.pid);
+            const res = await window.fileAPI.dumpFilePid(file.path,osName,plugin,process.data.PID);
 
             setMessage(res.data);
             removeMessage();
