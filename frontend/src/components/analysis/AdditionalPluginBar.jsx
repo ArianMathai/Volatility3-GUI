@@ -5,7 +5,7 @@ import ProjectInfo from "../shared/ProjectInfo";
 import {useNavigate} from "react-router-dom";
 
 const AdditionalPluginBar = () => {
-    const { isLoading, setIsLoading, osName, file, setProcessList, setPlugins, pluginList, searchQuery, setSearchQuery } = useAppContext();
+    const { isLoading, setIsLoading, osName, file, setProcessList, setPlugins, pluginList, searchQuery, setSearchQuery, setError, error } = useAppContext();
     const [selectedPlugin, setSelectedPlugin] = useState("");
 
     const navigate = useNavigate();
@@ -18,14 +18,17 @@ const AdditionalPluginBar = () => {
     };
 
     const fetchUpdatedProcessList = async () => {
+        setError("");
         setIsLoading(true);
         if (!selectedPlugin) {
             setIsLoading(false);
             return;
         }
 
+
         try {
             const res = await window.electronAPI.fetchProcessList(file.path, osName, selectedPlugin);
+
             if (res?.processes) {
                 const newProcessList = { plugin: selectedPlugin, processes: res.processes };
                 console.log("Updated processList: ", newProcessList);
@@ -41,10 +44,9 @@ const AdditionalPluginBar = () => {
 
                 navigate(`/analysis/${selectedPlugin}`)
 
-            } else {
-                console.error(`Error fetching process list for ${selectedPlugin}`);
             }
         } catch (error) {
+            setError(`Error running plugin: ${selectedPlugin}`)
             console.error(`Error fetching process list for ${selectedPlugin}:`, error);
         } finally {
             setIsLoading(false);
@@ -74,6 +76,7 @@ const AdditionalPluginBar = () => {
                         <div className="absolute inset-0 flex items-center justify-center">
                             <Loader isLoading={isLoading}/>
                         </div>
+                        {error ? <p>{error}</p> : ""}
                     </div>
                 </div>
                 <div className="w-1/3 relative">

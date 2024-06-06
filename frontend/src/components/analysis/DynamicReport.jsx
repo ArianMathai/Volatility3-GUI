@@ -17,6 +17,10 @@ function buildHierarchy(processes) {
     // Second pass: Link processes to their parent processes
     processes.forEach(process => {
         const { PID } = process;
+        if (!PID) {
+            console.error("PID is undefined for process:", process);
+            return;
+        }
         const parentPID = PID.replace(/\*/g, ''); // Remove asterisks to get parent PID
 
         if (!parentPID || parentPID === PID) {
@@ -41,7 +45,7 @@ const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
     const [sortDirection, setSortDirection] = useState('ascending');
     const [filteredReport, setFilteredReport] = useState([]);
-    const {selectedProcess, setSelectedProcess, processList} = useAppContext();
+    const {selectedProcess, setSelectedProcess, processList, processError} = useAppContext();
     const {plugin} = useParams();
     const [hoveredRow, setHoveredRow] = useState(null);
     const [clickedItem, setClickedItem] = useState(null);
@@ -225,13 +229,22 @@ const DynamicReport = ({ report, searchQuery }) => {
     };
 
     if (processList.length === 0) {
+        const currentPluginError = processError.find((error) => error.plugin === plugin);
+
         return (
-            <tr>
-                <td colSpan={headers.length} className="text-center">There are no currently selected plugins to display.
-                    Please select and run a plugin to display.
-                </td>
-            </tr>
-        )
+            currentPluginError ? (
+                <tr>
+                    <td colSpan={headers.length} className="text-center">{currentPluginError.error}</td>
+                </tr>
+            ) : (
+                <tr>
+                    <td colSpan={headers.length} className="text-center">
+                        There are no currently selected plugins to display.
+                        Please select and run a plugin to display.
+                    </td>
+                </tr>
+            )
+        );
     }
 
     const toggleView = () => {
@@ -307,15 +320,17 @@ const DynamicReport = ({ report, searchQuery }) => {
                             );
                         })
                     ) : (
-                        <tr>
-                            <td colSpan={headers.length} className="text-center">No data available for this plugin.</td>
-                        </tr>
+                            <tr>
+                                <td colSpan={headers.length} className="text-center">No data available for this
+                                    plugin.
+                                </td>
+                            </tr>
                     )}
                 </tbody>
             </table>
         )}
     </div>
-);
+    );
 
 }
 
