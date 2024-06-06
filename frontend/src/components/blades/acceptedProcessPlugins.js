@@ -1,92 +1,75 @@
-
 export const acceptedPlugins = {
   linux: [
-    "Bash", "Capabilities", "Capabilities Data", "Taskdata", "Check Afinfo",
-    "Check Creds", "Check Idt", "Check Modules", "Check Syscall", "Elfs",
-    "Envars", "Iomem", "Keyboard Notifiers", "Kmsg", "ABCKmsg", "Desc State Enum",
-    "Kmsg Five Ten", "Kmsg Legacy", "Lsmod", "Malfind", "Mount Info",
-    "Mount Info Data", "Proc", "Psaux", "Pslists", "Psscan",
-    "Desc Exit State Enum", "Pstree", "Sockstat", "Sock Handlers", "Tty Check",
-    "Vmayarascan"
+    { name: "Bash", flags: ["PID"] },
+    { name: "Capabilities", flags: ["PID"] },
+    { name: "Capabilities Data", flags: ["PID"] },
+    { name: "Taskdata", flags: ["PID"] },
+    { name: "Check Afinfo", flags: ["PID"] },
+    { name: "Check Creds", flags: ["PID"] },
+    { name: "Check Idt", flags: ["PID"] },
+    { name: "Check Modules", flags: ["PID"] },
+    { name: "Check Syscall", flags: ["PID"] },
+    { name: "Elfs", flags: ["PID"] },
+    { name: "Envars", flags: ["PID"] },
+    { name: "Iomem", flags: ["PID"] },
+    { name: "Keyboard Notifiers", flags: ["PID"] },
+    { name: "Kmsg", flags: ["PID"] },
+    { name: "ABCKmsg", flags: ["PID"] },
+    { name: "Desc State Enum", flags: ["PID"] },
+    { name: "Kmsg Five Ten", flags: ["PID"] },
+    { name: "Kmsg Legacy", flags: ["PID"] },
+    { name: "Lsmod", flags: ["PID"] },
+    { name: "Malfind", flags: ["PID", "dump"] },
+    { name: "Mount Info", flags: ["PID"] },
+    { name: "Mount Info Data", flags: ["PID"] },
+    { name: "Proc", flags: ["PID"] },
+    { name: "Psaux", flags: ["PID"] },
+    { name: "Pslists", flags: ["PID"] },
+    { name: "Psscan", flags: ["PID", "dump"] },
+    { name: "Desc Exit State Enum", flags: ["PID"] },
+    { name: "Pstree", flags: ["PID"] },
+    { name: "Sockstat", flags: ["PID"] },
+    { name: "Sock Handlers", flags: ["PID"] },
+    { name: "Tty Check", flags: ["PID"] },
+    { name: "Vmayarascan", flags: ["PID"] }
   ],
   mac: [
-    "Bash", "Check Syscall", "Check Trap Table", "Ifconfig", "Kauth Listeners",
-    "Kauth Scopes", "Kevents", "List Files", "Lsmod", "Lsof", "Malfind",
-    "Mount", "Netstat", "Proc Maps", "Psaux", "Pslist", "Pstree",
-    "Socket Filters", "Timers", "Trustedbsd", "VFSevents"
+    { name: "Bash", flags: ["PID"] },
+    { name: "Check Syscall", flags: ["PID"] },
+    { name: "Check Trap Table", flags: ["PID"] },
+    { name: "Ifconfig", flags: ["PID"] },
+    { name: "Kauth Listeners", flags: ["PID"] },
+    { name: "Kauth Scopes", flags: ["PID"] },
+    { name: "Kevents", flags: ["PID"] },
+    { name: "List Files", flags: ["PID"] },
+    { name: "Lsmod", flags: ["PID"] },
+    { name: "Lsof", flags: ["PID"] },
+    { name: "Malfind", flags: ["PID", "dump"] },
+    { name: "Mount", flags: ["PID"] },
+    { name: "Netstat", flags: ["PID"] },
+    { name: "Proc Maps", flags: ["PID"] },
+    { name: "Psaux", flags: ["PID"] },
+    { name: "Pslist", flags: ["PID"] },
+    { name: "Pstree", flags: ["PID"] },
+    { name: "Socket Filters", flags: ["PID"] },
+    { name: "Timers", flags: ["PID"] },
+    { name: "Trustedbsd", flags: ["PID"] },
+    { name: "VFSevents", flags: ["PID"] }
   ],
   windows: [
-    "cmdline", "dlllist", "dumpfiles", "envars",   "getsids",
-    "handles", "ldrmodules", "malfind",  "memmap", "privileges",
-    "psList", "psscan", "pstree", "sessions",
-  ],
-
+    { name: "cmdline", flags: ["PID", "dump"] },
+    { name: "dlllist", flags: ["PID", "dump"] },
+    { name: "dumpfiles", flags: ["PID", "dump"] },
+    { name: "envars", flags: ["PID"] },
+    { name: "getsids", flags: ["PID"] },
+    { name: "handles", flags: ["PID"] },
+    { name: "ldrmodules", flags: ["PID"] },
+    { name: "malfind", flags: ["PID", "dump"] },
+    { name: "memmap", flags: ["PID", "dump"] },
+    { name: "privileges", flags: ["PID"] },
+    { name: "psList", flags: ["PID", "dump"] },
+    { name: "psscan", flags: ["PID", "dump"] },
+    { name: "pstree", flags: ["PID"] },
+    { name: "sessions", flags: ["PID"] }
+  ]
 };
-
- // test: {
- //    general: [
- //      {"cmdline": "cmdline"},
- //      {"dlllist": "dlllist"},
- //      {"dumpfiles": "dumpfiles"},
- //      {"envars": "envars"},
- //      {"getsids": "getsids"}
- //    ],
- //      dump: [
- //      {pslist: "pslist"},
- //      ]
- //    },
- //    dump: [
- //      PsScan
- //      PsList
- //      Memmap
- //      Malfind
- //      Dll List
- //      VadInfo (generer maange filer)
- //    ] }
-
-// windows: {
-//     general: [
-//       {"cmdline": "cmdline"},
-//       {"dlllist": "dlllist"},
-//       {"dumpfiles": "dumpfiles"},
-//       {"envars": "envars"},
-//       {"getsids": "getsids"},
-//       dump: [
-//       {pslist: "pslist"},
-//       ]
-//     },
-//     dump: [
-//       PsScan
-//       PsList
-//       Memmap
-//       Malfind
-//       Dll List
-//       VadInfo (generer maange filer)
-//     ] }
-//     cmdline: {
-//       name: "cmdline",
-//       flags: ["PID", "dump", ""]
-//     },
-//     pslist: {
-//       name: "pslist",
-//       flags: ["PID", "dump"]
-//     },
-//   }
-//
-//   "python3 vol.py -f path/to/file.raw [os].[plugin] --pid 123 --dump"
-
-
-
-
-// windows: [
-//     "bigpools l", "cachedump l", "callbacks l", "cmdline", "crashinfo l",
-//     "devicetree l", "dlllist", "driverirp l", "drivermodule l", "driverscan l",
-//     "dumpfiles", "envars", "filescan l", "getservicesids l", "getsids",
-//     "handles", "hashdump l", "info l", "joblinks l", "ldrmodules",
-//     "lsadump l", "malfind", "mbrscan --FULL l", "memmap", "mftscanads l",
-//     "mftscan l", "modscan l", "modules l", "mutantscan l", "netscan l",
-//     "netstat l", "poolscanner l", "privileges", "psList", "psscan",
-//     "pstree", "sessions", "skeletonkeycheck l", "SSDT ll", "strings l",
-//     "svcscan ?", "symlinkscan ?", "vadinfo ?", "vadwalk ?", "vadyarascan ?",
-//     "verinfo ?", "virtmap ?"
-//   ]
