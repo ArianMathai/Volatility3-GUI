@@ -7,6 +7,7 @@ const fs = require('fs');
 
 
 let pythonBackend;
+let projectPath;
 const pythonScriptPath = '../backend/app.py'
 
 const resultPath = path.join(__dirname,'..','results');
@@ -28,7 +29,7 @@ function getUniqueFolderName(basePath,baseName){
 
 ipcMain.handle('create-project-folder', (event,projectName) => {
     const uniqueProjectName = getUniqueFolderName(resultPath,projectName);
-    const projectPath = path.join(resultPath,uniqueProjectName);
+    projectPath = path.join(resultPath,uniqueProjectName);
     fs.mkdirSync(projectPath);
     console.log(`Created project folder: ${projectPath}`)
     return {
@@ -193,6 +194,32 @@ app.whenReady().then( async () => {
             throw new Error('Failed to send file info to backend');
         }
     });
+
+    ipcMain.handle('dump-file-pid', async (event,filePath, os,plugin,pid) => {
+
+        let dumpPath;
+
+        try{
+            dumpPath = path.join(projectPath,"dump",plugin);
+            fs.mkdirSync(dumpPath);
+        } catch (error){
+            console.error("Error creating directory");
+            return {"error":"Error creating folder"};
+        }
+
+        try{
+
+            const axiosResponse = await axios.post('http://localhost:8000/api/dump-with-pid', {
+                "filepath":filePath,"os":os,"plugin":plugin,"outputDir":dumpPath,"pid":pid
+            });
+
+            return axiosResponse.data;
+
+        } catch (error){
+            console.error("Error when running dump", error);
+            return {"error":"Error when sending dump"};
+        }
+    })
 
 
 
