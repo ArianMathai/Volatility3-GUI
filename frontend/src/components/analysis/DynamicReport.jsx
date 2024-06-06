@@ -105,17 +105,17 @@ const DynamicReport = ({ report, searchQuery }) => {
     }
 
     return (
-        <table className="min-w-full text-themeText-light text-xs"> {/* Added text-xs class for smaller text */}
+        <table className="min-w-full text-themeText-light text-xs">
             <thead className="bg-themeBlue-default">
             <tr>
                 {headers.map((header) => (
-                    <th key={header} className="font-bold text-left px-4 text-xs"> {/* Added text-xs class for smaller text */}
+                    <th key={header} className="font-bold text-left text-xs">
                         <button
                             onClick={() => sortReport(header)}
                             className="flex items-center"
                         >
                             {header}
-                            <img className="inline-block w-4 ml-2" src={getSortIcon(header)} alt="sortingIcon" />
+                            <img className="inline-block w-4 ms-1" src={getSortIcon(header)} alt="sortingIcon" />
                         </button>
                     </th>
                 ))}
