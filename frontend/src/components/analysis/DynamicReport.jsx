@@ -3,6 +3,7 @@ import { useAppContext } from "../../context/Context";
 import './DynamicReport.css';
 import MyTreeComponent from "./MyTreeComponent";
 import {useParams} from "react-router-dom";
+import ExportButton from "../shared/ExportButton";
 
 // Define buildHierarchy function outside the component
 function buildHierarchy(processes) {
