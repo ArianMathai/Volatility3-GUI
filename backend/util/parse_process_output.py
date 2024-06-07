@@ -5,7 +5,7 @@ def parse_process_output(output):
     # We split the output into lines based on the end of the line character '\n'
     lines = output.strip().split('\n')
     # Get the headers by splitting the third line (We have to check if this is standard of all plugins)
-    headers = lines[2].split()
+    headers = lines[2].split('\t')
     # Initialize a list to hold the process entries
     processes = []
 
