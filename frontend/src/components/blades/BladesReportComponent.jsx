@@ -219,7 +219,7 @@ const BladesReportComponent = () => {
                     onClick={handleAddTab}>Run
                 </button>
                 {renderDumpButton()}
-                <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
+                <button className="rounded ms-3 shadow p-1 ps-3 pe-3 whitespace-nowrap bg-themeYellow-default hover:bg-themeYellow-light"
                         onClick={goToParentProcess}>Go to Parent
                 </button>
 
@@ -230,8 +230,9 @@ const BladesReportComponent = () => {
                     <Loader isLoading={isLoading} className="absolute"/>
 
             </div>
-            {message && <h4 style={{color: "yellow"}}>{message}</h4>}
-            {tooManyResults.isBig && <h4 style={{color: "yellow"}}>{tooManyResults.message}</h4>}
+              {message && <h4 className="ms-3" style={{color: "yellow"}}>{message}</h4>}
+              {tooManyResults.isBig && <h4 className="ms-3" style={{color: "yellow"}}>{tooManyResults.message}</h4>}
+              
             <div className="relative">
                 <table className="table-auto w-full text-themeText-light text-xs">
                     <thead className="bg-themeBlue-default" style={{position: 'sticky', top: 0}}>

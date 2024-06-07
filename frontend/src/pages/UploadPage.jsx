@@ -42,7 +42,7 @@ const UploadPage = () => {
                 </div>
                 <div className="mt-10 mb-10 flex flex-col items-center gap-3">
                     <Upload setIsLoading={setIsLoading} onFileUpload={handleFileUpload} />
-                     {error && <span>{error}</span>}
+                     {error && <span className="text-themeText-light">{error}</span>}
                     <Loader isLoading={isLoading} />
                 </div>
             </div>
