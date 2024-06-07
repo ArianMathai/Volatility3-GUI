@@ -41,17 +41,17 @@ const ExportButton = ({report, plugin}) => {
 
     return (
         <div className="relative flex flex-row items-center">
+            <button
+                className="rounded ml-3 whitespace-nowrap shadow p-1 px-3 bg-themeYellow-default hover:bg-themeYellow-light"
+                onClick={exportToCSV}
+            >
+                Export {plugin}.csv
+            </button>
             {message && (
                 <div className="ml-3 text-themeText-light me-3">
                     {message}
                 </div>
             )}
-            <button
-                className="rounded ml-3 shadow p-1 px-3 bg-themeYellow-default hover:bg-themeYellow-light"
-                onClick={exportToCSV}
-            >
-                Export {plugin}.csv
-            </button>
 
         </div>
     );

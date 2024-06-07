@@ -219,7 +219,7 @@ const BladesReportComponent = () => {
                     onClick={handleAddTab}>Run
                 </button>
                 {renderDumpButton()}
-                <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
+                <button className="rounded ms-3 shadow p-1 ps-3 pe-3 whitespace-nowrap bg-themeYellow-default hover:bg-themeYellow-light"
                         onClick={goToParentProcess}>Go to Parent
                 </button>
 
