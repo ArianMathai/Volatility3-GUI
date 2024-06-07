@@ -203,7 +203,7 @@ const BladesReportComponent = () => {
             <div className="relative flex items-center space-x-3 mb-4">
                 {renderDumpButton()}
                 <button
-                    className="rounded shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
+                    className="rounded shadow ms-3 p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
                     onClick={goToParentProcess}
                 >
                     Go to Parent
