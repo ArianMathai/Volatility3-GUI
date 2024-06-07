@@ -1,8 +1,10 @@
 import {useAppContext} from "../../context/Context";
+import {useState} from "react";
 
 const ExportButton = ({report, plugin}) => {
 
-    const {folderPath, message,setMessage} = useAppContext();
+    const {folderPath} = useAppContext();
+    const [message, setMessage] = useState("");
 
     const exportToCSV = async () => {
 

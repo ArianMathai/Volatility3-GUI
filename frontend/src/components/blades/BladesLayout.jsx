@@ -122,10 +122,28 @@ export const BladesLayout = () => {
     };
 
     const handleRemoveMainTab = (processIndex) => {
-        const updatedNavItems = navItems.filter((_, idx) => idx !== processIndex);
-        setNavItems(updatedNavItems);
+         const updatedNavItems = navItems.map((item, idx) => {
+            if (idx === processIndex) {
 
-        const updatedSelectedProcess = selectedProcess.filter((_, idx) => idx !== processIndex);
+                return {
+                    ...item,
+                    isActive: false
+                };
+            } else {
+                return item;
+            }
+        });
+        setNavItems(updatedNavItems);
+        const updatedSelectedProcess = selectedProcess.map((item, idx) => {
+            if (idx === processIndex) {
+                return {
+                    ...item,
+                    isActive: false
+                };
+            } else {
+                return item;
+            }
+        });
         setSelectedProcess(updatedSelectedProcess);
     };
 
