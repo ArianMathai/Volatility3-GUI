@@ -214,33 +214,57 @@ const BladesReportComponent = () => {
                         <option key={i} value={plugin.name}>{plugin.name}</option>
                     ))}
                 </select>
-                <button className={`rounded shadow ms-3 p-1 ps-3 pe-3 ${selectedPlugin ? 'bg-themeYellow-default hover:bg-themeYellow-light' : 'bg-themeGray-default hover:bg-themeGray-default'}`} onClick={handleAddTab}>Run</button>
+                <button
+                    className={`rounded shadow ms-3 p-1 ps-3 pe-3 ${selectedPlugin ? 'bg-themeYellow-default hover:bg-themeYellow-light' : 'bg-themeGray-default hover:bg-themeGray-default'}`}
+                    onClick={handleAddTab}>Run
+                </button>
                 {renderDumpButton()}
-                <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light" onClick={goToParentProcess}>Go to Parent</button>
+                <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
+                        onClick={goToParentProcess}>Go to Parent
+                </button>
 
                 {selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin &&
-                    <ExportButton report={report} plugin={selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin
-                    + `_${selectedProcess.find(item => item.isActive).data.PID}_` + "blade"} />}
-                    <Loader isLoading={isLoading}/>
+                    <ExportButton report={report}
+                                  plugin={selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin
+                                      + `_${selectedProcess.find(item => item.isActive).data.PID}_` + "blade"}/>}
+                <Loader isLoading={isLoading}/>
             </div>
             {tooManyResults.isBig && <h4 style={{color: "yellow"}}>{tooManyResults.message}</h4>}
             <div className="relative">
-                <table className="table-auto w-full border-collapse border border-gray-300">
-                    <thead>
-                        <tr>
-                            {headers.map(header => (
-                                <th key={header} className="border border-gray-300 p-2 bg-gray-100">{header}</th>
-                            ))}
-                        </tr>
+                <table className="table-auto w-full text-themeText-light text-xs">
+                    <thead className="bg-themeBlue-default" style={{position: 'sticky', top: 0}}>
+                    <tr>
+                        {headers.map(header => (
+                            <th key={header} className="font-bold py-3 text-left px-4 text-xs max-w-xs">
+                                {header}
+                            </th>
+                        ))}
+                    </tr>
                     </thead>
                     <tbody>
-                        {selectedData.map((item, index) => (
-                            <tr key={index}>
-                                {headers.map(header => (
-                                    <td key={header} className="border border-gray-300 p-2">{item[header]}</td>
-                                ))}
-                            </tr>
-                        ))}
+                    {selectedData.length > 0 ? (
+                        selectedData.map((item, index) => {
+                            const rowClassName = index % 2 === 0 ? 'bg-themeBlue-default' : 'bg-themeBlue-dark';
+                            const textClassName = 'text-themeText-light';
+
+                            return (
+                                <tr key={index} className={rowClassName}>
+                                    {headers.map(header => (
+                                        <td key={header}
+                                            className={`p-2 ${textClassName} text-xs max-w-xs break-words whitespace-normal`}>
+                                            {item[header]}
+                                        </td>
+                                    ))}
+                                </tr>
+                            );
+                        })
+                    ) : (
+                        <tr>
+                            <td colSpan={headers.length} className="text-center text-themeText-light">
+                                No data available for this plugin.
+                            </td>
+                        </tr>
+                    )}
                     </tbody>
                 </table>
             </div>
