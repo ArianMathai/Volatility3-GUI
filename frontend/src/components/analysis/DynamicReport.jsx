@@ -296,8 +296,8 @@ const DynamicReport = ({ report, searchQuery }) => {
                                 const rowClassName = isClicked
                                     ? 'bg-themeYellow-default text-black'
                                     : index % 2 === 0
-                                        ? 'bg-themeBlue-default'
-                                        : 'bg-themeBlue-dark';
+                                        ? 'bg-themeBlue-dark'
+                                        : 'bg-themeBlue-default';
                                 const textClassName = isClicked ? 'text-black' : 'text-themeText-light';
 
                                 return (
@@ -309,7 +309,7 @@ const DynamicReport = ({ report, searchQuery }) => {
                                         className={`${rowClassName} ${isHovered && !isClicked ? 'hover:bg-themeHover' : ''}`}
                                     >
                                         {headers.map((header) => (
-                                            <td className={`p-2 ${textClassName} text-xs`} key={header}>
+                                            <td className={`p-2 ${textClassName} text-xs break-words whitespace-normal`} key={header}>
                                                 {item[header]}
                                             </td>
                                         ))}

@@ -245,7 +245,7 @@ const BladesReportComponent = () => {
                     <tbody>
                     {selectedData.length > 0 ? (
                         selectedData.map((item, index) => {
-                            const rowClassName = index % 2 === 0 ? 'bg-themeBlue-default' : 'bg-themeBlue-dark';
+                            const rowClassName = index % 2 === 0 ? 'bg-themeBlue-dark' : 'bg-themeBlue-default';
                             const textClassName = 'text-themeText-light';
 
                             return (
