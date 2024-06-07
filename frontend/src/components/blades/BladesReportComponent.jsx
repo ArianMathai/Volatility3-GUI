@@ -3,6 +3,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 import { acceptedPlugins } from "./acceptedProcessPlugins";
 import ExportButton from "../shared/ExportButton";
+import Loader from "../shared/Loader";
 
 const BladesReportComponent = () => {
     const { selectedProcess, pluginList, processList, file, osName, setSelectedProcess, setError, error } = useAppContext();
@@ -14,6 +15,7 @@ const BladesReportComponent = () => {
     const [acceptedProcessPlugins, setAcceptedProcessPlugins] = useState([]);
     const [report, setReport] = useState([]);
     const currentLocation = useLocation();
+    const [isLoading, setIsLoading] = useState(false)
     const [message, setMessage] = useState("");
     const [tooManyResults, setTooManyResults] = useState({
         isBig: false,
@@ -68,6 +70,7 @@ const BladesReportComponent = () => {
             const cleanedPID = pid.substring(pid.lastIndexOf('*') + 1);
 
             try {
+                setIsLoading(true);
                 const res = await window.electronAPI.fetchProcessPluginResult(file.path, osName, selectedPlugin, cleanedPID);
                 const data = await res.processes;
                 setReport(res.processes);
@@ -108,6 +111,8 @@ const BladesReportComponent = () => {
                 }
             } catch (error) {
                 console.error('Failed to add tab:', error);
+            } finally {
+                setIsLoading(false);
             }
         }
     };
