@@ -45,25 +45,28 @@ export const AnalysisReportComponent = () => {
     return (
         <div className="mt-1">
             <PanelGroup direction="horizontal">
+
                 <Panel defaultSize={75} order={1} style={{
                     minHeight: "70vh",
                     maxHeight: '70vh',
                     overflowY: 'auto',
-                    paddingBottom: 12,
                 }}>
-                    <DynamicReport report={report} searchQuery={searchQuery} />
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px' }}>
-                        <ExportButton report={report} plugin={plugin} />
+                    <div className="flex flex-col h-full">
+                        <div className="flex-grow overflow-y-auto">
+                            <DynamicReport report={report} searchQuery={searchQuery}/>
+                        </div>
+                        <div className="flex justify-end sticky p-2">
+                            <ExportButton report={report} plugin={plugin}/>
+                        </div>
                     </div>
                 </Panel>
-                {showBlade && <PanelResizeHandle />}
+                {showBlade && <PanelResizeHandle/>}
                 {showBlade && (
                     <Panel defaultSize={25} order={2} style={{
-                        minWidth: "2vh",
+                        minWidth: "3vh",
                         minHeight: "70vh",
                         maxHeight: '70vh',
                         overflowY: 'auto',
-                        paddingBottom: 12,
                     }}>
                         <BladesLayout report={report} />
                     </Panel>

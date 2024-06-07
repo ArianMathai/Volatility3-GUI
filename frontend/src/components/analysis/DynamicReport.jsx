@@ -258,9 +258,9 @@ const DynamicReport = ({ report, searchQuery }) => {
             {plugin === "PsTree" && (
                 <button
                     onClick={toggleView}
-                    className=" mt-3 mb-3 border rounded shadow p-1 cursor-pointer bg-themeGray-default text-black"
+                    className="m-3 border rounded shadow p-1 cursor-pointer bg-themeGray-default text-black"
                 >
-                    {isTreeView ? 'Switch to List View' : 'Switch to Tree View'}
+                    {isTreeView ? 'Toggle List View' : 'Toggle Tree View'}
                 </button>
             )}
 

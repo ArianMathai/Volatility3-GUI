@@ -212,9 +212,11 @@ const BladesReportComponent = () => {
                 <button className={`rounded shadow ms-3 p-1 ps-3 pe-3 ${selectedPlugin ? 'bg-themeYellow-default hover:bg-themeYellow-light' : 'bg-themeGray-default hover:bg-themeGray-default'}`} onClick={handleAddTab}>Run</button>
                 {renderDumpButton()}
                 <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light" onClick={goToParentProcess}>Go to Parent</button>
+
                 {selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin &&
                     <ExportButton report={report} plugin={selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin
                     + `_${selectedProcess.find(item => item.isActive).data.PID}_` + "blade"} />}
+                    <Loader isLoading={isLoading}/>
             </div>
             {tooManyResults.isBig && <h4 style={{color: "yellow"}}>{tooManyResults.message}</h4>}
             <div className="relative">

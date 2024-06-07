@@ -56,7 +56,7 @@ const AdditionalPluginBar = () => {
     return (
         <div className="gap-3 flex-col p-3">
             <ProjectInfo/>
-            <div className="flex flex-row gap-8 mt-3 mb-3 w-full">
+            <div className="flex flex-row gap-2 mt-3 mb-3 w-2/3">
                 <div className="w-2/3 flex flex-row">
                 <select
                         className="rounded p-1 shadow"
@@ -79,7 +79,7 @@ const AdditionalPluginBar = () => {
                         {error ? <p className="text-themeText-light">{error}</p> : ""}
                     </div>
                 </div>
-                <div className="w-1/3 relative">
+                <div className="w-1/4 relative">
                     <img src="../public/img/search-icon.png"
                          className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4" alt="search icon"/>
                     <input
