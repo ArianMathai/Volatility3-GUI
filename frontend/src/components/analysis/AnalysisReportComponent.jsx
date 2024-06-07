@@ -4,6 +4,7 @@ import { useAppContext } from "../../context/Context";
 import DynamicReport from "./DynamicReport";
 import { BladesLayout } from "../blades/BladesLayout";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import ExportButton from "../shared/ExportButton";
 
 export const AnalysisReportComponent = () => {
     const { processList, selectedProcess } = useAppContext();
@@ -51,6 +52,9 @@ export const AnalysisReportComponent = () => {
                     paddingBottom: 12,
                 }}>
                     <DynamicReport report={report} searchQuery={searchQuery} />
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px' }}>
+                        <ExportButton report={report} plugin={plugin} />
+                    </div>
                 </Panel>
                 {showBlade && <PanelResizeHandle />}
                 {showBlade && (

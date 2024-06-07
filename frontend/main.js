@@ -38,12 +38,18 @@ ipcMain.handle('create-project-folder', (event,projectName) => {
     }
 });
 
-ipcMain.handle('save-csv', async (event, folderPath, projectName, csvContent) => {
-    const filePath = path.join(folderPath, `${projectName}.csv`);
-    const blob = new Blob([csvContent], {type:'text/csv;charset=utf-8;'});
-    const arrayBuffer = await blob.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    fs.writeFileSync(filePath, buffer);
+ipcMain.handle('save-csv', async (event, folderPath, csvContent, plugin) => {
+    try {
+        const filePath = path.join(folderPath, `${plugin}.csv`);
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const arrayBuffer = await blob.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        fs.writeFileSync(filePath, buffer);
+
+        return { status: 'success', message: `${plugin}.csv file saved successfully.` };
+    } catch (error) {
+        return { status: 'error', message: `Error saving ${plugin}.csv file.` };
+    }
 });
 
 async function handleSubmitFilePath(filePath) {
@@ -205,9 +211,10 @@ app.whenReady().then( async () => {
         if (!fs.existsSync(dumpPath)) {
             fs.mkdirSync(dumpPath, { recursive: true });
         }
+
     } catch (error) {
         console.error("Error creating directory", error);
-        return { "error": "Error creating folder" };
+        return { "status":false,"message":`Failed creating directory` };
     }
 
     try {
@@ -215,11 +222,11 @@ app.whenReady().then( async () => {
             "filepath": filePath, "os": os, "plugin": plugin, "outputDir": dumpPath, "pid": pid
         });
 
-        return axiosResponse.data;
+        return {"status":true,"message":`${plugin} dump created successfully`}
 
     } catch (error) {
         console.error("Error when running dump", error);
-        return { "error": "Error when sending dump" };
+        return { "status":false,"message":`${plugin} dump failed` };
     }
 });
 

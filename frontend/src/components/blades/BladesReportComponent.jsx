@@ -115,7 +115,7 @@ const BladesReportComponent = () => {
     const removeMessage = () => {
         setTimeout(() => {
             setMessage("");
-        }, 2000);
+        }, 3500);
     }
 
     const handleDumpClick = async (process, plugin) => {
@@ -124,9 +124,11 @@ const BladesReportComponent = () => {
 
             const res = await window.fileAPI.dumpFilePid(file.path,osName,plugin,process.data.PID);
 
-            setMessage(res.data);
-            removeMessage();
-            setError("");
+            if(res.status){
+                setMessage(res.message);
+                removeMessage();
+                setError("");
+            }
 
         } catch (error){
             setError('Failed to dump file');
@@ -173,7 +175,12 @@ const BladesReportComponent = () => {
                         <option key={i} value={plugin.name}>{plugin.name}</option>
                     ))}
                 </select>
-                <button className={`rounded shadow ms-3 p-1 ps-3 pe-3 ${selectedPlugin ? 'bg-themeYellow-default hover:bg-themeYellow-light' : 'bg-themeGray-default hover:bg-themeGray-default'}`}  onClick={handleAddTab}>Run</button>
+                <button
+                    className={`rounded shadow ms-3 p-1 ps-3 pe-3 ${selectedPlugin ? 'bg-themeYellow-default hover:bg-themeYellow-light' : 'bg-themeGray-default hover:bg-themeGray-default'}`}
+                    onClick={handleAddTab}
+                >
+                    Run
+                </button>
             </div>
             <div className="relative">
                 <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-2 text-themeText-light">
@@ -185,8 +192,20 @@ const BladesReportComponent = () => {
                     ))}
                 </div>
             </div>
-            {renderDumpButton()}
-            <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light" onClick={goToParentProcess}>Go to Parent</button>
+            <div className="relative flex items-center space-x-3 mb-4">
+                {renderDumpButton()}
+                <button
+                    className="rounded shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
+                    onClick={goToParentProcess}
+                >
+                    Go to Parent
+                </button>
+                {message && (
+                    <div className="absolute top-full mt-2">
+                        {message}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

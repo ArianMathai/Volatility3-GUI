@@ -32,6 +32,8 @@ export const AppContext = createContext({
     setIsLoading: () => {},
     processError: [],
     setProcessError: () => {},
+    message:"",
+    setMessage: () => {}
 });
 
 export const useAppContext = () => useContext(AppContext);
@@ -53,10 +55,11 @@ export const AppProvider = ({ children }) => {
     const [step2Completed, setStep2Completed] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [processError, setProcessError] = useState([])
+    const [message, setMessage] = useState("");
 
 
     return (
-        <AppContext.Provider value={{processError, setProcessError,isLoading, setIsLoading, error,setError,osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList, plugins, setPlugins, projectName, setProjectName, folderPath, setFolderPath, allPlugins, setAllPlugins, pluginList, setPluginList, selectedProcess, setSelectedProcess, searchQuery, setSearchQuery, step1Completed, setStep1Completed,
+        <AppContext.Provider value={{message,setMessage,processError, setProcessError,isLoading, setIsLoading, error,setError,osName, systemInfo, setOsName, setSystemInfo, file, setFile, processList, setProcessList, plugins, setPlugins, projectName, setProjectName, folderPath, setFolderPath, allPlugins, setAllPlugins, pluginList, setPluginList, selectedProcess, setSelectedProcess, searchQuery, setSearchQuery, step1Completed, setStep1Completed,
             step2Completed, setStep2Completed }}>
             {children}
         </AppContext.Provider>

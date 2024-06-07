@@ -1,8 +1,8 @@
 import {useAppContext} from "../../context/Context";
 
-const ExportButton = ({report}) => {
+const ExportButton = ({report, plugin}) => {
 
-    const {folderPath,projectName} = useAppContext();
+    const {folderPath, message,setMessage} = useAppContext();
 
     const exportToCSV = async () => {
 
@@ -23,16 +23,37 @@ const ExportButton = ({report}) => {
         const csvContent = csvRows.join('\n');
 
 
-        window.fileAPI.saveCSV(folderPath,projectName,csvContent);
+        const res= await window.fileAPI.saveCSV(folderPath,csvContent,plugin);
+
+        if(res.status){
+            setMessage(res.message);
+            setTimeout(() => {
+                setMessage("");
+            },3500);
+        } else {
+            setMessage(res.message);
+        }
+
 
     }
 
 
 
     return (
-        <button onClick={exportToCSV}>Export</button>
-    )
-
+        <div className="relative flex flex-col items-start">
+            <button
+                className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
+                onClick={exportToCSV}
+            >
+                Export {plugin}.csv
+            </button>
+            {message && (
+                <div className="absolute top-full mt-2">
+                    {message}
+                </div>
+            )}
+        </div>
+    );
 
 }
 
