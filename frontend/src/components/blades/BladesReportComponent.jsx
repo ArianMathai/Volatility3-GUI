@@ -154,18 +154,18 @@ const BladesReportComponent = () => {
     };
 
     const removeMessage = () => {
+        setIsLoading(false);
         setTimeout(() => {
             setMessage("");
-        }, 2000);
+        }, 6000);
     }
 
     const handleDumpClick = async (process, plugin) => {
-
+        setIsLoading(true);
         try {
-
             const res = await window.fileAPI.dumpFilePid(file.path, osName, plugin, process.data.PID);
 
-            setMessage(res.data);
+            setMessage(res.message);
             removeMessage();
             setError("");
 
@@ -230,6 +230,7 @@ const BladesReportComponent = () => {
                     <Loader isLoading={isLoading} className="absolute"/>
 
             </div>
+            {message && <h4 style={{color: "lightblue"}}>{message}</h4>}
             {tooManyResults.isBig && <h4 style={{color: "yellow"}}>{tooManyResults.message}</h4>}
             <div className="relative">
                 <table className="table-auto w-full text-themeText-light text-xs">
