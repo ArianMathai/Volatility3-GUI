@@ -222,7 +222,7 @@ app.whenReady().then( async () => {
             "filepath": filePath, "os": os, "plugin": plugin, "outputDir": dumpPath, "pid": pid
         });
 
-        return {"status":true,"message":`${plugin} dump created successfully`}
+        return {"status":true,"message":`${plugin} dump created at: ${dumpPath}`}
 
     } catch (error) {
         console.error("Error when running dump", error);
