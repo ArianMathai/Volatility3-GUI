@@ -40,7 +40,7 @@ const ExportButton = ({report, plugin}) => {
     }
 
     return (
-        <div className="relative flex flex-row items-center p-1">
+        <div className="relative flex flex-row items-center">
             {message && (
                 <div className="ml-3 text-themeText-light me-3">
                     {message}
