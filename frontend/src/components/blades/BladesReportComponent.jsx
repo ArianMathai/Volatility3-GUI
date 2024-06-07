@@ -179,14 +179,17 @@ const BladesReportComponent = () => {
                 <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-2 text-themeText-light">
                     {Object?.entries(selectedData)?.map(([key, value]) => (
                         <React.Fragment key={key}>
-                            <div className="font-sm font-bold">{key}:</div>
-                            <div className="font-sm">{value}</div>
+                            <div className="font-sm font-bold break-words">{key}:</div>
+                            <div className="font-sm break-words">{value}</div>
                         </React.Fragment>
                     ))}
                 </div>
             </div>
+
             {renderDumpButton()}
-            <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light" onClick={goToParentProcess}>Go to Parent</button>
+            <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
+                    onClick={goToParentProcess}>Go to Parent
+            </button>
         </div>
     );
 };

@@ -136,7 +136,7 @@ export const BladesLayout = () => {
             {activeItem && (
                 <div className="flex items-center m-0">
                     <div
-                        className={`p-2 shadow rounded-t-md hover:cursor-pointer ${
+                        className={`p-2 shadow rounded-t-md whitespace-nowrap hover:cursor-pointer ${
                             activeItem.isActive
                                 ? activeItem.tabs.some(tab => tab.isActive) ? "bg-themeBlue-dark text-themeText-light"
                                     : "bg-themeBlue-darkest text-themeText-light"
@@ -158,7 +158,7 @@ export const BladesLayout = () => {
                     {activeItem.tabs.map((tab, tabIndex) => (
                         <div
                             key={tabIndex}
-                            className={`p-2 shadow rounded-t-md hover:cursor-pointer ${
+                            className={`p-2 shadow rounded-t-md whitespace-nowrap hover:cursor-pointer ${
                                 tab.isActive
                                     ? "bg-themeBlue-darkest text-themeText-light"
                                     : "bg-themeBlue-dark text-themeText-light"

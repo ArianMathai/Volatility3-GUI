@@ -55,6 +55,7 @@ export const AnalysisReportComponent = () => {
                 {showBlade && <PanelResizeHandle />}
                 {showBlade && (
                     <Panel defaultSize={25} order={2} style={{
+                        minWidth: "2vh",
                         minHeight: "70vh",
                         maxHeight: '70vh',
                         overflowY: 'auto',
