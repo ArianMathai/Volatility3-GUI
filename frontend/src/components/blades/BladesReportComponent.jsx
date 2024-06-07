@@ -203,7 +203,7 @@ const BladesReportComponent = () => {
 
     return (
         <div className="mt-4">
-            <div className="mb-4">
+            <div className="mb-4 flex flex-wrap gap-3 items-center">
                 <select
                     className="rounded p-1 ms-3 shadow"
                     value={selectedPlugin}
@@ -224,10 +224,11 @@ const BladesReportComponent = () => {
                 </button>
 
                 {selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin &&
-                    <ExportButton report={report}
-                                  plugin={selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin
-                                      + `_${selectedProcess.find(item => item.isActive).data.PID}_` + "blade"}/>}
-                <Loader isLoading={isLoading}/>
+
+                    <ExportButton report={report} plugin={selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin
+                    + `_${selectedProcess.find(item => item.isActive).data.PID}_` + "blade"} className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light" />}
+                    <Loader isLoading={isLoading} className="absolute"/>
+
             </div>
             {tooManyResults.isBig && <h4 style={{color: "yellow"}}>{tooManyResults.message}</h4>}
             <div className="relative">
