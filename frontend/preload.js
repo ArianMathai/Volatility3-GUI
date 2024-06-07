@@ -14,4 +14,5 @@ contextBridge.exposeInMainWorld('fileAPI', {
     createProjectFolder: (projectName) => ipcRenderer.invoke('create-project-folder', projectName),
     saveCSV: (folderPath,csvContent,plugin) => ipcRenderer.invoke('save-csv', folderPath,csvContent,plugin),
     dumpFilePid:(filePath, os, plugin, pid ) => ipcRenderer.invoke('dump-file-pid', filePath,os,plugin,pid),
+    dumpFile:(filePath, os, plugin) => ipcRenderer.invoke('dump-file', filePath,os,plugin),
 })

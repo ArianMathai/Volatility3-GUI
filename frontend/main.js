@@ -230,6 +230,35 @@ app.whenReady().then( async () => {
     }
 });
 
+    ipcMain.handle('dump-file', async (event, filePath, os, plugin) => {
+    let dumpPath;
+
+    try {
+        dumpPath = path.join(projectPath, "dump", plugin);
+        console.log("Path: ", dumpPath);
+        console.log("Plugin: ", plugin);
+        if (!fs.existsSync(dumpPath)) {
+            fs.mkdirSync(dumpPath, { recursive: true });
+        }
+
+    } catch (error) {
+        console.error("Error creating directory", error);
+        return { "status":false,"message":`Failed creating directory` };
+    }
+
+    try {
+        const axiosResponse = await axios.post('http://localhost:8000/api/dump', {
+            "filepath": filePath, "os": os, "plugin": plugin, "outputDir": dumpPath
+        });
+
+        return {"status":true,"message":`${plugin} dump created successfully`}
+
+    } catch (error) {
+        console.error("Error when running dump", error);
+        return { "status":false,"message":`${plugin} dump failed` };
+    }
+});
+
 
 
     ipcMain.handle('fetch-process-plugin-result', async (event, filePath, operatingSystem, plugin, pid) => {
