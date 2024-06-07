@@ -1,37 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import {useNavigate, useLocation, useParams} from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 import { acceptedPlugins } from "./acceptedProcessPlugins";
-import Loader from "../shared/Loader";
+import ExportButton from "../shared/ExportButton";
 
 const BladesReportComponent = () => {
-    const { selectedProcess, pluginList, processList, file, osName, setSelectedProcess, setError,error } = useAppContext();
+    const { selectedProcess, pluginList, processList, file, osName, setSelectedProcess, setError, error } = useAppContext();
     const [headers, setHeaders] = useState([]);
     const [dropdownValue, setDropdownValue] = useState('');
     const navigate = useNavigate();
     const [selectedPlugin, setSelectedPlugin] = useState("");
-    const [selectedData, setSelectedData] = useState({});
+    const [selectedData, setSelectedData] = useState([]);
     const [acceptedProcessPlugins, setAcceptedProcessPlugins] = useState([]);
+    const [report, setReport] = useState([]);
     const currentLocation = useLocation();
     const [message, setMessage] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const [tooManyResults, setTooManyResults] = useState({
+        isBig: false,
+        message: ``
+    })
 
     useEffect(() => {
         const activeItem = selectedProcess?.find(item => item?.isActive);
         if (activeItem) {
-            setHeaders(Object.keys(activeItem?.data));
             if (activeItem.tabs) {
                 const activeTab = activeItem.tabs.find(tab => tab.isActive);
                 if (activeTab) {
-                    setSelectedData(activeTab.data[0]);
+                    setHeaders(Object.keys(activeTab.data[0]));
+                    setSelectedData(activeTab.data.slice(0, 200));
                 } else {
-                    setSelectedData(activeItem.data);
+                    setHeaders(Object.keys(activeItem.data));
+                    setSelectedData([activeItem.data]);
                 }
             } else {
-                setSelectedData(activeItem.data);
+                setHeaders(Object.keys(activeItem.data));
+                setSelectedData([activeItem.data]);
             }
         }
         console.log(acceptedProcessPlugins);
+        console.log("selected data:", selectedData);
+        console.log("selected processes:", selectedProcess);
+        console.log("report:", report);
         console.log(acceptedPlugins[osName]);
     }, [selectedProcess]);
 
@@ -59,11 +68,35 @@ const BladesReportComponent = () => {
             const cleanedPID = pid.substring(pid.lastIndexOf('*') + 1);
 
             try {
-                setIsLoading(true);
                 const res = await window.electronAPI.fetchProcessPluginResult(file.path, osName, selectedPlugin, cleanedPID);
                 const data = await res.processes;
+                setReport(res.processes);
 
-                const newTab = { plugin: selectedPlugin, data: data, isActive: true };
+                const tempFormat = {
+                    isBig: true,
+                    message: `Output returned too many objects (${data.length}). Export to csv to
+                    see full result`
+                }
+
+                if (data.length > 100) {
+                    setTooManyResults(tempFormat)
+                    setTimeout(() => {
+                        setTooManyResults({
+                            isBig: false,
+                            message: ``
+                        })
+                    }, 5000)
+                } else {
+                    setTooManyResults({
+                    isBig: false,
+                    message: ``
+                    })
+
+                }
+
+                console.log(res)
+
+                const newTab = { plugin: selectedPlugin, data: data.slice(0, 200), isActive: true };
                 const updatedProcess = [...selectedProcess];
                 if (!updatedProcess[activeItemIndex].tabs) {
                     updatedProcess[activeItemIndex].tabs = [];
@@ -75,8 +108,6 @@ const BladesReportComponent = () => {
                 }
             } catch (error) {
                 console.error('Failed to add tab:', error);
-            } finally {
-                setIsLoading(false);
             }
         }
     };
@@ -120,25 +151,20 @@ const BladesReportComponent = () => {
     const removeMessage = () => {
         setTimeout(() => {
             setMessage("");
-        }, 3500);
+        }, 2000);
     }
 
     const handleDumpClick = async (process, plugin) => {
 
-        try{
+        try {
 
-            setIsLoading(true);
-            const res = await window.fileAPI.dumpFilePid(file.path,osName,plugin,process.data.PID);
+            const res = await window.fileAPI.dumpFilePid(file.path, osName, plugin, process.data.PID);
 
-            if(res.status){
-                setIsLoading(false);
-                setMessage(res.message);
-                removeMessage();
-                setError("");
-            }
+            setMessage(res.data);
+            removeMessage();
+            setError("");
 
-        } catch (error){
-            setIsLoading(false);
+        } catch (error) {
             setError('Failed to dump file');
         }
 
@@ -158,7 +184,7 @@ const BladesReportComponent = () => {
             return (
                 <button
                     className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
-                    onClick={() => handleDumpClick(activeItem,activeTab.plugin)}
+                    onClick={() => handleDumpClick(activeItem, activeTab.plugin)}
                 >
                     Dump
                 </button>
@@ -183,37 +209,35 @@ const BladesReportComponent = () => {
                         <option key={i} value={plugin.name}>{plugin.name}</option>
                     ))}
                 </select>
-                <button
-                    className={`rounded shadow ms-3 p-1 ps-3 pe-3 ${selectedPlugin ? 'bg-themeYellow-default hover:bg-themeYellow-light' : 'bg-themeGray-default hover:bg-themeGray-default'}`}
-                    onClick={handleAddTab}
-                >
-                    Run
-                </button>
-            </div>
-            <div className="relative">
-                <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-2 text-themeText-light">
-                    {Object?.entries(selectedData)?.map(([key, value]) => (
-                        <React.Fragment key={key}>
-                            <div className="font-sm font-bold break-words">{key}:</div>
-                            <div className="font-sm break-words">{value}</div>
-                        </React.Fragment>
-                    ))}
-                </div>
-            </div>
-            <div className="relative flex items-center space-x-3 mb-4">
+                <button className={`rounded shadow ms-3 p-1 ps-3 pe-3 ${selectedPlugin ? 'bg-themeYellow-default hover:bg-themeYellow-light' : 'bg-themeGray-default hover:bg-themeGray-default'}`} onClick={handleAddTab}>Run</button>
                 {renderDumpButton()}
-                <button
-                    className="rounded shadow ms-3 p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
-                    onClick={goToParentProcess}
-                >
-                    Go to Parent
-                </button>
-                {message && (
-                    <div className="absolute top-full mt-2">
-                        {message}
-                    </div>
-                )}
-                <Loader isLoading={isLoading}/>
+                <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light" onClick={goToParentProcess}>Go to Parent</button>
+
+                {selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin &&
+                    <ExportButton report={report} plugin={selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin
+                    + `_${selectedProcess.find(item => item.isActive).data.PID}_` + "blade"} />}
+                    <Loader isLoading={isLoading}/>
+            </div>
+            {tooManyResults.isBig && <h4 style={{color: "yellow"}}>{tooManyResults.message}</h4>}
+            <div className="relative">
+                <table className="table-auto w-full border-collapse border border-gray-300">
+                    <thead>
+                        <tr>
+                            {headers.map(header => (
+                                <th key={header} className="border border-gray-300 p-2 bg-gray-100">{header}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {selectedData.map((item, index) => (
+                            <tr key={index}>
+                                {headers.map(header => (
+                                    <td key={header} className="border border-gray-300 p-2">{item[header]}</td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

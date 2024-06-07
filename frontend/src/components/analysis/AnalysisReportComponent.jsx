@@ -21,7 +21,7 @@ export const AnalysisReportComponent = () => {
     useEffect(() => {
         if (selectedProcess.length > 0 && selectedProcess.find(item => item.isActive)) {
             setShowBlade(true);
-        } else if (selectedProcess.length > 0 && selectedProcess.some(item => item.tabs.some(tab => tab.isActive))) {
+        } else if (selectedProcess.length > 0 && selectedProcess.tabs && selectedProcess.tabs.find(item => item.isActive)) {
             setShowBlade(true);
         } else {
             setShowBlade(false);
