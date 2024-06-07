@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {useNavigate, useLocation, useParams} from "react-router-dom";
 import { useAppContext } from "../../context/Context";
 import { acceptedPlugins } from "./acceptedProcessPlugins";
+import Loader from "../shared/Loader";
 
 const BladesReportComponent = () => {
     const { selectedProcess, pluginList, processList, file, osName, setSelectedProcess, setError,error } = useAppContext();
@@ -13,6 +14,7 @@ const BladesReportComponent = () => {
     const [acceptedProcessPlugins, setAcceptedProcessPlugins] = useState([]);
     const currentLocation = useLocation();
     const [message, setMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const activeItem = selectedProcess?.find(item => item?.isActive);
@@ -122,15 +124,18 @@ const BladesReportComponent = () => {
 
         try{
 
+            setIsLoading(true);
             const res = await window.fileAPI.dumpFilePid(file.path,osName,plugin,process.data.PID);
 
             if(res.status){
+                setIsLoading(false);
                 setMessage(res.message);
                 removeMessage();
                 setError("");
             }
 
         } catch (error){
+            setIsLoading(false);
             setError('Failed to dump file');
         }
 
@@ -194,6 +199,7 @@ const BladesReportComponent = () => {
             </div>
             <div className="relative flex items-center space-x-3 mb-4">
                 {renderDumpButton()}
+                <Loader isLoading={isLoading}/>
                 <button
                     className="rounded shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
                     onClick={goToParentProcess}
