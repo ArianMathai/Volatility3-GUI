@@ -59,6 +59,7 @@ const BladesReportComponent = () => {
             const cleanedPID = pid.substring(pid.lastIndexOf('*') + 1);
 
             try {
+                setIsLoading(true);
                 const res = await window.electronAPI.fetchProcessPluginResult(file.path, osName, selectedPlugin, cleanedPID);
                 const data = await res.processes;
 
@@ -74,6 +75,8 @@ const BladesReportComponent = () => {
                 }
             } catch (error) {
                 console.error('Failed to add tab:', error);
+            } finally {
+                setIsLoading(false);
             }
         }
     };
@@ -199,7 +202,6 @@ const BladesReportComponent = () => {
             </div>
             <div className="relative flex items-center space-x-3 mb-4">
                 {renderDumpButton()}
-                <Loader isLoading={isLoading}/>
                 <button
                     className="rounded shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
                     onClick={goToParentProcess}
@@ -211,6 +213,7 @@ const BladesReportComponent = () => {
                         {message}
                     </div>
                 )}
+                <Loader isLoading={isLoading}/>
             </div>
         </div>
     );
