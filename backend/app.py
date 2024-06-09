@@ -60,7 +60,7 @@ def runPlugin():
                 capture_output=True, text=True, check=True
             )
 
-        output = result.stdout.strip()
+        output = result.stdout
         data = create_processes_object(output)
         json_data = jsonify(data)
 
