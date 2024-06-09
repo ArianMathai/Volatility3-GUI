@@ -12,7 +12,9 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
+frontend/dist/
+volatility3/dist/
+tests/dist/
 downloads/
 eggs/
 .eggs/
