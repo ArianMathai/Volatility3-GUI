@@ -4,6 +4,8 @@ import './DynamicReport.css';
 import MyTreeComponent from "./MyTreeComponent";
 import {useParams} from "react-router-dom";
 import ExportButton from "../shared/ExportButton";
+import Loader from "../shared/Loader";
+
 
 // Define buildHierarchy function outside the component
 function buildHierarchy(processes) {
@@ -46,12 +48,14 @@ const DynamicReport = ({ report, searchQuery }) => {
     const [sortKey, setSortKey] = useState(null);
     const [sortDirection, setSortDirection] = useState('ascending');
     const [filteredReport, setFilteredReport] = useState([]);
-    const {selectedProcess, setSelectedProcess, processList, processError} = useAppContext();
+    const {selectedProcess, setSelectedProcess, processList, processError, file, osName} = useAppContext();
     const {plugin} = useParams();
     const [hoveredRow, setHoveredRow] = useState(null);
     const [clickedItem, setClickedItem] = useState(null);
     const [hierarchicalList, setHierarchicalList] = useState(null); // State to store hierarchical list
     const [isTreeView, setIsTreeView] = useState(true);
+    const [physaddr, setPhysaddr] = useState("");
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         if (!report || report.length === 0) {
@@ -229,6 +233,25 @@ const DynamicReport = ({ report, searchQuery }) => {
         setClickedItem(item);
     };
 
+    const handleInputChange = (e) => {
+        setPhysaddr(e.target.value);
+    };
+
+    const runDumpfiles = async (e) => {
+        if (physaddr !== "") {
+            try {
+                setIsLoading(true);
+                const res = await window.electronAPI.fetchPhysaddrDumpfiles(file.path, osName, physaddr);
+                console.log(res)
+
+            } catch (error) {
+                console.error('Failed to add tab:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+    };
+
     if (processList.length === 0) {
         const currentPluginError = processError.find((error) => error.plugin === plugin);
 
@@ -265,10 +288,28 @@ const DynamicReport = ({ report, searchQuery }) => {
             )}
 
             {plugin === "PsTree" && isTreeView ? (
-                <div style={{width: '100vw', height: '70vh', position: 'relative'}}>
+                <div style={{width: '100vw', height: 'auto', position: 'relative'}}>
                     <MyTreeComponent processTree={processTree} onNodeClick={handleNodeClick}/>
                 </div>
             ) : (
+                plugin === "DumpFiles" ?
+                <div
+                    style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh'}}
+                >
+                    <input type="text" placeholder="Enter physaddr" value={physaddr} onChange={handleInputChange}
+                        style={{padding: '10px', marginBottom: '10px', fontSize: '16px',}}
+                    />
+                    <button
+                         className={`rounded shadow ms-3 p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light`}
+                        onClick={runDumpfiles} style={{padding: '10px 20px', fontSize: '16px', cursor: 'pointer',}}
+                    >
+                    run dumpfiles
+                    </button>
+                    <Loader isLoading={isLoading} className="absolute"/>
+                </div>
+
+                    :
+
                 <div>
                     <table className="table-auto w-full text-themeText-light text-xs">
                         <thead className="bg-themeBlue-default"

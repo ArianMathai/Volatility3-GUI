@@ -64,7 +64,7 @@ def runPlugin():
             print(f"Error running command with python3: {e}")
             result = subprocess.run(
                 ['python', volatility_script, '-f', filepath, f"{operatingSystem}.{plugin}"],
-                capture_output=True, encoding='utf-8', check=True
+                capture_output=True, encoding='utf-8', check=True, env=env
             )
 
         output = result.stdout
@@ -123,14 +123,14 @@ def auto_detect_os():
         try:
             result = subprocess.run(
                 ['python3', volatility_script, '-f', filepath, f"{file_os}.info"],
-                capture_output=True, text=True, check=True
+                capture_output=True, encoding='utf-8', check=True, env=env
             )
         except subprocess.CalledProcessError as e:
             print(f"Error running plugin {file_os} with python3: {e}")
             try:
                 result = subprocess.run(
                     ['python', '../../../../volatility3/vol.py', '-f', filepath, f"{file_os}.info"],
-                    capture_output=True, text=True, check=True
+                    capture_output=True, encoding='utf-8', check=True, env=env
                 )
             except subprocess.CalledProcessError as e:
                 print(f"Error running plugin {file_os} with python: {e}")
@@ -164,13 +164,13 @@ def run_plugin_with_pid():
         try:
             result = subprocess.run(
                 ['python3', volatility_script, '-f', filepath, f"{operating_system}.{plugin}", '--pid', pid],
-                capture_output=True, text=True, check=True
+                capture_output=True, encoding='utf-8', check=True, env=env
             )
         except subprocess.CalledProcessError as e:
             print(f"Error running command with python3: {e}")
             result = subprocess.run(
                 ['python', volatility_script, '-f', filepath, f"{operating_system}.cmdline", '--pid', pid],
-                capture_output=True, text=True, check=True
+                capture_output=True, encoding='utf-8', check=True, env=env
             )
 
         output = result.stdout.strip()
@@ -178,6 +178,50 @@ def run_plugin_with_pid():
         json_data = jsonify(data)
 
         return json_data
+    except subprocess.CalledProcessError as e:
+        print(f"Command failed with error: {str(e)}")
+        print(f"Command output: {e.output}")
+        return jsonify({'error': str(e), 'output': e.output}), 500
+
+
+@app.route('/api/run-dumpfiles', methods=['POST'])
+def run_dumpfiles_with_phisical_address():
+    data = request.get_json()
+    filepath = data.get('filepath')
+    operating_system = data.get('os')
+    outputDir = data.get('outputDir')
+    physaddr = data.get('physaddr') # Convert plugin name to lowercase
+
+    backend_dir = os.path.dirname(os.path.abspath(__file__))
+    volatility_script = 'vol.py'  # Remove the leading './'
+    volatility_script = os.path.join(backend_dir, "../../../../volatility3/", volatility_script)
+
+    if not filepath or not os.path.isfile(filepath) or not physaddr:
+        return jsonify({'error': 'Invalid file path or physical address'}), 400
+
+    try:
+        print(f"Running Volatility command with physical address {physaddr} on {filepath}")
+        try:
+            result = subprocess.run(
+                ['python3', volatility_script, '-f', filepath,
+                    f"--output-dir={outputDir}", f"{operating_system}.dumpfiles",
+                    '--physaddr', physaddr],
+                capture_output=True, encoding='utf-8', check=True, env=env
+            )
+        except subprocess.CalledProcessError as e:
+            print(f"Error running command with python3: {e}")
+            result = subprocess.run(
+                ['python', volatility_script, '-f', filepath
+                 ,f"--output-dir={outputDir}", f"{operating_system}.dumpfiles",
+                 '--physaddr', physaddr],
+                capture_output=True, encoding='utf-8', check=True, env=env
+            )
+
+        # output = result.stdout.strip()
+        # data = create_processes_object(output, "")
+        # json_data = jsonify(data)
+
+        return jsonify({"message": "Physical address was successfully dumped"}), 200
     except subprocess.CalledProcessError as e:
         print(f"Command failed with error: {str(e)}")
         print(f"Command output: {e.output}")
@@ -218,13 +262,13 @@ def run_plugin_with_dump_and_pid():
         try:
             result = subprocess.run(
                 command,
-                capture_output=True, text=True, check=True
+                capture_output=True, encoding='utf-8', check=True
             )
         except subprocess.CalledProcessError as e:
             print(f"Error running command with python3: {e}")
             result = subprocess.run(
                 command2,
-                capture_output=True, text=True, check=True
+                capture_output=True, encoding='utf-8', check=True
             )
 
         return jsonify({'data': f'dump successful to {outputDir}'}), 200
@@ -265,13 +309,13 @@ def run_plugin_with_dump():
         try:
             result = subprocess.run(
                 command,
-                capture_output=True, text=True, check=True
+                capture_output=True, encoding='utf-8', check=True, env=env
             )
         except subprocess.CalledProcessError as e:
             print(f"Error running command with python3: {e}")
             result = subprocess.run(
                 command2,
-                capture_output=True, text=True, check=True
+                capture_output=True, encoding='utf-8', check=True, env=env
             )
 
         return jsonify({'data': f'dump successful to {outputDir}'}), 200

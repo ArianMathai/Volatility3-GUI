@@ -240,6 +240,39 @@ app.whenReady().then( async () => {
     }
 });
 
+    ipcMain.handle('dump-file-physaddr', async (event, filePath, os, physaddr) => {
+    let dumpPath;
+
+    console.log("physaddr:", filePath)
+    console.log("physaddr:", os)
+    console.log("physaddr:", physaddr)
+
+    try {
+        dumpPath = path.join(projectPath, "dumpfiles", physaddr);
+        console.log("Path: ", dumpPath);
+        console.log("physaddr: ", physaddr);
+        if (!fs.existsSync(dumpPath)) {
+            fs.mkdirSync(dumpPath, { recursive: true });
+        }
+
+    } catch (error) {
+        console.error("Error creating directory", error);
+        return { "status":false,"message":`Failed creating directory` };
+    }
+
+    try {
+        const axiosResponse = await axios.post('http://localhost:8000/api/run-dumpfiles', {
+            "filepath": filePath, "os": os, "physaddr": physaddr, "outputDir": dumpPath
+        });
+        console.log({"status":true,"message":`${physaddr} dump created at: ${dumpPath}`})
+        return {"status":true,"message":`${physaddr} dump created at: ${dumpPath}`}
+
+    } catch (error) {
+        console.error("Error when running dumpfiles", error);
+        return { "status":false,"message":`${physaddr} dumpfiles failed` };
+    }
+});
+
 
 
     ipcMain.handle('fetch-process-plugin-result', async (event, filePath, operatingSystem, plugin, pid) => {

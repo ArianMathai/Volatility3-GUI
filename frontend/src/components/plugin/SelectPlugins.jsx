@@ -47,13 +47,20 @@ export const SelectPlugins = ({ setIsLoading }) => {
 
         const processList = [];
         for (const plugin of plugins) {
-            try {
-                const res = await window.electronAPI.fetchProcessList(file.path, osName, plugin);
-                processList.push({ plugin, processes: res.processes });
-            } catch (error) {
-                const processErr = {"plugin": plugin, "error": `error running plugin ${plugin}`}
-                setProcessError((prev) => [...prev, processErr]);
-                console.error(`Error fetching process list for ${plugin}:`, error);
+            console.log(plugin)
+            if (plugin !== "DumpFiles") {
+                try {
+                    const res = await window.electronAPI.fetchProcessList(file.path, osName, plugin);
+                    processList.push({ plugin, processes: res.processes });
+                } catch (error) {
+                    const processErr = {"plugin": plugin, "error": `error running plugin ${plugin}`}
+                    setProcessError((prev) => [...prev, processErr]);
+                    console.error(`Error fetching process list for ${plugin}:`, error);
+                }
+            } else {
+                const newProcessList = { plugin: plugin, processes: [] };
+                processList.push({ plugin, processes: [] });
+                setProcessList((prev) => [...prev, newProcessList]);
             }
         }
         setProcessList(processList);

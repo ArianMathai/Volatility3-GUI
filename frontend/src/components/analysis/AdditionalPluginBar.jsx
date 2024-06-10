@@ -25,6 +25,14 @@ const AdditionalPluginBar = () => {
             return;
         }
 
+        if (selectedPlugin === "DumpFiles") {
+            setIsLoading(false);
+            const newProcessList = { plugin: selectedPlugin, processes: [] };
+            setProcessList((prev) => [...prev, newProcessList]);
+            navigate(`/analysis/${selectedPlugin}`);
+            return;
+        }
+
 
         try {
             const res = await window.electronAPI.fetchProcessList(file.path, osName, selectedPlugin);
