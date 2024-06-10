@@ -129,12 +129,24 @@ const BladesReportComponent = () => {
 
             console.log("PPID", cleanedParentPID);
 
-            const parentProcess = processList[0]?.processes?.find(item => item?.PID.substring(item?.PID.lastIndexOf('*') + 1) === cleanedParentPID);
+            processList[0]?.processes?.map(item => {
+                console.log(item?.PID.substring(item?.PID.lastIndexOf('*') + 1))
+            })
+
+            const parentProcess = processList[0]?.processes?.find(item => {
+                const lastPart = item?.PID.substring(item?.PID.lastIndexOf('*') + 1).trim();
+                return lastPart === cleanedParentPID.trim();
+            });
+
 
             if (parentProcess) {
                 const updatedProcess = [...selectedProcess];
 
-                const parentIndex = updatedProcess.findIndex(item => item?.data?.PID.substring(item?.data?.PID.lastIndexOf('*') + 1) === cleanedParentPID);
+                const parentIndex = updatedProcess.findIndex(item => {
+                    const lastPart = item?.data?.PID.substring(item?.data?.PID.lastIndexOf('*') + 1).trim();
+                    return lastPart === cleanedParentPID.trim();
+                });
+
                 if (parentIndex === -1) {
                     updatedProcess.push({ data: { ...parentProcess }, isActive: true, tabs: [] });
                     console.log('Added new parent process:', parentProcess);

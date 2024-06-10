@@ -5,9 +5,12 @@ const {format} = require("url");
 const { spawn } = require('child_process');
 const fs = require('fs');
 
+const isMacOrLinux = process.platform === "darwin" || process.platform === "linux"
 
-let pythonBackend;
+
+let appProcess;
 let projectPath;
+
 const pythonScriptPath = '../backend/app.py'
 
 const resultPath = path.join(__dirname,'..','results');
@@ -88,34 +91,45 @@ async function handleSubmitProcessInfo(filePath, operatingSystem, plugin, pid) {
     return response;
 }
 
-function startPythonBackend(command) {
-    const process = spawn(command, [pythonScriptPath]);
+function startAppExecutable() {
+
+    const folderPath = path.join(__dirname, '../backend/dist');
+
+    // Check if the folder exists
+    if (fs.existsSync(folderPath)) {
+      console.log('The folder backend/dist exists.');
+    } else {
+
+        // handle running pyinstaller script for either mac/linux, or for windows here
+        // windows: cd .. && cd backend && pyinstaller --add-data "app.py;." --add-data "./util/*.py;util" --add-data "../volatility3/*;volatility3" app.py
+        // mac/linux: cd .. && cd backend && pyinstaller --add-data "app.py:." --add-data "./util/*.py:util" --add-data "../volatility3/*:volatility3" app.py
+      console.log('The folder backend/dist does not exist.');
+    }
+
+    let appExecutablePath;
+
+    if (isMacOrLinux) {
+        appExecutablePath = '../backend/dist/app/app';
+    } else {
+        appExecutablePath = '../backend/dist/app/app.exe'
+    }
+
+    const process = spawn(appExecutablePath);
 
     process.stdout.on('data', (data) => {
-        console.log(`Python terminal stdout: ${data}`);
+        console.log(`App stdout: ${data}`);
     });
 
     process.stderr.on('data', (data) => {
-        console.error(`Python terminal stderr: ${data}`);
+        console.error(`App stderr: ${data}`);
     });
 
     process.on('close', (code) => {
-        if (code === 0) {
-            console.log(`Python process exited with code ${code}`);
-        } else {
-            console.error(`Python process exited with error code ${code}`);
-            if (command === 'python3') {
-                console.error('python3 command failed, falling back to python');
-                startPythonBackend('python');
-            } else {
-                console.error('Both python3 and python commands failed');
-                app.quit();
-            }
-        }
+        console.log(`App process exited with code ${code}`);
     });
 
     process.on('error', (error) => {
-        console.error(`Failed to start Python process: ${error}`);
+        console.error(`Failed to start app process: ${error}`);
     });
 
     return process;
@@ -143,25 +157,21 @@ function createWindow() {
 
 app.whenReady().then( async () => {
 
+
     try {
-        pythonBackend = startPythonBackend('python3');
+         appProcess = startAppExecutable();
     } catch (error) {
         console.error('Both python3 and python commands failed:', error);
-        pythonBackend.quit();
+        appProcess.quit();
         return;
     }
 
-
-        pythonBackend.stdout.on('data', (data) => {
-            console.log(`Python terminal stdout: ${data}`);
-        });
-
-        pythonBackend.stderr.on('data', (data) => {
+        appProcess.stderr.on('data', (data) => {
             console.error(`Python terminal stderr: ${data}`);
         });
 
-        pythonBackend.on('close', (code) => {
-            console.log(`Python process exited with code ${code}`);
+        appProcess.on('exit', (code) => {
+            console.log(`App process exited with code ${code}`);
         });
 
     ipcMain.handle('fetch-system-info', async (event, filePath) => {
@@ -277,8 +287,8 @@ app.on('window-all-closed', function () {
 });
 
 app.on('quit', () => {
-    if (pythonBackend) {
-        pythonBackend.kill();
+    if (appProcess) {
+        appProcess.kill();
     }
 });
 
