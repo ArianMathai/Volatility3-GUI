@@ -5,6 +5,9 @@ python or python3
 ## Setup
 
 - Clone the repo
+```
+git clone <repository_url>
+```
 
 #### For python 
 ```bash
