@@ -1,9 +1,10 @@
 import {useLocation, useNavigate} from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../../context/Context";
+import {setSelectionRange} from "@testing-library/user-event/dist/utils";
 
 const HomeButton = () => {
-    const { setStep1Completed, setStep2Completed, setPlugins } = useContext(AppContext);
+    const { setStep1Completed, setStep2Completed, setPlugins, setHeaders } = useContext(AppContext);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -31,6 +32,7 @@ const HomeButton = () => {
         if (response === 1) {
             setStep1Completed(false);
             setStep2Completed(false);
+            setPlugins([])
             navigate("/");
         }
     };

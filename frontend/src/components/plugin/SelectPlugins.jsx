@@ -88,7 +88,7 @@ export const SelectPlugins = ({ setIsLoading }) => {
                     className="p-1 pl-8 border rounded w-full"
                 />
             </div>
-            <div className="rounded shadow bg-themeBlue-darker max-h-96 overflow-y-auto">
+            <div className="rounded shadow bg-themeBlue-darker min-h-96 max-h-96 overflow-y-auto">
                 {filteredPlugins.length > 0 && (
                     <div
                         className="p-5 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-32 relative">

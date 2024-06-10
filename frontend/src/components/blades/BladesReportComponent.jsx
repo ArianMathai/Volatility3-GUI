@@ -166,18 +166,18 @@ const BladesReportComponent = () => {
     };
 
     const removeMessage = () => {
+        setIsLoading(false);
         setTimeout(() => {
             setMessage("");
-        }, 2000);
+        }, 6000);
     }
 
     const handleDumpClick = async (process, plugin) => {
-
+        setIsLoading(true);
         try {
-
             const res = await window.fileAPI.dumpFilePid(file.path, osName, plugin, process.data.PID);
 
-            setMessage(res.data);
+            setMessage(res.message);
             removeMessage();
             setError("");
 
@@ -231,7 +231,7 @@ const BladesReportComponent = () => {
                     onClick={handleAddTab}>Run
                 </button>
                 {renderDumpButton()}
-                <button className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
+                <button className="rounded ms-3 shadow p-1 ps-3 pe-3 whitespace-nowrap bg-themeYellow-default hover:bg-themeYellow-light"
                         onClick={goToParentProcess}>Go to Parent
                 </button>
 
@@ -242,7 +242,9 @@ const BladesReportComponent = () => {
                     <Loader isLoading={isLoading} className="absolute"/>
 
             </div>
-            {tooManyResults.isBig && <h4 style={{color: "yellow"}}>{tooManyResults.message}</h4>}
+              {message && <h4 className="ms-3" style={{color: "yellow"}}>{message}</h4>}
+              {tooManyResults.isBig && <h4 className="ms-3" style={{color: "yellow"}}>{tooManyResults.message}</h4>}
+              
             <div className="relative">
                 <table className="table-auto w-full text-themeText-light text-xs">
                     <thead className="bg-themeBlue-default" style={{position: 'sticky', top: 0}}>

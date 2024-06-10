@@ -5,8 +5,8 @@ const {format} = require("url");
 const { spawn } = require('child_process');
 const fs = require('fs');
 
-const isMac = process.platform === "darwin"
-const isLinux = process.platform === "linux"
+const isMacOrLinux = process.platform === "darwin" || process.platform === "linux"
+
 
 let appProcess;
 let projectPath;
@@ -93,9 +93,22 @@ async function handleSubmitProcessInfo(filePath, operatingSystem, plugin, pid) {
 
 function startAppExecutable() {
 
+    const folderPath = path.join(__dirname, '../backend/dist');
+
+    // Check if the folder exists
+    if (fs.existsSync(folderPath)) {
+      console.log('The folder backend/dist exists.');
+    } else {
+
+        // handle running pyinstaller script for either mac/linux, or for windows here
+        // windows: cd .. && cd backend && pyinstaller --add-data "app.py;." --add-data "./util/*.py;util" --add-data "../volatility3/*;volatility3" app.py
+        // mac/linux: cd .. && cd backend && pyinstaller --add-data "app.py:." --add-data "./util/*.py:util" --add-data "../volatility3/*:volatility3" app.py
+      console.log('The folder backend/dist does not exist.');
+    }
 
     let appExecutablePath;
-    if (isMac || isLinux) {
+
+    if (isMacOrLinux) {
         appExecutablePath = '../backend/dist/app/app';
     } else {
         appExecutablePath = '../backend/dist/app/app.exe'
@@ -219,7 +232,7 @@ app.whenReady().then( async () => {
             "filepath": filePath, "os": os, "plugin": plugin, "outputDir": dumpPath, "pid": pid
         });
 
-        return {"status":true,"message":`${plugin} dump created successfully`}
+        return {"status":true,"message":`${plugin} dump created at: ${dumpPath}`}
 
     } catch (error) {
         console.error("Error when running dump", error);

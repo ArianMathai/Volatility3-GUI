@@ -1,3 +1,54 @@
+## Requirenments
+
+python or python3
+
+## Setup
+
+- Clone the repo
+```
+git clone <repository_url>
+```
+
+#### For python 
+```bash
+pip install -r requirements.txt
+```
+#### For python3 
+```bash
+pip3 install -r requirements.txt
+```
+
+### On Mac/Linux:
+```bash
+cd backend
+```
+run script:
+```bash
+pyinstaller --add-data "app.py:." --add-data "./util/*.py:util" --add-data "../volatility3/*:volatility3" app.py
+```
+navigate back to root directory:
+```bash
+cd ..
+```
+### On Windows:
+```bash
+cd backend
+```
+run script:
+```bash
+pyinstaller --add-data "app.py;." --add-data "./util/*.py;util" --add-data "../volatility3/*;volatility3" app.py
+```
+navigate back to root directory:
+```bash
+cd ..
+```
+### To run application:
+```bash
+npm start
+```
+
+
+
 ## Folder Structure
 
 ### Frontend
