@@ -5,8 +5,7 @@ const {format} = require("url");
 const { spawn } = require('child_process');
 const fs = require('fs');
 
-const isMac = process.platform === "darwin"
-const isLinux = process.platform === "linux"
+const isMacOrLinux = process.platform === 'darwin' || process.platform === 'linux';
 
 let appProcess;
 let projectPath;
@@ -91,40 +90,81 @@ async function handleSubmitProcessInfo(filePath, operatingSystem, plugin, pid) {
     return response;
 }
 
-function startAppExecutable() {
-
-
+async function startAppExecutable() {
+    let pyinstallerScript;
     let appExecutablePath;
-    if (isMac || isLinux) {
-        appExecutablePath = '../backend/dist/app/app';
+
+
+
+    if (isMacOrLinux) {
+        appExecutablePath = path.join(__dirname, '..', 'backend', 'dist', 'app', 'app');
+        pyinstallerScript = 'cd .. && cd backend && pyinstaller --add-data "app.py:." --add-data "./util/*.py:util" --add-data "../volatility3/*:volatility3" app.py';
     } else {
-        appExecutablePath = '../backend/dist/app/app.exe'
+        appExecutablePath = path.join(__dirname, '..', 'backend', 'dist', 'app', 'app.exe');
+        pyinstallerScript = 'cd .. && cd backend && pyinstaller --add-data "app.py;." --add-data "./util/*.py;util" --add-data "../volatility3/*;volatility3" app.py';
     }
 
-    const process = spawn(appExecutablePath);
+    try {
+        const pyinstallerProcess = spawn(pyinstallerScript, {
+            shell: true // This is required to run shell commands
+        });
 
-    process.stdout.on('data', (data) => {
-        console.log(`App stdout: ${data}`);
-    });
+        pyinstallerProcess.stdout.on('data', (data) => {
+            console.log(`PyInstaller stdout: ${data}`);
+        });
 
-    process.stderr.on('data', (data) => {
-        console.error(`App stderr: ${data}`);
-    });
+        pyinstallerProcess.stderr.on('data', (data) => {
+            console.error(`PyInstaller stderr: ${data}`);
+        });
 
-    process.on('close', (code) => {
-        console.log(`App process exited with code ${code}`);
-    });
+        pyinstallerProcess.on('close', (code) => {
+            console.log(`PyInstaller process exited with code ${code}`);
+            // Check if PyInstaller was successful
+            if (code === 0) {
+                console.log("code is 0 and we start electron");
+                // After PyInstaller finishes, start the app executable
+                try {
+                    const process = spawn(appExecutablePath);
+                    console.log(`Electron is started at ${appExecutablePath}`);
 
-    process.on('error', (error) => {
-        console.error(`Failed to start app process: ${error}`);
-    });
+                    process.stdout.on('data', (data) => {
+                        console.log(`App stdout: ${data}`);
+                    });
 
-    return process;
+                    process.stderr.on('data', (data) => {
+                        console.error(`App stderr: ${data}`);
+                    });
+
+                    process.on('close', (code) => {
+                        console.log(`App process exited with code ${code}`);
+                    });
+
+                    process.on('error', (error) => {
+                        console.error(`Failed to start app process: ${error}`);
+                    });
+
+                } catch (error) {
+                    console.error(`Failed to spawn app process: ${error}`);
+                }
+            } else {
+                console.error('PyInstaller failed to create the executable.');
+            }
+        });
+
+        pyinstallerProcess.on('error', (error) => {
+            console.error(`Failed to start PyInstaller process: ${error}`);
+        });
+    } catch (error) {
+        console.error(`Failed to start PyInstaller process: ${error}`);
+    }
+
+
 }
 
 
 function createWindow() {
 
+    console.log("CREATING WINDOW")
     const startUrl = format({
         pathname: path.join(__dirname,'./build/index.html'),
         protocol:'file',
@@ -144,9 +184,10 @@ function createWindow() {
 
 app.whenReady().then( async () => {
 
+    console.log("In app.whenReady")
 
     try {
-         appProcess = startAppExecutable();
+         appProcess = await startAppExecutable();
     } catch (error) {
         console.error('Both python3 and python commands failed:', error);
         appProcess.quit();
@@ -225,7 +266,7 @@ app.whenReady().then( async () => {
         console.error("Error when running dump", error);
         return { "status":false,"message":`${plugin} dump failed` };
     }
-});
+    });
 
 
 
@@ -263,8 +304,10 @@ app.whenReady().then( async () => {
         return response.response;
     });
 
+    console.log("before creating window")
     createWindow();
     app.on('activate', function () {
+        console.log("while creating window")
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
 });
