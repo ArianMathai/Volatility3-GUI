@@ -6,6 +6,15 @@ python or python3
 
 - Clone the repo
 
+#### For python 
+```bash
+pip install -r requirements.txt
+```
+#### For python3 
+```bash
+pip3 install -r requirements.txt
+```
+
 ### On Mac/Linux:
 ```bash
 cd backend
@@ -17,10 +26,6 @@ pyinstaller --add-data "app.py:." --add-data "./util/*.py:util" --add-data "../v
 navigate back to root directory:
 ```bash
 cd ..
-```
-To run application:
-```bash
-npm start
 ```
 ### On Windows:
 ```bash
@@ -34,7 +39,7 @@ navigate back to root directory:
 ```bash
 cd ..
 ```
-To run application:
+### To run application:
 ```bash
 npm start
 ```
