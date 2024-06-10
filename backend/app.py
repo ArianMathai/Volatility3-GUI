@@ -7,6 +7,12 @@ import subprocess
 import os
 import sys
 
+sys.stdout.reconfigure(encoding='utf-8')
+
+env = os.environ.copy()
+env['PYTHONIOENCODING'] = 'utf-8'
+env['PYTHONUTF8'] = '1'
+
 file_dir = os.path.dirname(__file__)
 sys.path.append(file_dir)
 
@@ -52,17 +58,17 @@ def runPlugin():
         try:
             result = subprocess.run(
                 ['python3', volatility_script, '-f', filepath, f"{operatingSystem}.{plugin}"],
-                capture_output=True, text=True, check=True
+                capture_output=True, encoding='utf-8', check=True, env=env
             )
         except subprocess.CalledProcessError as e:
             print(f"Error running command with python3: {e}")
             result = subprocess.run(
                 ['python', volatility_script, '-f', filepath, f"{operatingSystem}.{plugin}"],
-                capture_output=True, text=True, check=True
+                capture_output=True, encoding='utf-8', check=True
             )
 
         output = result.stdout
-        data = create_processes_object(output)
+        data = create_processes_object(output, plugin)
         json_data = jsonify(data)
 
         return json_data
@@ -132,7 +138,7 @@ def auto_detect_os():
 
         output = result.stdout
         if output:
-            data = create_processes_object(output)
+            data = create_processes_object(output, "")
             print(f"OS", file_os)
             return jsonify({"os": file_os, "data": data}), 200
 
@@ -168,7 +174,7 @@ def run_plugin_with_pid():
             )
 
         output = result.stdout.strip()
-        data = create_processes_object(output)
+        data = create_processes_object(output, "")
         json_data = jsonify(data)
 
         return json_data
@@ -287,5 +293,8 @@ def get_all_plugins():
 
 
 if __name__ == '__main__':
+    # print("Testing Unicode: âªˆë²‰")
+    print("Default encoding:", sys.getdefaultencoding())
+    print("File system encoding:", sys.getfilesystemencoding())
     app.run(port=8000)  # Possibly remove host
     print(f"Server started yayy")

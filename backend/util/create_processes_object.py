@@ -8,9 +8,9 @@ sys.path.append(file_dir)
 from parse_process_output import parse_process_output, parse_output
 
 
-def create_processes_object(output):
+def create_processes_object(output, plugin):
     # Parse the process output to get a list of dictionaries
-    process_objects = parse_output(output)
+    process_objects = parse_output(output, plugin)
 
     # Create a dictionary containing the formatted process data
     data = {"processes": process_objects}

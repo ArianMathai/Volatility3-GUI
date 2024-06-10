@@ -1,43 +1,67 @@
 import re
 
 def parse_process_output(output):
+    try:
+        # Decode the output to ensure it's in UTF-8
+        output = output.decode('utf-8')
+    except AttributeError:
+        # If output is already a string (Python 3), this will raise an AttributeError
+        pass
+    except UnicodeDecodeError as e:
+        print(f"UnicodeDecodeError: {e}")
+        # Handle the decoding error if necessary
+        return []
+
     # Split the output into lines
     lines = output.strip().split('\n')
+    print(f"Lines: {lines}")
 
     # Identify the start index for the headers (after the "Volatility 3 Framework" line and a blank line)
     start_idx = 0
     for i in range(len(lines)):
+        print(f"Checking line {i}: {lines[i]}")
         if "Volatility 3 Framework" in lines[i]:
+            print(f"Found 'Volatility 3 Framework' at line {i}")
             # Locate the first non-empty line after the framework line
             while not lines[i + 1].strip():
                 i += 1
+                print(f"Skipping empty line {i + 1}")
             start_idx = i + 1
+            print(f"Header start index identified at {start_idx}")
             break
 
     # Extract the headers from the identified start index
     headers = lines[start_idx].strip().split('\t')
+    print(f"Headers: {headers}")
 
     # Initialize a list to hold the process entries
     processes = []
 
     # Iterate over the lines starting from the next line after headers
     for line in lines[start_idx + 1:]:
+        print(f"Processing line: {line}")
         # Skip empty lines
         if not line.strip():
+            print("Skipping empty line")
             continue
 
-        # line = re.sub(r'\*\s(\d+)', r'*\1', line)
         # Get the values for the current process
         values = line.strip().split('\t')
+        print(f"Values: {values}")
 
         # Initialize a dictionary for the current process
         process_entry = dict(zip(headers, values))
+        print(f"Process entry: {process_entry}")
 
         # Append the process entry to the list
         processes.append(process_entry)
 
     # Return the list of process dictionaries
+    print(f"Final processes list: {processes}")
     return processes
+
+
+
 
 
 def parse_malfind_output(output):
@@ -237,9 +261,9 @@ def parse_malfind_output(output):
 
 
 
-def parse_output(output):
+def parse_output(output, plugin):
     # Check if the output contains a "Hexdump" header
-    if 'Hexdump' in output:
+    if plugin == "malfind":
         return parse_malfind_output(output)
     else:
         return parse_process_output(output)
