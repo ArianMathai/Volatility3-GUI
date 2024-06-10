@@ -12,10 +12,7 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-frontend/dist/
-backend/dist/
-volatility3/dist/
-tests/dist/
+dist/
 downloads/
 eggs/
 .eggs/
@@ -197,6 +194,8 @@ spec/.hash
 
 # Generated native addon files
 /spec/fixtures/native-addon/echo/build/
+
+dist/
 
 # If someone runs tsc this is where stuff will end up
 ts-gen
