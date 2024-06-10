@@ -5,9 +5,12 @@ const {format} = require("url");
 const { spawn } = require('child_process');
 const fs = require('fs');
 
+const isMac = process.platform === "darwin"
+const isLinux = process.platform === "linux"
 
 let appProcess;
 let projectPath;
+
 const pythonScriptPath = '../backend/app.py'
 
 const resultPath = path.join(__dirname,'..','results');
@@ -89,7 +92,15 @@ async function handleSubmitProcessInfo(filePath, operatingSystem, plugin, pid) {
 }
 
 function startAppExecutable() {
-    const appExecutablePath = '../backend/dist/app/app.exe';
+
+
+    let appExecutablePath;
+    if (isMac || isLinux) {
+        appExecutablePath = '../backend/dist/app/app';
+    } else {
+        appExecutablePath = '../backend/dist/app/app.exe'
+    }
+
     const process = spawn(appExecutablePath);
 
     process.stdout.on('data', (data) => {
@@ -132,6 +143,7 @@ function createWindow() {
 }
 
 app.whenReady().then( async () => {
+
 
     try {
          appProcess = startAppExecutable();
