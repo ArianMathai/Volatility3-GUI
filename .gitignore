@@ -13,6 +13,7 @@ __pycache__/
 build/
 develop-eggs/
 frontend/dist/
+backend/dist/
 volatility3/dist/
 tests/dist/
 downloads/
