@@ -1,4 +1,4 @@
-## Requirenments
+## Requirements
 
 python or python3
 
