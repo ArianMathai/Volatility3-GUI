@@ -1,6 +1,36 @@
 {
+  "name": "v3-analyser",
+  "productName": "V3 Analyser",
+  "author": "Libra dream team",
+  "description": "A gui for volatility 3",
+  "version": "1.0.0",
+  "main": "frontend/main.js",
   "scripts": {
     "start": "cd frontend && npm run start",
-    "dev": "cd frontend && npm run dev"
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "package": "yarn electronBuild",
+    "electronBuild": "electron-builder"
+  },
+  "dependencies": {
+    "axios": "^1.7.2"
+  },
+  "devDependencies": {
+    "electron": "^30.0.9",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.libra.V3Analyser",
+    "files": [
+      "**/*",
+      "!**/node_modules/**/*",
+      "!**/src/**/*",
+      "!**/*.map",
+      "!backend/memDump/**/*"
+    ],
+    "directories": {
+      "buildResources": "./frontend/build/",
+      "output": "../"
+    }
   }
 }

@@ -1,5 +1,7 @@
 {
   "name": "frontend",
+  "productName": "V3 Analyser",
+  "author": "Libra dream team",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
