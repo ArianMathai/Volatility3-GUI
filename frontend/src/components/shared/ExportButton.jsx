@@ -1,7 +1,7 @@
 import {useAppContext} from "../../context/Context";
 import {useState} from "react";
 
-const ExportButton = ({report, plugin}) => {
+const ExportButton = ({report, plugin, messagePosition}) => {
 
     const {folderPath} = useAppContext();
     const [message, setMessage] = useState("");
@@ -40,19 +40,23 @@ const ExportButton = ({report, plugin}) => {
     }
 
     return (
-        <div className="relative flex flex-row items-center">
+        <div className={"relative flex items-center flex-wrap max-w-full"}>
+            {messagePosition === 'left' && message && (
+                <div className="ml-3 text-themeText-light me-3">
+                    {message}
+                </div>
+            )}
             <button
                 className="rounded ml-3 whitespace-nowrap shadow p-1 px-3 bg-themeYellow-default hover:bg-themeYellow-light"
                 onClick={exportToCSV}
             >
                 Export {plugin}.csv
             </button>
-            {message && (
+            {messagePosition === 'right' && message && (
                 <div className="ml-3 text-themeText-light me-3">
                     {message}
                 </div>
             )}
-
         </div>
     );
 
