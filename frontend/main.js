@@ -2,16 +2,40 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const axios = require('axios');
 const {format} = require("url");
-const { spawn } = require('child_process');
+const { spawn, exec } = require('child_process');
 const fs = require('fs');
+const util = require('util');
+
 
 const isMacOrLinux = process.platform === "darwin" || process.platform === "linux"
+
 
 
 let appProcess;
 let projectPath;
 
 const pythonScriptPath = '../backend/app.py'
+
+
+const execAsync = util.promisify(exec);
+
+async function runPyInstaller() {
+  const pyinstallerOptions = isMacOrLinux
+    ? '--add-data "app.py:." --add-data "./util/*.py:util" --add-data "../volatility3/*:volatility3"'
+    : '--add-data "app.py;." --add-data "./util/*.py;util" --add-data "../volatility3/*;volatility3"';
+  const pyinstallerCommand = `pyinstaller ${pyinstallerOptions} app.py`;
+
+  try {
+    // Change the working directory in the command itself
+    const cwdCommand = `cd ${path.join(__dirname, '../backend')} && ${pyinstallerCommand}`;
+    const { stdout, stderr } = await execAsync(cwdCommand);
+    console.log(stdout);
+    console.error(stderr);
+  } catch (error) {
+    console.error(`Failed to run PyInstaller: ${error}`);
+    throw error; // Rethrow the error to be handled by the caller
+  }
+}
 
 const resultPath = path.join(__dirname,'..','results');
 if(!fs.existsSync(resultPath)){
@@ -91,49 +115,49 @@ async function handleSubmitProcessInfo(filePath, operatingSystem, plugin, pid) {
     return response;
 }
 
-function startAppExecutable() {
+async function startAppExecutable() {
+  const folderPath = path.join(__dirname, '../backend/dist');
 
-    const folderPath = path.join(__dirname, '../backend/dist');
+  // Check if the folder exists
+  if (fs.existsSync(folderPath)) {
+    console.log('The folder backend/dist exists. Deleting and recreating...');
+    fs.rmdirSync(folderPath, { recursive: true });
+  }
 
-    // Check if the folder exists
-    if (fs.existsSync(folderPath)) {
-      console.log('The folder backend/dist exists.');
-    } else {
+  // Create a new dist folder by running PyInstaller
+  await runPyInstaller();
 
-        // handle running pyinstaller script for either mac/linux, or for windows here
-        // windows: cd .. && cd backend && pyinstaller --add-data "app.py;." --add-data "./util/*.py;util" --add-data "../volatility3/*;volatility3" app.py
-        // mac/linux: cd .. && cd backend && pyinstaller --add-data "app.py:." --add-data "./util/*.py:util" --add-data "../volatility3/*:volatility3" app.py
-      console.log('The folder backend/dist does not exist.');
-    }
+  let appExecutablePath = path.join(__dirname, '../backend/dist/app/app');
+  if (process.platform === 'win32') {
+    appExecutablePath += '.exe';
+  }
 
-    let appExecutablePath;
-
-    if (isMacOrLinux) {
-        appExecutablePath = '../backend/dist/app/app';
-    } else {
-        appExecutablePath = '../backend/dist/app/app.exe'
-    }
-
+  try {
     const process = spawn(appExecutablePath);
 
     process.stdout.on('data', (data) => {
-        console.log(`App stdout: ${data}`);
+      console.log(`App stdout: ${data}`);
     });
 
     process.stderr.on('data', (data) => {
-        console.error(`App stderr: ${data}`);
+      console.error(`App stderr: ${data}`);
     });
 
     process.on('close', (code) => {
-        console.log(`App process exited with code ${code}`);
-    });
-
-    process.on('error', (error) => {
-        console.error(`Failed to start app process: ${error}`);
+      console.log(`App process exited with code ${code}`);
     });
 
     return process;
+  } catch (error) {
+    console.error(`Failed to start app process: ${error}`);
+    throw error; // Rethrow the error to be handled by the caller
+  }
 }
+
+// Example usage
+startAppExecutable().catch((error) => {
+  console.error('An error occurred:', error);
+});
 
 
 function createWindow() {
@@ -159,12 +183,13 @@ app.whenReady().then( async () => {
 
 
     try {
-         appProcess = startAppExecutable();
+         appProcess = await startAppExecutable();
     } catch (error) {
         console.error('Both python3 and python commands failed:', error);
         appProcess.quit();
         return;
     }
+    console.log("appProcess: ", appProcess)
 
         appProcess.stderr.on('data', (data) => {
             console.error(`Python terminal stderr: ${data}`);
