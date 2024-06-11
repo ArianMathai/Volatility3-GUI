@@ -71,7 +71,7 @@ def runPlugin():
         data = create_processes_object(output, plugin)
         json_data = jsonify(data)
 
-        return json_data
+        return json_data, 200
     except subprocess.CalledProcessError as e:
         print(f"Command failed with error: {str(e)}")
         print(f"Command output: {e.output}")
