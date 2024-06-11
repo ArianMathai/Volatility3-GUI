@@ -67,7 +67,7 @@ export const AnalysisReportComponent = () => {
                         minHeight: "70vh",
                         maxHeight: '70vh',
                         overflowY: 'auto',
-                    }}>
+                    }} className="border-l-2 border-themeBlue-dark">
                         <BladesLayout report={report} />
                     </Panel>
                 )}
