@@ -237,13 +237,16 @@ const BladesReportComponent = () => {
 
                 {selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin &&
 
-                    <ExportButton report={report} plugin={selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin
-                    + `_${selectedProcess.find(item => item.isActive).data.PID}_` + "blade"} className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light" />}
+                    <ExportButton report={report}
+                                  plugin={selectedProcess?.find(item => item.isActive)?.tabs?.find(item => item.isActive)?.plugin + `_${selectedProcess.find(item => item.isActive).data.PID}_` + "blade"}
+                                  className="rounded ms-3 shadow p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light"
+                                  messagePosition="right"
+                    />}
                     <Loader isLoading={isLoading} className="absolute"/>
 
             </div>
-              {message && <h4 className="ms-3" style={{color: "yellow"}}>{message}</h4>}
-              {tooManyResults.isBig && <h4 className="ms-3" style={{color: "yellow"}}>{tooManyResults.message}</h4>}
+              {message && <h4 className="ms-3 text-themeText-light">{message}</h4>}
+              {tooManyResults.isBig && <h4 className="ms-3 text-themeText-light">{tooManyResults.message}</h4>}
               
             <div className="relative">
                 <table className="table-auto w-full text-themeText-light text-xs">

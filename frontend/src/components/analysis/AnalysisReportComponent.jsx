@@ -56,7 +56,7 @@ export const AnalysisReportComponent = () => {
                             <DynamicReport report={report} searchQuery={searchQuery}/>
                         </div>
                         <div className="flex justify-end sticky p-2">
-                            <ExportButton report={report} plugin={plugin}/>
+                            <ExportButton report={report} plugin={plugin} messagePosition="left"/>
                         </div>
                     </div>
                 </Panel>
