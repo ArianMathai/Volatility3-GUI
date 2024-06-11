@@ -56,6 +56,7 @@ const DynamicReport = ({ report, searchQuery }) => {
     const [isTreeView, setIsTreeView] = useState(true);
     const [physaddr, setPhysaddr] = useState("");
     const [isLoading, setIsLoading] = useState(false)
+    const [message, setMessage] = useState("")
 
     useEffect(() => {
         if (!report || report.length === 0) {
@@ -242,12 +243,15 @@ const DynamicReport = ({ report, searchQuery }) => {
             try {
                 setIsLoading(true);
                 const res = await window.electronAPI.fetchPhysaddrDumpfiles(file.path, osName, physaddr);
-                console.log(res)
+                setMessage(res.message)
 
             } catch (error) {
                 console.error('Failed to add tab:', error);
             } finally {
                 setIsLoading(false);
+                setTimeout(() => {
+                    setMessage("")
+                }, 10000)
             }
         }
     };
@@ -303,7 +307,9 @@ const DynamicReport = ({ report, searchQuery }) => {
                     >
                     run dumpfiles
                     </button>
+
                     <Loader isLoading={isLoading} className="absolute"/>
+                    {message !== "" && <h3 style={{color: "white", marginTop: "20px"}}>{message}</h3>}
                 </div>
 
                     :

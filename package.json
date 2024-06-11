@@ -1,6 +1,11 @@
 {
+  "productName": "Volatility3GUI",
+  "author": "Agile Boys",
+  "version": "1.0.0",
+  "Description": "This app provides a Graphical User Interface for the powerful memory-forensics tool Volatility3",
   "scripts": {
     "start": "cd frontend && npm run start",
     "dev": "cd frontend && npm run dev"
   }
 }
+

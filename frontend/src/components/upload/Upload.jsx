@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/Context";
+const path = require('path');
 
 
 export const Upload = ({setIsLoading, onFileUpload}) => {
@@ -56,6 +57,8 @@ export const Upload = ({setIsLoading, onFileUpload}) => {
     };
 
     const handleProjectNameChange = (e) => {
+        console.log("current path:", path);
+        console.log("dirname:", __dirname);
         const userInput = e.target.value;
         const validProjectName = /^[a-zA-Z0-9_]*$/;
         if (validProjectName.test(userInput)) {

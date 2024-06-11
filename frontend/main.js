@@ -13,7 +13,7 @@ let projectPath;
 
 const pythonScriptPath = '../backend/app.py'
 
-const resultPath = path.join(__dirname,'..','results');
+const resultPath = path.join(__dirname,'..', "..", "..", "..", "..", 'results');
 if(!fs.existsSync(resultPath)){
     fs.mkdirSync(resultPath);
     console.log("'Created 'results' folder");
@@ -93,7 +93,7 @@ async function handleSubmitProcessInfo(filePath, operatingSystem, plugin, pid) {
 
 function startAppExecutable() {
 
-    const folderPath = path.join(__dirname, '../backend/dist');
+    const folderPath = path.join(__dirname, '../../../../../backend/dist');
 
     // Check if the folder exists
     if (fs.existsSync(folderPath)) {
@@ -109,9 +109,9 @@ function startAppExecutable() {
     let appExecutablePath;
 
     if (isMacOrLinux) {
-        appExecutablePath = '../backend/dist/app/app';
+        appExecutablePath = '../../../../../backend/dist/app/app';
     } else {
-        appExecutablePath = '../backend/dist/app/app.exe'
+        appExecutablePath = '../../../../../backend/dist/app/app.exe'
     }
 
     const process = spawn(appExecutablePath);
@@ -139,7 +139,7 @@ function startAppExecutable() {
 function createWindow() {
 
     const startUrl = format({
-        pathname: path.join(__dirname,'./build/index.html'),
+        pathname: path.join(__dirname,'../../../../build/index.html'),
         protocol:'file',
     })
 
@@ -147,7 +147,7 @@ function createWindow() {
         width: 1200,
         height: 800,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
+            preload: path.join(__dirname, "..", "..", "..", "..", 'preload.js'),
             contextIsolation: true,
             nodeIntegration: false
         }

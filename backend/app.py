@@ -18,12 +18,6 @@ sys.path.append(file_dir)
 
 app = Flask(__name__)
 
-
-@app.route('/data', methods=['GET'])
-def get_data():
-    return jsonify({"message": "Hello from Python!"})
-
-
 # Send request body on format:
 # {
 #     "filepath": "memDumpFilePath",
@@ -77,9 +71,7 @@ def runPlugin():
         print(f"Command output: {e.output}")
         return jsonify({'error': str(e), 'output': e.output}), 500
 
-# {
-#       "filepath": "yourFilePath"
-# }
+
 
 @app.route('/api/get-plugins', methods=['POST'])
 def get_plugins():
@@ -104,6 +96,10 @@ def get_plugins():
         print(f"Error in get_plugins: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+
+# {
+#       "filepath": "yourFilePath"
+# }
 
 @app.route('/api/detectos', methods=['POST'])
 def auto_detect_os():
