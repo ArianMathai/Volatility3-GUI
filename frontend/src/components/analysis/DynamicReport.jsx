@@ -293,15 +293,13 @@ const DynamicReport = ({ report, searchQuery }) => {
                 </div>
             ) : (
                 plugin === "DumpFiles" ?
-                <div
-                    style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh'}}
-                >
+                <div className="flex flex-col justify-center items-center h-100 mt-10">
                     <input type="text" placeholder="Enter physaddr" value={physaddr} onChange={handleInputChange}
-                        style={{padding: '10px', marginBottom: '10px', fontSize: '16px',}}
+                        className="p-1 border shadow rounded"
                     />
                     <button
-                         className={`rounded shadow ms-3 p-1 ps-3 pe-3 bg-themeYellow-default hover:bg-themeYellow-light`}
-                        onClick={runDumpfiles} style={{padding: '10px 20px', fontSize: '16px', cursor: 'pointer',}}
+                         className={`rounded shadow p-1 ps-3 pe-3 mt-3 bg-themeYellow-default hover:bg-themeYellow-light cursor-pointer`}
+                        onClick={runDumpfiles}
                     >
                     run dumpfiles
                     </button>
