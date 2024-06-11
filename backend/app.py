@@ -77,9 +77,6 @@ def runPlugin():
         print(f"Command output: {e.output}")
         return jsonify({'error': str(e), 'output': e.output}), 500
 
-# {
-#       "filepath": "yourFilePath"
-# }
 
 @app.route('/api/get-plugins', methods=['POST'])
 def get_plugins():
@@ -105,6 +102,9 @@ def get_plugins():
         return jsonify({"error": str(e)}), 500
 
 
+# {
+#       "filepath": "yourFilePath"
+# }
 @app.route('/api/detectos', methods=['POST'])
 def auto_detect_os():
     data = request.get_json()
@@ -177,7 +177,7 @@ def run_plugin_with_pid():
         data = create_processes_object(output, "")
         json_data = jsonify(data)
 
-        return json_data
+        return json_data, 200
     except subprocess.CalledProcessError as e:
         print(f"Command failed with error: {str(e)}")
         print(f"Command output: {e.output}")
@@ -190,7 +190,7 @@ def run_dumpfiles_with_phisical_address():
     filepath = data.get('filepath')
     operating_system = data.get('os')
     outputDir = data.get('outputDir')
-    physaddr = data.get('physaddr') # Convert plugin name to lowercase
+    physaddr = data.get('physaddr')
 
     backend_dir = os.path.dirname(os.path.abspath(__file__))
     volatility_script = 'vol.py'  # Remove the leading './'
@@ -292,7 +292,7 @@ def run_plugin_with_dump():
     print(outputDir)
 
     if not filepath or not os.path.isfile(filepath):
-        return jsonify({'error': 'Invalid file path or PID'}), 400
+        return jsonify({'error': 'Invalid file path'}), 400
 
     command = [
         'python3', volatility_script, '-f', filepath,
@@ -320,7 +320,7 @@ def run_plugin_with_dump():
 
         return jsonify({'data': f'dump successful to {outputDir}'}), 200
     except subprocess.CalledProcessError as e:
-        return jsonify({'error': f'Failed to dump file to {outputDir}'}), 500
+        return jsonify({'error': f'Failed to dump files to {outputDir}'}), 500
 
 
 
