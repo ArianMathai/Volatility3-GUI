@@ -38,6 +38,7 @@ run script:
 ```bash
 pyinstaller --add-data "app.py;." --add-data "./util/*.py;util" --add-data "../volatility3/*;volatility3" app.py
 ```
+### Navigate to frontend and run npm install
 Navigate back to root directory:
 ```bash
 cd ..
