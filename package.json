@@ -1,6 +1,6 @@
 {
   "name": "v3-analyser",
-  "productName": "V3 Analyser",
+  "productName": "V3Analyser",
   "author": "Libra dream team",
   "description": "A gui for volatility 3",
   "version": "1.0.0",
@@ -20,13 +20,17 @@
     "electron-builder": "^24.13.3"
   },
   "build": {
+    "asar": true,
+    "asarUnpack": [
+      "backend/**/*",
+      "volatility3/**/*"
+    ],
     "appId": "com.libra.V3Analyser",
     "files": [
-      "**/*",
-      "!**/node_modules/**/*",
-      "!**/src/**/*",
-      "!**/*.map",
-      "!backend/memDump/**/*"
+    "**/*",
+    "!**/src/**/*",
+    "!**/*.map",
+    "!backend/memDump/**/*"
     ],
     "directories": {
       "buildResources": "./frontend/build/",

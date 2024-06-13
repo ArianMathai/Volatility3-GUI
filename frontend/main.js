@@ -27,7 +27,8 @@ async function runPyInstaller() {
 
   try {
     // Change the working directory in the command itself
-    const cwdCommand = `cd ${path.join(__dirname, '../backend')} && ${pyinstallerCommand}`;
+    //const cwdCommand = `cd ${path.join(__dirname, '../backend')} && ${pyinstallerCommand}`;
+    const cwdCommand = `cd ${path.join(__dirname, '../../app.asar.unpacked/backend')} && ${pyinstallerCommand}`;
     const { stdout, stderr } = await execAsync(cwdCommand);
     console.log(stdout);
     console.error(stderr);
@@ -116,7 +117,8 @@ async function handleSubmitProcessInfo(filePath, operatingSystem, plugin, pid) {
 }
 
 async function startAppExecutable() {
-  const folderPath = path.join(__dirname, '../backend/dist');
+  //const folderPath = path.join(__dirname, '../backend/dist');
+  const folderPath = path.join(__dirname, '../../app.asar.unpacked/backend/dist');
 
   // Check if the folder exists
   if (fs.existsSync(folderPath)) {
