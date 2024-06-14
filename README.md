@@ -30,10 +30,6 @@ run script:
 ```bash
 pyinstaller --add-data "app.py:." --add-data "./util/*.py:util" --add-data "../volatility3/*:volatility3" app.py
 ```
-navigate back to root directory:
-```bash
-cd ..
-```
 ### On Windows:
 ```bash
 cd backend
