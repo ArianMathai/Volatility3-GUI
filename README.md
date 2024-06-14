@@ -87,12 +87,7 @@ installing requirements.
 
 Create a new branch for each feature or bug fix:
 
-```bash
-git checkout -b feature/feature-name
-```
-```bash
-git checkout -b bugfix/bug-name
-````
+
 
 ## Pushing Changes
 Push changes regularly to your branch:
