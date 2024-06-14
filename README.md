@@ -1,4 +1,4 @@
-## CTF exampl
+## CTF first flag example
 
 [![Image of going through CTF](https://img.youtube.com/vi/KQwYCWXXF94/0.jpg)](https://www.youtube.com/watch?v=KQwYCWXXF94)
 
