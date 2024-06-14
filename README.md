@@ -4,6 +4,10 @@
 
 [![Image of going through CTF](https://img.youtube.com/vi/KQwYCWXXF94/0.jpg)](https://www.youtube.com/watch?v=KQwYCWXXF94)
 
+We solved the first part of the "Lab 1" in this repository:
+
+https://github.com/stuxnet999/MemLabs
+
 ## Requirements
 
 python or python3
