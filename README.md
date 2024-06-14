@@ -1,5 +1,7 @@
 ## CTF first flag example
 
+(Click image below to go to video)
+
 [![Image of going through CTF](https://img.youtube.com/vi/KQwYCWXXF94/0.jpg)](https://www.youtube.com/watch?v=KQwYCWXXF94)
 
 ## Requirements
