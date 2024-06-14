@@ -83,12 +83,6 @@ installing requirements.
 
 # Git Workflow Guide
 
-## Branching
-
-Create a new branch for each feature or bug fix:
-
-
-
 ## Pushing Changes
 Push changes regularly to your branch:
 ```bash
